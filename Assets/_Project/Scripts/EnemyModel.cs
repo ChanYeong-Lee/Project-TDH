@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class EnemyModel : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public EnemyMove move;
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        move = GetComponent<EnemyMove>();
     }
 }
