@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    public NavMeshAgent agent;
+    public List<CharacterModel> characters; // 현재 선택된 캐릭터들
 
     private void Update()
     {
@@ -14,13 +14,24 @@ public class PlayerController : MonoBehaviour
 
         Vector2 move = new Vector2(x, y).normalized;
 
-        if (move != Vector2.zero)
+        foreach (CharacterModel character in characters)
         {
-            agent.SetDestination(agent.transform.position + new Vector3(move.x, 0.0f, move.y));
+            character.move.Rotate(new Vector3(move.x, 0.0f, move.y));
+            character.move.Move(new Vector3(move.x, 0.0f, move.y));
         }
-        else
-        {
-            agent.ResetPath();
-        }
+    }
+
+    public void AddCharacter(CharacterModel character)
+    {
+        // 명령을 내릴 캐릭터를 추가합니다.
+
+        characters.Add(character);
+    }
+
+    public void ResetCharacter()
+    {
+        // 캐릭터 리스트를 비웁니다.
+        
+        characters.Clear();
     }
 }
