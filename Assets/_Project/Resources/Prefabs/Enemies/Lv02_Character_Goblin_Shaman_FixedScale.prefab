@@ -502,13 +502,15 @@ GameObject:
   - component: {fileID: 6044652160596437287}
   - component: {fileID: 6605350973790529409}
   - component: {fileID: 3561365416580400971}
+  - component: {fileID: -8240410288852138472}
+  - component: {fileID: 6497541761743527496}
   m_Layer: 0
   m_Name: Lv02_Character_Goblin_Shaman_FixedScale
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4176035877190076507
 Transform:
   m_ObjectHideFlags: 0
@@ -560,6 +562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   move: {fileID: 0}
+  health: {fileID: 0}
 --- !u!114 &4485368487785272656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -678,6 +681,47 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!136 &-8240410288852138472
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444771022273372309}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.25
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &6497541761743527496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444771022273372309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc17928f136e35f49a6e48d7625e06f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHP: 100
+  maxHP: 100
+  defense: 0
+  defenseIncrease: 1
+  hpRecovery: 10
+  hpRecoveryIncrease: 1
 --- !u!1 &3580949995549726548
 GameObject:
   m_ObjectHideFlags: 0

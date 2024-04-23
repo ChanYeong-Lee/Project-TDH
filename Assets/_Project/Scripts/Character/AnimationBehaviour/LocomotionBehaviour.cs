@@ -16,8 +16,8 @@ public class LocomotionBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         float currentMoveSpeed = animator.GetFloat("MoveSpeed");
-
-        if (currentMoveSpeed > 0.1f)
+        bool isRotating = animator.GetBool("Rotate");
+        if (currentMoveSpeed > 0.1f || isRotating)
         {
             model.state = CharacterState.Move;
         }

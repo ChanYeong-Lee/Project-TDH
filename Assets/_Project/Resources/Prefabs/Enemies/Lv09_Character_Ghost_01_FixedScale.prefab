@@ -1398,13 +1398,15 @@ GameObject:
   - component: {fileID: 8004160687952509520}
   - component: {fileID: 8886222995499288927}
   - component: {fileID: -5568120535432329879}
+  - component: {fileID: -4868099863802873154}
+  - component: {fileID: 3947747012227073105}
   m_Layer: 0
   m_Name: Lv09_Character_Ghost_01_FixedScale
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2035667329349847698
 Transform:
   m_ObjectHideFlags: 0
@@ -1456,6 +1458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   move: {fileID: 0}
+  health: {fileID: 0}
 --- !u!114 &824154831024267521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1574,6 +1577,47 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!136 &-4868099863802873154
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8304161643913475111}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.25
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &3947747012227073105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8304161643913475111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc17928f136e35f49a6e48d7625e06f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHP: 100
+  maxHP: 100
+  defense: 0
+  defenseIncrease: 1
+  hpRecovery: 10
+  hpRecoveryIncrease: 1
 --- !u!1 &8329834430410410885
 GameObject:
   m_ObjectHideFlags: 0

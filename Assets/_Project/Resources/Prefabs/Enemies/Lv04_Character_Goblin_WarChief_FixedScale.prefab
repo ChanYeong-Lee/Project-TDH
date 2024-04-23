@@ -177,13 +177,15 @@ GameObject:
   - component: {fileID: -5389737341823652149}
   - component: {fileID: 3946303015998833889}
   - component: {fileID: 2857105314177897009}
+  - component: {fileID: -4142119703043473977}
+  - component: {fileID: -4937331557963898067}
   m_Layer: 0
   m_Name: Lv04_Character_Goblin_WarChief_FixedScale
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &471786452866510187
 Transform:
   m_ObjectHideFlags: 0
@@ -235,6 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   move: {fileID: 0}
+  health: {fileID: 0}
 --- !u!114 &-6223130672686281125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,6 +356,47 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!136 &-4142119703043473977
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920384890606688883}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.25
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &-4937331557963898067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920384890606688883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc17928f136e35f49a6e48d7625e06f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHP: 100
+  maxHP: 100
+  defense: 0
+  defenseIncrease: 1
+  hpRecovery: 10
+  hpRecoveryIncrease: 1
 --- !u!1 &1288353052467635767
 GameObject:
   m_ObjectHideFlags: 0

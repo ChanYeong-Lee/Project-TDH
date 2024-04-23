@@ -49,15 +49,17 @@ public class CharacterModel : MonoBehaviour
     private void Awake()
     {
         move = GetComponent<CharacterMove>();   
+        attack = GetComponent<CharacterAttack>();
+        skill = GetComponent<CharacterSkill>();
     }
 
-    private void OnEnable()
-    {
-        CharacterManager.Instance.wholeCharacters.Add(this);
-    }
+    //private void OnEnable()
+    //{
+    //    CharacterManager.Instance.wholeCharacters.Add(this);
+    //}
 
-    private void OnDisable()
-    {
-        CharacterManager.Instance.wholeCharacters.Remove(this);
-    }
+    //private void OnDisable()
+    //{
+    //    CharacterManager.Instance.wholeCharacters.Remove(this);
+    //}
 }

@@ -239,13 +239,15 @@ GameObject:
   - component: {fileID: 7661470129966859575}
   - component: {fileID: 3961531638568563141}
   - component: {fileID: 1041673107568276015}
+  - component: {fileID: 4948771555970927629}
+  - component: {fileID: -1985612910336283999}
   m_Layer: 0
   m_Name: LvMiddleBoss_Chr_Undead_Knight_01
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4649288695077092417
 Transform:
   m_ObjectHideFlags: 0
@@ -297,6 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   move: {fileID: 0}
+  health: {fileID: 0}
 --- !u!114 &-2902822275995248356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,6 +418,47 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!136 &4948771555970927629
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442726643037529329}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.25
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &-1985612910336283999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442726643037529329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc17928f136e35f49a6e48d7625e06f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHP: 100
+  maxHP: 100
+  defense: 0
+  defenseIncrease: 1
+  hpRecovery: 10
+  hpRecoveryIncrease: 1
 --- !u!1 &1928001542867758437
 GameObject:
   m_ObjectHideFlags: 0

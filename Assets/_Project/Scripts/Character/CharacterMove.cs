@@ -43,7 +43,15 @@ public class CharacterMove : MonoBehaviour
         CheckVelocity();
 
         Vector3 direction = (agent.destination - transform.position).normalized;
-        blendSpeed = Mathf.Lerp(blendSpeed, direction.magnitude, 10.0f * Time.deltaTime);
+
+        if (direction.magnitude > 0.1f)
+        {
+            blendSpeed = Mathf.Lerp(blendSpeed, 1.0f, 10.0f * Time.deltaTime);
+        }
+        else
+        {
+            blendSpeed = Mathf.Lerp(blendSpeed, 0.0f, 20.0f * Time.deltaTime);
+        }
 
         if (agent.hasPath)
         {
@@ -80,11 +88,23 @@ public class CharacterMove : MonoBehaviour
             agent.SetDestination(transform.position + direction);
         }
     }
+
     public void Rotate(Vector3 direction)
     {
         if (direction != Vector3.zero)
         {
+            animator.SetBool("Rotate", true);
+
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), angularSpeed * Time.deltaTime);
         }
+        else
+        {
+            animator.SetBool("Rotate", false);
+        }
+    }
+
+    public void RotateWithoutNotify(Vector3 direction)
+    {
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), angularSpeed * Time.deltaTime);
     }
 }

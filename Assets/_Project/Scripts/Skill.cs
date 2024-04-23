@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public enum SkillType
@@ -14,8 +16,12 @@ public class Skill : MonoBehaviour
     public SkillSO defaultStat;
     public SkillType type;
 
+    public int priority;
+
     public int targetNumber;
     public int targetNumberIncrease;
+
+    public float skillSpeed;
 
     public bool isReady;
     public float coolDown;
@@ -36,13 +42,17 @@ public class Skill : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (coolDownTimeout <= 0.0f)
+        if (type == SkillType.CoolDown)
         {
-            isReady = true;
-        }
-        else
-        {
-            coolDownTimeout -= Time.deltaTime;
+            if (coolDownTimeout <= 0.0f)
+            {
+                isReady = true;
+            }
+            else
+            {
+                isReady = false;
+                coolDownTimeout -= Time.deltaTime;
+            }
         }
     }
 
@@ -50,7 +60,6 @@ public class Skill : MonoBehaviour
     {
         if (type == SkillType.CoolDown)
         {
-            isReady = false;
             coolDownTimeout = coolDown * coolDownIncrease;
         }
     }

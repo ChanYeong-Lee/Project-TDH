@@ -21070,17 +21070,17 @@ PrefabInstance:
     - target: {fileID: 5992653427093877142, guid: eb16dd4196d6cec45817179beed66a15,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.6071887
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5992653427093877142, guid: eb16dd4196d6cec45817179beed66a15,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0000038146973
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5992653427093877142, guid: eb16dd4196d6cec45817179beed66a15,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.1855354
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5992653427093877142, guid: eb16dd4196d6cec45817179beed66a15,
         type: 3}
@@ -30002,6 +30002,51 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1375600762}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1377018426
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1377018427}
+  - component: {fileID: 1377018428}
+  m_Layer: 0
+  m_Name: PoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1377018427
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377018426}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.018442, y: 0.41666567, z: -7.453223}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1377018428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377018426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69f72197554d6b64da14ff29d7c2deba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultPool: {fileID: 0}
 --- !u!1001 &1377494325
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45829,3 +45874,4 @@ SceneRoots:
   - {fileID: 1883526206}
   - {fileID: 4795174676375832}
   - {fileID: 969333387}
+  - {fileID: 1377018427}
