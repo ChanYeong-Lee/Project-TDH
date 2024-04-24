@@ -1,7 +1,8 @@
+using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPunCallbacks, INetworkPool
 {
     public PlayerInput input;
     public List<CharacterModel> characters; // 현재 선택된 캐릭터들
@@ -38,5 +39,10 @@ public class PlayerController : MonoBehaviour
         }
 
         characters.Clear();
+    }
+
+    public void SetActiveRPC(bool b)
+    {
+        throw new System.NotImplementedException();
     }
 }

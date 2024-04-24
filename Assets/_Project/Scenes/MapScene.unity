@@ -21117,6 +21117,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6897667414818944565, guid: eb16dd4196d6cec45817179beed66a15,
+        type: 3}
+      propertyPath: targetNumberIncrease
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -30046,7 +30051,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69f72197554d6b64da14ff29d7c2deba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultPool: {fileID: 0}
+  path: Cube
+  count: 1
 --- !u!1001 &1377494325
 PrefabInstance:
   m_ObjectHideFlags: 0

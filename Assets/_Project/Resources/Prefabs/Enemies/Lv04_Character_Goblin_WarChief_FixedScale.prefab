@@ -185,7 +185,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &471786452866510187
 Transform:
   m_ObjectHideFlags: 0
@@ -236,6 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc5349a0cbf9be34cbed259ab0cf9241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  brain: {fileID: 0}
   move: {fileID: 0}
   health: {fileID: 0}
 --- !u!114 &-6223130672686281125
@@ -397,6 +398,7 @@ MonoBehaviour:
   defenseIncrease: 1
   hpRecovery: 10
   hpRecoveryIncrease: 1
+  healthBar: {fileID: 0}
 --- !u!1 &1288353052467635767
 GameObject:
   m_ObjectHideFlags: 0

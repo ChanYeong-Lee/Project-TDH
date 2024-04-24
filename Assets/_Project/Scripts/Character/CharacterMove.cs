@@ -13,14 +13,17 @@ public class CharacterMove : MonoBehaviour
     public float angularSpeed;
 
     [Header("ป๓ลย")]
+    public bool tryMoving;
+    public bool isMoving;
+    
     public Vector3 position;
     public Vector3 velocity;
 
+    public Quaternion rotation;
+    public float angularVelocity;
+
     private float moreSpeed;
     private float blendSpeed;
-
-    private float checkTime;
-    private float checkDelay = 0.5f;
 
     private void Awake()
     {
@@ -44,7 +47,7 @@ public class CharacterMove : MonoBehaviour
 
         Vector3 direction = (agent.destination - transform.position).normalized;
 
-        if (direction.magnitude > 0.1f)
+        if (direction != Vector3.zero)
         {
             blendSpeed = Mathf.Lerp(blendSpeed, 1.0f, 10.0f * Time.deltaTime);
         }
@@ -68,24 +71,26 @@ public class CharacterMove : MonoBehaviour
 
     private void CheckVelocity()
     {
-        checkTime -= Time.deltaTime;
-        if (checkTime < 0.0f)
-        {
-            velocity = (transform.position - position) / (checkDelay - checkTime);
-            position = transform.position;
-            checkTime = checkDelay;
-        }
+        velocity = (transform.position - position) / Time.deltaTime;
+        position = transform.position;
+     
+        angularVelocity = Quaternion.Angle(rotation, transform.rotation);
+        rotation = transform.rotation;
+
+        isMoving = velocity != Vector3.zero || angularVelocity != 0.0f;
+
+        tryMoving = animator.GetFloat("MoveSpeed") > 0.1f || animator.GetBool("Rotate");
     }
 
     public void Move(Vector3 direction)
     {
-        if (direction == Vector3.zero)
+        if (direction != Vector3.zero)
         {
-            agent.ResetPath();
+            agent.SetDestination(transform.position + direction);
         }
         else
         {
-            agent.SetDestination(transform.position + direction);
+            agent.ResetPath();
         }
     }
 
@@ -93,9 +98,8 @@ public class CharacterMove : MonoBehaviour
     {
         if (direction != Vector3.zero)
         {
-            animator.SetBool("Rotate", true);
-
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), angularSpeed * Time.deltaTime);
+            animator.SetBool("Rotate", true);
         }
         else
         {

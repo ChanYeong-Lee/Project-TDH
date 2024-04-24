@@ -15,16 +15,18 @@ public class LocomotionBehaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        float currentMoveSpeed = animator.GetFloat("MoveSpeed");
-        bool isRotating = animator.GetBool("Rotate");
-        if (currentMoveSpeed > 0.1f || isRotating)
-        {
-            model.state = CharacterState.Move;
-        }
-        else
-        {
-            model.state = CharacterState.Idle;
-        }
+        //float currentMoveSpeed = animator.GetFloat("MoveSpeed");
+        //bool isRotating = animator.GetBool("Rotate");
+
+        //if (currentMoveSpeed > 0.1f || isRotating)
+        //{
+        //    model.state = CharacterState.Move;
+        //}
+        //else
+        //{
+        //    model.state = CharacterState.Idle;
+        //}
+        model.state = model.move.tryMoving ? CharacterState.Move : CharacterState.Idle;
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

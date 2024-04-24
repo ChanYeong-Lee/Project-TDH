@@ -38,6 +38,7 @@ public enum CharacterState
 public class CharacterModel : MonoBehaviour
 {
     public CharacterState state;
+    public Animator animator;
 
     public int tier;
     public CharacterType type;
@@ -48,6 +49,7 @@ public class CharacterModel : MonoBehaviour
 
     private void Awake()
     {
+        animator = GetComponent<Animator>();
         move = GetComponent<CharacterMove>();   
         attack = GetComponent<CharacterAttack>();
         skill = GetComponent<CharacterSkill>();

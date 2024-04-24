@@ -1,114 +1,71 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class ClientPool : MonoBehaviour
+public class ClientPool
 {
-    Dictionary<string, ObjectPool<GameObject>> pool = new Dictionary<string, ObjectPool<GameObject>>();
-    //DefaultPool pool = PhotonNetwork.PrefabPool as DefaultPool;
-    //if (pool != null && objects != null)
-    //{
-    //    foreach (GameObject prefab in objects)
-    //    {
-    //        pool.ResourceCache.Add(prefab.name, prefab);
+    private Dictionary<string, ObjectPool<GameObject>> poolDictionary;
+    private Transform parent;
 
-    //    }
-    //}
-
-    ////어떤시점에 원래 PhotonNetwork.Instantiate(""test1"");
-
-    //pool.Instantiate(""Enemy"", Vector3.zero, Quaternion.identity);
-    public GameObject Get(GameObject g, Vector2 pos, Quaternion rot, Transform t = null, Action callback = null)
+    public ClientPool(Transform parent)
     {
-        string str = g.name;
-        if (!pool.ContainsKey(str))
-        {
-            CreatePool(g, str);
-        }
-        GameObject obj = pool[str].Get();
-        if (t == null)
-            obj.transform.parent = transform;
-        else
-            obj.transform.parent = t;
-        obj.transform.position = pos;
-        return obj;
-
-        #region 안씀
-        //GameObject obj = pool[str].Dequeue();
-        //if (usingpool == null) usingpool = new Dictionary<string, List<GameObject>>();
-        //if (!usingpool.ContainsKey(str))
-        //{
-        //    usingpool.Add(str, new List<GameObject>());
-        //}
-        //usingpool[str].Add(obj);
-        //obj.gameObject.SetActive(true);
-        //obj.transform.position = pos;
-        //obj.transform.rotation = rot;
-        //callback?.Invoke();
-        //return obj;
-        #endregion
+        poolDictionary = new Dictionary<string, ObjectPool<GameObject>>();
+        this.parent = parent;
     }
-    public GameObject Get(GameObject g, Transform t = null, Action callback = null)
-    {
-        string str = g.name;
-        if (!pool.ContainsKey(str))
-        {
-            CreatePool(g, str);
-        }
-        GameObject obj = pool[str].Get();
-        if (t == null)
-            obj.transform.parent = transform;
-        else
-            obj.transform.parent = t;
-        return obj;
 
-    }
-    public GameObject Get<T>(GameObject g, out T cls, Transform t = null, Action callback = null)
+    public GameObject Spawn(GameObject prefab, Vector2 position, Quaternion rotation)
     {
-        string str = g.name;
-        if (!pool.ContainsKey(str))
+        string prefabName = prefab.name;
+        
+        if (!poolDictionary.ContainsKey(prefabName))
         {
-            CreatePool(g, str);
+            CreatePool(prefab, prefabName);
         }
-        GameObject obj = pool[str].Get();
-        if (t == null)
-            obj.transform.parent = transform;
+
+        GameObject instance = poolDictionary[prefabName].Get();
+        
+        instance.transform.parent = parent;
+        instance.transform.position = position;
+        instance.transform.rotation = rotation;
+
+        return instance;
+    }
+
+    public GameObject Spawn(GameObject prefab, Transform parent = null)
+    {
+        string prefabName = prefab.name;
+
+        if (!poolDictionary.ContainsKey(prefabName))
+        {
+            CreatePool(prefab, prefabName);
+        }
+
+        GameObject instance = poolDictionary[prefabName].Get();
+
+        if (parent == null)
+        {
+            instance.transform.parent = this.parent;
+        }
         else
         {
-            obj.transform.parent = t;
+            instance.transform.parent = parent;
         }
-        obj.TryGetComponent<T>(out cls);
-        return obj;
 
+        instance.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+
+        return instance;
     }
-    public GameObject Get<T>(GameObject g, Vector2 pos, Quaternion rot, out T cls, Transform t = null, Action callback = null)
+
+    private void CreatePool(GameObject prefab, string prefabName)
     {
-        string str = g.name;
-        if (!pool.ContainsKey(str))
-        {
-            CreatePool(g, str);
-        }
-        GameObject obj = pool[str].Get();
-
-        if (t == null)
-            obj.transform.parent = transform;
-        else
-            obj.transform.parent = t;
-        obj.transform.position = pos;
-        obj.TryGetComponent<T>(out cls);
-        return obj;
-
-
-    }
-    private void CreatePool(GameObject prefab, string key)
-    {
-        ObjectPool<GameObject> pool_ = new ObjectPool<GameObject>(
+        ObjectPool<GameObject> objectPool = new ObjectPool<GameObject>(
             createFunc: () =>
             {
-                GameObject obj = Instantiate(prefab);
-                obj.gameObject.name = key;
+                GameObject obj = UnityEngine.Object.Instantiate(prefab);
+                obj.gameObject.name = prefabName;
 
                 return obj;
             },
@@ -122,52 +79,18 @@ public class ClientPool : MonoBehaviour
             },
             actionOnDestroy: (GameObject obj) =>
             {
-                Destroy(obj);
+                UnityEngine.Object.Destroy(obj);
             }
             );
-        pool.Add(key, pool_);
+        poolDictionary.Add(prefabName, objectPool);
     }
 
-    public void Despawn(GameObject g)
+    public void Despawn(GameObject gameObject)
     {
-
-        String str = g.gameObject.name;
-        if (pool.ContainsKey(str))
+        string objectName = gameObject.gameObject.name;
+        if (poolDictionary.ContainsKey(objectName))
         {
-            pool[str].Release(g);
+            poolDictionary[objectName].Release(gameObject);
         }
-        #region 안씀
-        //if (!pool.ContainsKey(str))
-        //{
-
-        //    pool.Add(str, new Queue<GameObject>());
-        //}
-
-
-
-        //if (usingpool.ContainsKey(str))
-        //{
-        //    obj = usingpool[str].Find(d => d == g);
-        //}
-        //if (obj == null)
-        //{
-        //    if (tr != null)
-        //    {
-        //        obj = GameObject.Instantiate(g, tr);
-
-        //    }
-        //    else
-        //    {
-        //        obj = GameObject.Instantiate(g);
-        //    }
-        //    obj.name = str;
-        //}
-        //else
-        //{
-        //    usingpool[str].Remove(obj);
-        //}
-        //obj.SetActive(false);
-        //pool[str].Enqueue(obj);
-        #endregion
     }
 }

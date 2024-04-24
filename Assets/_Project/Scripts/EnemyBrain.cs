@@ -26,7 +26,7 @@ public class EnemyBrain : MonoBehaviour
 
         currentPath = EnemyManager.Instance.enemyPaths[0];
         Vector3 direction = currentPath.endPos.position - transform.position;
-            model.move.Move(direction);
+        model.move.Move(direction);
     }
 
     private void Update()

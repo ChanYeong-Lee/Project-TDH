@@ -29,6 +29,7 @@ public class EnemyMove : MonoBehaviour
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
     }
+
     private void OnEnable()
     {
         moveIncrease = 1.0f;

@@ -1,23 +1,20 @@
 using Photon.Pun;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolManager : MonoBehaviour
+public class PoolManager : MonoBehaviourPun
 {
     public static PoolManager Instance { get; private set; }
-    public PhotonNetWorkPool photonPool;
-    public DefaultPool defaultPool;
+    public PhotonNetworkPool networkPool;
     public ClientPool clientPool;
+
+    public string path;
+    public int count;
 
     private void Awake()
     {
         Instance = this;
-    }
-
-    public void InitPhotonPool()
-    {
-        photonPool = new PhotonNetWorkPool();
-        PhotonNetwork.PrefabPool = photonPool;
+        networkPool = new PhotonNetworkPool();
+        clientPool = new ClientPool(transform);
     }
 }

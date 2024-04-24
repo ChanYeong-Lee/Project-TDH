@@ -117,7 +117,7 @@ MonoBehaviour:
   attackDelayIncrease: 1
   attackRange: 4
   attackRangeIncrease: 1
-  targetNumber: 0
+  targetNumber: 1
   targetNumberIncrease: 1
   attackArea: 0
   attackAreaIncrease: 1

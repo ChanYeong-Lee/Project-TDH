@@ -13,8 +13,6 @@ public class GameManager : MonoBehaviour
     public TMP_Text playerNameText;
     public TMP_Text playerClassText;
 
-    PhotonNetWorkPool photonPool;
-
     private void Awake()
     {
         Instance = this;
@@ -29,19 +27,17 @@ public class GameManager : MonoBehaviour
         }
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
 
-        PoolManager.Instance.InitPhotonPool();
-
         //yield return new WaitUntil(() => PhotonNetwork.CurrentRoom.PlayerCount == 2);
-        
+
         yield return new WaitUntil(() => PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Class"));
         
         defensePlayer = new DefensePlayer();
         defensePlayer.nickName = PhotonNetwork.LocalPlayer.NickName;
         defensePlayer.classType = (ClassType)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
 
-        EnemySpawner.Instance.ReadySpawn();
         if (PhotonNetwork.IsMasterClient)
         {
+            //yield return new WaitForSeconds(3.0f);
             EnemySpawner.Instance.StartSpawn();
         }
 

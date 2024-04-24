@@ -31,11 +31,20 @@ public class CharacterBrain : MonoBehaviour
             case CharacterState.Move:
                 break;
             case CharacterState.Attack:
-                Vector3 direction = model.attack.mainTarget.model.transform.position - transform.position;
-                direction.y = 0.0f;
-                direction.Normalize();
-                model.move.RotateWithoutNotify(direction);
 
+                if (model.attack.mainTarget.model != null)
+                {
+                    Vector3 direction = model.attack.mainTarget.model.transform.position - transform.position;
+                    direction.y = 0.0f;
+                    direction.Normalize();
+                    model.move.RotateWithoutNotify(direction);
+
+                    if (model.attack.isAttacking &&model.attack.mainTarget.model.gameObject.activeSelf == false)
+                    {
+                        model.attack.StopAttack();
+                    }
+                }
+                
                 if (model.attack.canAttack)
                 {
                     if (model.skill.CheckAttackSkill(out Skill activatedSkill))
@@ -46,6 +55,11 @@ public class CharacterBrain : MonoBehaviour
                     {
                         model.attack.StartAttack();
                     }
+                }
+
+                if (model.move.tryMoving)
+                {
+                    model.attack.StopAttack();
                 }
                 break;
             case CharacterState.Skill:
