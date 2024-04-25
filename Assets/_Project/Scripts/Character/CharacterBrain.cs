@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,7 @@ public class CharacterBrain : MonoBehaviour
                 {
                     if (model.skill.CheckAttackSkill(out Skill activatedSkill))
                     {
-                        activatedSkill.Execute();
+                        activatedSkill.StartSkill();
                     }
                     else
                     {
@@ -32,34 +33,21 @@ public class CharacterBrain : MonoBehaviour
                 break;
             case CharacterState.Attack:
 
-                if (model.attack.mainTarget.model != null)
+                if (model.attack.mainTarget != null && model.attack.mainTarget.gameObject.activeSelf)
                 {
-                    Vector3 direction = model.attack.mainTarget.model.transform.position - transform.position;
+                    Vector3 direction = model.attack.mainTarget.transform.position - transform.position;
                     direction.y = 0.0f;
                     direction.Normalize();
-                    model.move.RotateWithoutNotify(direction);
-
-                    if (model.attack.isAttacking &&model.attack.mainTarget.model.gameObject.activeSelf == false)
-                    {
-                        model.attack.StopAttack();
-                    }
+                    print(Vector3.Dot(direction, transform.forward));
+                    model.move.Rotate(direction);
+                    //transform.forward = direction;
                 }
-                
-                if (model.attack.canAttack)
+                else
                 {
-                    if (model.skill.CheckAttackSkill(out Skill activatedSkill))
+                    if (model.attack.isAttacking)
                     {
-                        activatedSkill.Execute();
+                        model.attack.CancelAttack();
                     }
-                    else
-                    {
-                        model.attack.StartAttack();
-                    }
-                }
-
-                if (model.move.tryMoving)
-                {
-                    model.attack.StopAttack();
                 }
                 break;
             case CharacterState.Skill:

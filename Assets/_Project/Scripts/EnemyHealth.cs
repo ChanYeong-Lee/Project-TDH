@@ -16,15 +16,28 @@ public class EnemyHealth : MonoBehaviourPun
     public float hpRecoveryIncrease;
 
     public Image healthBar;
-    
-    private void Update()
+
+    protected virtual void OnEnable()
+    {
+        currentHP = maxHP;
+    }
+
+    protected virtual void OnDisable()
+    {
+        
+    }
+
+
+    protected virtual void Update()
     {
         if (currentHP < maxHP)
         {
             float recovery = hpRecovery * hpRecoveryIncrease;
             currentHP += recovery * Time.deltaTime;
-            currentHP = Mathf.Clamp(currentHP, 0.0f, maxHP);
         }
+
+        currentHP = Mathf.Clamp(currentHP, 0.0f, maxHP);
+
         if (healthBar != null)
         {
             healthBar.fillAmount = currentHP / Mathf.Clamp(maxHP, 0.1f, maxHP);
@@ -37,16 +50,8 @@ public class EnemyHealth : MonoBehaviourPun
     }
 
     [PunRPC]
-    private void TakeHitRPC(float normalDamage, float trueDamage, PhotonMessageInfo info)
+    protected virtual void TakeHitRPC(float normalDamage, float trueDamage, PhotonMessageInfo info)
     {
-        print($"Fire Procedure Called by {info.Sender.NickName}");
-        print($"local time : {PhotonNetwork.Time}");
-        print($"server time : {info.SentServerTime}");
-
-        float lag = (float)(PhotonNetwork.Time - info.SentServerTime);
-
-        print($"delay(lag) : {lag}");
-
         if (gameObject.activeSelf == false)
         {
             return;
@@ -55,7 +60,7 @@ public class EnemyHealth : MonoBehaviourPun
         float defenseAmount = defense * defenseIncrease;
         float damage = normalDamage - defenseAmount + trueDamage;
         currentHP -= damage;
-        print("TakeHit!");
+
         if (currentHP <= 0)
         {
             currentHP = 0.0f;

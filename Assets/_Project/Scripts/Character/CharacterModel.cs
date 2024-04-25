@@ -1,6 +1,8 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum CharacterType
 {
@@ -35,14 +37,16 @@ public enum CharacterState
     Upgrade
 }
 
-public class CharacterModel : MonoBehaviour
+public class CharacterModel : MonoBehaviourPun
 {
     public CharacterState state;
     public Animator animator;
+    public NavMeshAgent agent;
 
     public int tier;
     public CharacterType type;
     public CharacterSO defaultStat;
+    public CharacterBrain brain;
     public CharacterMove move;
     public CharacterAttack attack;
     public CharacterSkill skill;
@@ -50,18 +54,36 @@ public class CharacterModel : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        agent = GetComponent<NavMeshAgent>();   
+
+        brain = GetComponent<CharacterBrain>(); 
         move = GetComponent<CharacterMove>();   
         attack = GetComponent<CharacterAttack>();
         skill = GetComponent<CharacterSkill>();
     }
 
-    //private void OnEnable()
-    //{
-    //    CharacterManager.Instance.wholeCharacters.Add(this);
-    //}
+    private void OnEnable()
+    {
+        if (photonView.IsMine)
+        {
+            CharacterManager.Instance.ownCharacters.Add(this);
+            agent.avoidancePriority = 50 + (10 - tier);
+        }
+        else
+        {
+            animator.applyRootMotion = false;
+            brain.enabled = false;
+        }
 
-    //private void OnDisable()
-    //{
-    //    CharacterManager.Instance.wholeCharacters.Remove(this);
-    //}
+        CharacterManager.Instance.wholeCharacters.Add(this);
+    }
+
+    private void OnDisable()
+    {
+        if (photonView.IsMine)
+        {
+            CharacterManager.Instance.ownCharacters.Remove(this);
+        }
+        CharacterManager.Instance.wholeCharacters.Remove(this);
+    }
 }

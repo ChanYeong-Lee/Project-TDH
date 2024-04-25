@@ -19,11 +19,6 @@ public class EnemyBrain : MonoBehaviour
 
     private void OnEnable()
     {
-        if (PhotonNetwork.IsMasterClient == false)
-        {
-            this.enabled = false;
-        }
-
         currentPath = EnemyManager.Instance.enemyPaths[0];
         Vector3 direction = currentPath.endPos.position - transform.position;
         model.move.Move(direction);

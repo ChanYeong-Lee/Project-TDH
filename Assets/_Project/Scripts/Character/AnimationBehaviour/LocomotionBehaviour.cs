@@ -26,7 +26,7 @@ public class LocomotionBehaviour : StateMachineBehaviour
         //{
         //    model.state = CharacterState.Idle;
         //}
-        model.state = model.move.tryMoving ? CharacterState.Move : CharacterState.Idle;
+        model.state = model.move.tryMove ? CharacterState.Move : CharacterState.Idle;
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

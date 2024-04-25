@@ -56,11 +56,21 @@ public class Skill : MonoBehaviour
         }
     }
 
-    public virtual void Execute()
+    public virtual void StartSkill()
     {
         if (type == SkillType.CoolDown)
         {
             coolDownTimeout = coolDown * coolDownIncrease;
         }
+    }
+
+    public virtual void OnSkill()
+    {
+
+    }
+
+    public virtual void CancelSkill()
+    {
+
     }
 }

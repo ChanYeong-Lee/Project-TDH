@@ -46,7 +46,7 @@ public class EnemyMove : MonoBehaviour
 
         if (agent.hasPath)
         {
-            moreSpeed = (moveSpeed * moveIncrease)/ clip.averageSpeed.z;
+            moreSpeed = (moveSpeed * moveIncrease) / (clip.averageSpeed.z * transform.localScale.z);
         }
         else
         {

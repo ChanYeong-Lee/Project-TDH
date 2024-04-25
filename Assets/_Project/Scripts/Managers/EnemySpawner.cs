@@ -40,7 +40,7 @@ public class EnemySpawner : MonoBehaviour
     public IEnumerator WaveCoroutine(EnemyModel enemy, int spawnCount, WaitForSeconds spawnDelay, WaitForSeconds breakTime)
     {
         Vector3 spawnPosition = EnemyManager.Instance.enemyPaths[0].startPos.position;
-        Quaternion spawnRotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
+        Quaternion spawnRotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);    
 
         PoolManager.Instance.networkPool.PreSpawn(prefabPath + enemy.name, spawnCount / 2, spawnPosition, spawnRotation);
 

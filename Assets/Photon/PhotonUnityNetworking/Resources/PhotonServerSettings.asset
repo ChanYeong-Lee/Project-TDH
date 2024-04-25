@@ -45,6 +45,8 @@ MonoBehaviour:
   - SetActiveRPC
   - DieRPC
   - TestFunc
+  - SyncPosition
+  - SetTargetRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

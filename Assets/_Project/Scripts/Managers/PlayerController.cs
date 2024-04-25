@@ -2,13 +2,16 @@ using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviourPunCallbacks, INetworkPool
+public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance { get; private set; }   
+
     public PlayerInput input;
     public List<CharacterModel> characters; // 현재 선택된 캐릭터들
 
     private void Awake()
     {
+        Instance = this; 
         input = GetComponent<PlayerInput>();
     }
 
@@ -18,7 +21,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, INetworkPool
         {
             Vector3 direction = new Vector3(input.move.x, 0.0f, input.move.y);
             character.move.Move(direction);
-            character.move.Rotate(direction);
         }
     }
 
@@ -39,10 +41,5 @@ public class PlayerController : MonoBehaviourPunCallbacks, INetworkPool
         }
 
         characters.Clear();
-    }
-
-    public void SetActiveRPC(bool b)
-    {
-        throw new System.NotImplementedException();
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Critical : Skill
 {
 
-    public override void Execute()
+    public override void StartSkill()
     {
 
     }

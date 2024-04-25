@@ -5,7 +5,7 @@ using UnityEngine;
 
 interface INetworkPool
 {
-    void SetActiveRPC(bool active);
+    void SetActiveRPC(bool active, Vector3 position, Quaternion rotation);
 }
 
 public class PhotonNetworkPool
@@ -17,7 +17,7 @@ public class PhotonNetworkPool
         poolDictionary = new Dictionary<string, List<GameObject>>();
     }
 
-    public void PreSpawn(string prefabId, int count, Vector3 position = default, Quaternion rotation = default)
+    public void PreSpawn(string prefabId, int count, Vector3 position, Quaternion rotation)
     {
         if (poolDictionary.ContainsKey(prefabId) == false)
         {
@@ -27,7 +27,7 @@ public class PhotonNetworkPool
         for (int i = 0; i < count; i++)
         {
             GameObject instance = PhotonNetwork.Instantiate(prefabId, position, rotation);
-            instance.GetComponent<PhotonView>().RPC("SetActiveRPC", RpcTarget.All, false);
+            instance.GetComponent<PhotonView>().RPC("SetActiveRPC", RpcTarget.AllBuffered, false, position, rotation);
             poolDictionary[prefabId].Add(instance);
         }
     }
@@ -48,9 +48,7 @@ public class PhotonNetworkPool
         }
         else
         {
-            instance.transform.position = position;
-            instance.transform.rotation = rotation;
-            instance.GetComponent<PhotonView>().RPC("SetActiveRPC", RpcTarget.All, true);
+            instance.GetComponent<PhotonView>().RPC("SetActiveRPC", RpcTarget.AllBuffered, true, position, rotation);
         }
 
         return instance;
@@ -58,6 +56,6 @@ public class PhotonNetworkPool
     
     public void Despawn(GameObject despawnObject)
     {
-        despawnObject.GetComponent<PhotonView>().RPC("SetActiveRPC", RpcTarget.All, false);
+        despawnObject.GetComponent<PhotonView>().RPC("SetActiveRPC", RpcTarget.AllBuffered, false, Vector3.zero, Quaternion.identity);
     }
 }

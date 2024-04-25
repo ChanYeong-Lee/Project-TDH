@@ -14,7 +14,7 @@ public enum AttackType
     Area    // 타겟 주위 정해진 범위만큼 공격
 }
 
-public class CharacterAttack : MonoBehaviour
+public class CharacterAttack : MonoBehaviourPun
 {
     private Animator animator;
 
@@ -32,12 +32,12 @@ public class CharacterAttack : MonoBehaviour
     public float attackSpeed;
     public float attackSpeedIncrease = 1.0f;
 
-    public float attackDelay;       
+    public float attackDelay;
     public float attackDelayIncrease = 1.0f;
     private float attackTimeout;
 
     public float attackRange;
-    public float attackRangeIncrease = 1.0f;   
+    public float attackRangeIncrease = 1.0f;
 
     public int targetNumber;
     public int targetNumberIncrease; // 기본값 = 0, 버프에 따라 추가
@@ -45,12 +45,11 @@ public class CharacterAttack : MonoBehaviour
     public float attackArea;
     public float attackAreaIncrease = 1.0f;
 
-    public List<Target> targets;
-    public Target mainTarget;
+    public EnemyModel mainTarget;
 
     private bool attackPrepared;
     private bool haveTarget;
-    
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -58,15 +57,17 @@ public class CharacterAttack : MonoBehaviour
 
     private void Update()
     {
+        if (attackPrepared == false)
+        {
+            attackTimeout -= Time.deltaTime;
+        }
         attackPrepared = attackTimeout <= 0.0f;
-        if(attackPrepared == false) attackTimeout -= Time.deltaTime;
 
         float range = attackRange * attackRangeIncrease;
-
         haveTarget = false;
-        foreach (EnemyModel model in EnemyManager.Instance.enemies)
+        foreach (EnemyModel enemy in EnemyManager.Instance.enemies)
         {
-            float distance = Vector3.Distance(transform.position, model.transform.position);
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
             if (distance < range)
             {
                 haveTarget = true;
@@ -85,7 +86,6 @@ public class CharacterAttack : MonoBehaviour
     {
         isAttacking = true;
 
-        targets.Clear();
         mainTarget = null;
         
         float applyAttackDelayIncrease = Mathf.Clamp(attackDelayIncrease, 0.1f, attackDelayIncrease);
@@ -96,10 +96,14 @@ public class CharacterAttack : MonoBehaviour
 
         float applyAttackSpeed = attackSpeed * attackSpeedIncrease;
         applyAttackSpeed = Mathf.Clamp(applyAttackSpeed, 0.1f, applyAttackDelay);
-        
-        animator.SetFloat("AttackSpeed", attackClip.length / applyAttackSpeed);
-        animator.SetTrigger("Attack");
 
+        if (photonView.IsMine)
+        {
+            animator.SetFloat("AttackSpeed", attackClip.length / applyAttackSpeed);
+            animator.SetTrigger("Attack");
+        }
+
+        List<Target> targetInfo = new List<Target>();
         float range = attackRange * attackRangeIncrease;
         foreach (EnemyModel enemy in EnemyManager.Instance.enemies)
         {
@@ -107,53 +111,72 @@ public class CharacterAttack : MonoBehaviour
             if (distance < range)
             {
                 Target target = new Target(enemy, distance);
-                targets.Add(target);
+                targetInfo.Add(target);
             }
         }
 
-        if (targets.Count > 0)
+        if (targetInfo.Count > 0)
         {
-            targets = targets.OrderBy(a => a.distance).ToList();
-            mainTarget = targets[0];
+            targetInfo = targetInfo.OrderBy(a => a.distance).ToList();
+            mainTarget = targetInfo[0].model;
         }
     }
 
-    public void StopAttack()
+    [PunRPC]
+    public void SetTargetRPC(int targetId, PhotonMessageInfo info)
     {
-        animator.SetTrigger("Cancel");
+        print($"Fire Procedure Called by {info.Sender.NickName}");
+        print($"local time : {PhotonNetwork.Time}");
+        print($"server time : {info.SentServerTime}");
 
-        if (isAttacking)
+        float lag = (float)(PhotonNetwork.Time - info.SentServerTime);
+
+        print($"delay(lag) : {lag}");
+
+        EnemyModel mainTargetModel = EnemyManager.Instance.enemies.Find((enemy) => enemy.photonView.ViewID == targetId);
+
+        if (mainTargetModel != null)
         {
-            attackTimeout = 0.1f;
-            isAttacking = false;
+            mainTarget = mainTargetModel;
         }
+
+        attackTimeout -= lag;
     }
 
     public void OnAttack(AnimationEvent animationEvent)
     {
         if (animationEvent.animatorClipInfo.weight < 0.9f)
         {
-            print("Cannot Attack");
             return;
         }
-        print("Can Attack");
 
         isAttacking = false;
+
+        if (photonView.IsMine == false)
+        {
+            return;
+        }
 
         switch (type)
         {
             case AttackType.Single:
-                SingleAttack(targets);
+                SingleAttack(mainTarget);
                 break;
             case AttackType.Area:
-                AreaAttack(targets[0]);
+                AreaAttack(mainTarget);
                 break;
         }
     }
 
-    private void SingleAttack(List<Target> targets) // 단일 공격
+    public void CancelAttack()
     {
-        if (targets == null)
+        attackTimeout = 0.1f;
+        isAttacking = false;
+    }
+
+    private void SingleAttack(EnemyModel target) // 단일 공격
+    {
+        if (target == null)
         {
             return;
         }
@@ -163,20 +186,13 @@ public class CharacterAttack : MonoBehaviour
         float normalDamage = damage - trueDamage;
 
         int targetNumber = this.targetNumber + targetNumberIncrease;
-        targetNumber = Mathf.Clamp(targetNumber, 0, targets.Count);
-
-        for (int i = 0; i < targetNumber; i++)
-        {
-            if (targets[i].model != null)
-            {
-                targets[i].model.health.GetComponent<PhotonView>().RPC("TakeHitRPC", RpcTarget.All, normalDamage, trueDamage);
-            }
-        }
+        
+        target.health.GetComponent<PhotonView>().RPC("TakeHitRPC", RpcTarget.All, normalDamage, trueDamage);
     }
     
-    private void AreaAttack(Target target) // 범위 공격
+    private void AreaAttack(EnemyModel target) // 범위 공격
     {
-        if (target.model == null)
+        if (target == null)
         {
             return;
         }
@@ -186,7 +202,7 @@ public class CharacterAttack : MonoBehaviour
         float normalDamage = damage - trueDamage;
 
         float area = attackArea * attackAreaIncrease;
-        Collider[] contectedColliders = Physics.OverlapSphere(target.model.transform.position, area);
+        Collider[] contectedColliders = Physics.OverlapSphere(target.transform.position, area);
 
         foreach (Collider collider in contectedColliders)
         {

@@ -1,7 +1,8 @@
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class CharacterMove : MonoBehaviour
+public class CharacterMove : MonoBehaviourPun
 {
     private Animator animator;
     private NavMeshAgent agent;
@@ -10,10 +11,11 @@ public class CharacterMove : MonoBehaviour
     
     [Header("설정")]
     public float moveSpeed;
+    public float moveIncrease;
     public float angularSpeed;
 
     [Header("상태")]
-    public bool tryMoving;
+    public bool tryMove;
     public bool isMoving;
     
     public Vector3 position;
@@ -33,6 +35,9 @@ public class CharacterMove : MonoBehaviour
 
     private void OnEnable()
     {
+        moveIncrease = 1.0f;
+        blendSpeed = 0.0f;
+        agent.SetDestination(Vector3.right);
         // TODO : 다른 유저의 캐릭터를 건드릴 수 없도록, 
         // 캐릭터가 내 소유일 때는,
         // agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
@@ -45,28 +50,25 @@ public class CharacterMove : MonoBehaviour
     {
         CheckVelocity();
 
-        Vector3 direction = (agent.destination - transform.position).normalized;
+        float applyMoveSpeed = moveSpeed * moveIncrease;
 
-        if (direction != Vector3.zero)
+        if (agent.hasPath)
         {
             blendSpeed = Mathf.Lerp(blendSpeed, 1.0f, 10.0f * Time.deltaTime);
+            moreSpeed = applyMoveSpeed / clip.averageSpeed.z;
         }
         else
         {
             blendSpeed = Mathf.Lerp(blendSpeed, 0.0f, 20.0f * Time.deltaTime);
-        }
-
-        if (agent.hasPath)
-        {
-            moreSpeed = moveSpeed / clip.averageSpeed.z;
-        }
-        else
-        {
             moreSpeed = 1.0f;
         }
 
-        animator.SetFloat("MoveSpeed", blendSpeed);
-        animator.SetFloat("MoreSpeed", moreSpeed);
+        if (photonView.IsMine)
+        {
+            animator.SetFloat("MoveSpeed", blendSpeed);
+            animator.SetFloat("MoreSpeed", moreSpeed);
+            animator.SetBool("TryMove", tryMove);
+        }
     }
 
     private void CheckVelocity()
@@ -78,37 +80,31 @@ public class CharacterMove : MonoBehaviour
         rotation = transform.rotation;
 
         isMoving = velocity != Vector3.zero || angularVelocity != 0.0f;
-
-        tryMoving = animator.GetFloat("MoveSpeed") > 0.1f || animator.GetBool("Rotate");
     }
 
     public void Move(Vector3 direction)
     {
         if (direction != Vector3.zero)
         {
+            tryMove = true;
             agent.SetDestination(transform.position + direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), angularSpeed * moveIncrease * Time.deltaTime);
         }
         else
         {
+            tryMove = false;
             agent.ResetPath();
         }
     }
 
     public void Rotate(Vector3 direction)
     {
+        direction.y = 0.0f;
+        direction.Normalize();
+
         if (direction != Vector3.zero)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), angularSpeed * Time.deltaTime);
-            animator.SetBool("Rotate", true);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), angularSpeed * moveIncrease * Time.deltaTime);
         }
-        else
-        {
-            animator.SetBool("Rotate", false);
-        }
-    }
-
-    public void RotateWithoutNotify(Vector3 direction)
-    {
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), angularSpeed * Time.deltaTime);
     }
 }
