@@ -24,9 +24,19 @@ public class Skill : MonoBehaviour
     public float skillSpeed;
 
     public bool isReady;
+
     public float coolDown;
     public float coolDownIncrease;
+    public float coolDownAmount
+    {
+        get
+        {
+            return (currentCooldown - coolDownTimeout) / Mathf.Clamp(currentCooldown, 0.1f, currentCooldown);
+        }
+    } 
+
     private float coolDownTimeout;
+    private float currentCooldown;
 
     public float percentage;
     public float percentageIncrease;
@@ -38,6 +48,7 @@ public class Skill : MonoBehaviour
         percentageIncrease = 1.0f;
 
         coolDownTimeout = 0.0f;
+        currentCooldown = coolDown * coolDownIncrease;
     }
 
     protected virtual void Update()
@@ -60,7 +71,8 @@ public class Skill : MonoBehaviour
     {
         if (type == SkillType.CoolDown)
         {
-            coolDownTimeout = coolDown * coolDownIncrease;
+            currentCooldown = coolDown * coolDownIncrease;
+            coolDownTimeout = currentCooldown;
         }
     }
 

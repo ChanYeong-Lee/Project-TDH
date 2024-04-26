@@ -62,7 +62,6 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool
     public void SyncPosition(Vector3 position, float moveSpeed, PhotonMessageInfo info)
     {
         float lag = (float)(PhotonNetwork.Time - info.SentServerTime);
-        print(lag);
-        transform.position = position + lag * moveSpeed * transform.forward;
+        transform.position = position + lag * moveSpeed * move.velocity;
     }
 }

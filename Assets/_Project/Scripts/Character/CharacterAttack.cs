@@ -46,6 +46,7 @@ public class CharacterAttack : MonoBehaviourPun
     public float attackAreaIncrease = 1.0f;
 
     public EnemyModel mainTarget;
+    public List<EnemyModel> targets;
 
     private bool attackPrepared;
     private bool haveTarget;
@@ -87,6 +88,7 @@ public class CharacterAttack : MonoBehaviourPun
         isAttacking = true;
 
         mainTarget = null;
+        targets.Clear();
         
         float applyAttackDelayIncrease = Mathf.Clamp(attackDelayIncrease, 0.1f, attackDelayIncrease);
 
@@ -97,11 +99,8 @@ public class CharacterAttack : MonoBehaviourPun
         float applyAttackSpeed = attackSpeed * attackSpeedIncrease;
         applyAttackSpeed = Mathf.Clamp(applyAttackSpeed, 0.1f, applyAttackDelay);
 
-        if (photonView.IsMine)
-        {
-            animator.SetFloat("AttackSpeed", attackClip.length / applyAttackSpeed);
-            animator.SetTrigger("Attack");
-        }
+        animator.SetFloat("AttackSpeed", attackClip.length / applyAttackSpeed);
+        photonView.RPC("AttackTriggerRPC", RpcTarget.All);
 
         List<Target> targetInfo = new List<Target>();
         float range = attackRange * attackRangeIncrease;
@@ -118,29 +117,19 @@ public class CharacterAttack : MonoBehaviourPun
         if (targetInfo.Count > 0)
         {
             targetInfo = targetInfo.OrderBy(a => a.distance).ToList();
-            mainTarget = targetInfo[0].model;
+            targets = new List<EnemyModel>();
+            foreach (Target target in targetInfo)
+            {
+                targets.Add(target.model);
+            }
+            mainTarget = targets[0];
         }
     }
 
     [PunRPC]
-    public void SetTargetRPC(int targetId, PhotonMessageInfo info)
+    public void AttackTriggerRPC()
     {
-        print($"Fire Procedure Called by {info.Sender.NickName}");
-        print($"local time : {PhotonNetwork.Time}");
-        print($"server time : {info.SentServerTime}");
-
-        float lag = (float)(PhotonNetwork.Time - info.SentServerTime);
-
-        print($"delay(lag) : {lag}");
-
-        EnemyModel mainTargetModel = EnemyManager.Instance.enemies.Find((enemy) => enemy.photonView.ViewID == targetId);
-
-        if (mainTargetModel != null)
-        {
-            mainTarget = mainTargetModel;
-        }
-
-        attackTimeout -= lag;
+        animator.SetTrigger("Attack");
     }
 
     public void OnAttack(AnimationEvent animationEvent)
@@ -160,10 +149,10 @@ public class CharacterAttack : MonoBehaviourPun
         switch (type)
         {
             case AttackType.Single:
-                SingleAttack(mainTarget);
+                SingleAttack();
                 break;
             case AttackType.Area:
-                AreaAttack(mainTarget);
+                AreaAttack();
                 break;
         }
     }
@@ -174,9 +163,9 @@ public class CharacterAttack : MonoBehaviourPun
         isAttacking = false;
     }
 
-    private void SingleAttack(EnemyModel target) // 단일 공격
+    private void SingleAttack() // 단일 공격
     {
-        if (target == null)
+        if (mainTarget == null)
         {
             return;
         }
@@ -186,13 +175,16 @@ public class CharacterAttack : MonoBehaviourPun
         float normalDamage = damage - trueDamage;
 
         int targetNumber = this.targetNumber + targetNumberIncrease;
-        
-        target.health.GetComponent<PhotonView>().RPC("TakeHitRPC", RpcTarget.All, normalDamage, trueDamage);
+        targetNumber = Mathf.Clamp(targetNumber, 0, targets.Count);
+        for (int i = 0; i < targetNumber; i++)
+        {
+            targets[i].health.GetComponent<PhotonView>().RPC("TakeHitRPC", RpcTarget.All, normalDamage, trueDamage);
+        }
     }
     
-    private void AreaAttack(EnemyModel target) // 범위 공격
+    private void AreaAttack() // 범위 공격
     {
-        if (target == null)
+        if (mainTarget == null)
         {
             return;
         }
@@ -202,7 +194,7 @@ public class CharacterAttack : MonoBehaviourPun
         float normalDamage = damage - trueDamage;
 
         float area = attackArea * attackAreaIncrease;
-        Collider[] contectedColliders = Physics.OverlapSphere(target.transform.position, area);
+        Collider[] contectedColliders = Physics.OverlapSphere(mainTarget.transform.position, area);
 
         foreach (Collider collider in contectedColliders)
         {

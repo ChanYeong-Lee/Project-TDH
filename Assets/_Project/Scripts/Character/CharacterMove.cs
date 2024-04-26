@@ -63,12 +63,9 @@ public class CharacterMove : MonoBehaviourPun
             moreSpeed = 1.0f;
         }
 
-        if (photonView.IsMine)
-        {
-            animator.SetFloat("MoveSpeed", blendSpeed);
-            animator.SetFloat("MoreSpeed", moreSpeed);
-            animator.SetBool("TryMove", tryMove);
-        }
+        animator.SetFloat("MoveSpeed", blendSpeed);
+        animator.SetFloat("MoreSpeed", moreSpeed);
+        animator.SetBool("TryMove", tryMove);
     }
 
     private void CheckVelocity()

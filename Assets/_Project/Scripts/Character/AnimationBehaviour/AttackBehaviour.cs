@@ -2,40 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackBehaviour : StateMachineBehaviour
+public class AttackBehaviour : CharacterBehaviour
 {
-    private CharacterModel model;
-
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        model = animator.GetComponent<CharacterModel>();
-    }
-
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        model.state = CharacterState.Attack;
-    }
-
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        if (model.attack.isAttacking)
+        if (owner.attack.mainTarget == null || owner.attack.mainTarget.gameObject.activeSelf == false)
         {
-            model.attack.CancelAttack();
+            if (owner.attack.isAttacking)
+            {
+                owner.attack.CancelAttack();
+            }
         }
     }
 
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
+    public override void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (owner.attack.mainTarget != null && owner.attack.mainTarget.gameObject.activeSelf)
+        {
+            Vector3 direction = owner.attack.mainTarget.transform.position - owner.transform.position;
+            direction.y = 0.0f;
+            direction.Normalize();
 
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
+            owner.move.Rotate(direction);
+        }
+    }
+
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (owner.attack.isAttacking)
+        {
+            owner.attack.CancelAttack();
+        }
+    }
 }

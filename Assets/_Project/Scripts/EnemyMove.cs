@@ -41,7 +41,7 @@ public class EnemyMove : MonoBehaviour
         CheckVelocity();
 
         Vector3 direction = (agent.destination - transform.position).normalized;
-        //float forwardValue = Vector3.Dot(transform.forward, direction);
+
         blendSpeed = Mathf.Lerp(blendSpeed, 1.0f, 10.0f * Time.deltaTime);
 
         if (agent.hasPath)

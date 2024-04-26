@@ -28,25 +28,14 @@ public enum CharacterType
     HealT3_Queen        = 25,
 }
 
-public enum CharacterState
-{
-    Idle,
-    Move,
-    Attack,
-    Skill,
-    Upgrade
-}
-
 public class CharacterModel : MonoBehaviourPun
 {
-    public CharacterState state;
     public Animator animator;
     public NavMeshAgent agent;
 
     public int tier;
     public CharacterType type;
     public CharacterSO defaultStat;
-    public CharacterBrain brain;
     public CharacterMove move;
     public CharacterAttack attack;
     public CharacterSkill skill;
@@ -56,7 +45,6 @@ public class CharacterModel : MonoBehaviourPun
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();   
 
-        brain = GetComponent<CharacterBrain>(); 
         move = GetComponent<CharacterMove>();   
         attack = GetComponent<CharacterAttack>();
         skill = GetComponent<CharacterSkill>();
@@ -72,7 +60,15 @@ public class CharacterModel : MonoBehaviourPun
         else
         {
             animator.applyRootMotion = false;
-            brain.enabled = false;
+            StateMachineBehaviour[] behaviours = animator.GetBehaviours<StateMachineBehaviour>();
+            for (int i = 0; i < behaviours.Length; i++)
+            {       
+                Destroy(behaviours[i]);
+            }
+
+            move.enabled = false;
+            attack.enabled = false;
+            skill.enabled = false;
         }
 
         CharacterManager.Instance.wholeCharacters.Add(this);

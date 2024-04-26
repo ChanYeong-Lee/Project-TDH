@@ -36,10 +36,7 @@ public class GameManager : MonoBehaviour
         defensePlayer.classType = (ClassType)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
 
         CharacterGenerator.Instance.GenerateCharacter(CharacterType.DealT1_Peasant);
-        CharacterGenerator.Instance.GenerateCharacter(CharacterType.DealT1_Peasant);
-        CharacterGenerator.Instance.GenerateCharacter(CharacterType.DealT1_Peasant);
-        CharacterGenerator.Instance.GenerateCharacter(CharacterType.DealT1_Peasant);
-        CharacterGenerator.Instance.GenerateCharacter(CharacterType.DealT1_Peasant);
+
         if (PhotonNetwork.IsMasterClient)
         {
             //yield return new WaitForSeconds(3.0f);
