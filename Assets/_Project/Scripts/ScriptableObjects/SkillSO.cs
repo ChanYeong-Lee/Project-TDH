@@ -9,6 +9,10 @@ public class SkillSO : ScriptableObject
     [TextArea(2,5)]
     public string description;
 
+    public string triggerName;
+    public float skillSpeed;
+    public AnimationClip skillClip;
+
     [Range(0.0f, 1.0f)] 
     public float defaultPercent;
     public float defaultAmount;

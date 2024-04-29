@@ -50,8 +50,8 @@ public class CharacterMove : MonoBehaviourPun
     {
         CheckVelocity();
 
-        float applyMoveSpeed = moveSpeed * moveIncrease;
-
+        float forwardValue = Vector3.Dot(transform.forward, agent.desiredVelocity);
+        float applyMoveSpeed = moveSpeed * moveIncrease * forwardValue;
         if (agent.hasPath)
         {
             blendSpeed = Mathf.Lerp(blendSpeed, 1.0f, 10.0f * Time.deltaTime);

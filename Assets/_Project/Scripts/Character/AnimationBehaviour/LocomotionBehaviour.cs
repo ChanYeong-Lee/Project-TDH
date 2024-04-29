@@ -10,9 +10,13 @@ public class LocomotionBehaviour : CharacterBehaviour
         {
             if (owner.attack.canAttack)
             {
-                if (owner.skill.CheckAttackSkill(out Skill activatedSkill))
+                if (owner.skill.CheckTargetCooldownSkill(out Skill readySkill))
                 {
-                    activatedSkill.StartSkill();
+                    owner.skill.StartSkill(readySkill);
+                }
+                else if (owner.skill.CheckAttackSkill(out Skill activatedSkill))
+                {
+                    owner.skill.StartSkill(activatedSkill);
                 }
                 else
                 {

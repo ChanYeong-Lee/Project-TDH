@@ -4,7 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
+using UnityEngine.Rendering;
 using static UnityEngine.GraphicsBuffer;
 using Random = UnityEngine.Random;
 
@@ -23,25 +25,32 @@ public class CharacterAttack : MonoBehaviourPun
     public bool canAttack;
     public bool isAttacking;
 
+    public float applyDamage => damage * damageIncrease;
     public float damage;            // 캐릭터 기본 스탯 + 생성 변수
     public float damageIncrease = 1.0f;    // 기본값 = 1.0, 버프에 따라 변화
 
+    public float applyTrueDamagePercent => trueDamagePercent * trueDamagePercentIncrease;
     public float trueDamagePercent;
     public float trueDamagePercentIncrease = 1.0f;
 
+    public float applyAttackSpeed  => Mathf.Clamp(attackSpeed * attackSpeedIncrease, 0.1f, applyAttackDelay); // 한 공격이 끝마치는데 걸리는 시간
     public float attackSpeed;
     public float attackSpeedIncrease = 1.0f;
 
+    public float applyAttackDelay => Mathf.Clamp(attackDelay / Mathf.Clamp(attackDelayIncrease, 0.1f, attackDelayIncrease), 0.1f, attackDelay / Mathf.Clamp(attackDelayIncrease, 0.1f, attackDelayIncrease));
     public float attackDelay;
     public float attackDelayIncrease = 1.0f;
-    private float attackTimeout;
+    private float attackDelayDelta;
 
+    public float applyAttackRange => attackRange * attackRangeIncrease;
     public float attackRange;
     public float attackRangeIncrease = 1.0f;
 
+    public int applyTargetNumber => targetNumber + targetNumberIncrease;
     public int targetNumber;
     public int targetNumberIncrease; // 기본값 = 0, 버프에 따라 추가
 
+    public float applyAttackArea => attackArea * attackAreaIncrease;    // 범위 공격의 크기
     public float attackArea;
     public float attackAreaIncrease = 1.0f;
 
@@ -60,16 +69,15 @@ public class CharacterAttack : MonoBehaviourPun
     {
         if (attackPrepared == false)
         {
-            attackTimeout -= Time.deltaTime;
+            attackDelayDelta -= Time.deltaTime;
         }
-        attackPrepared = attackTimeout <= 0.0f;
+        attackPrepared = attackDelayDelta <= 0.0f;
 
-        float range = attackRange * attackRangeIncrease;
         haveTarget = false;
         foreach (EnemyModel enemy in EnemyManager.Instance.enemies)
         {
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distance < range)
+            if (distance < applyAttackRange)
             {
                 haveTarget = true;
                 break;
@@ -89,25 +97,17 @@ public class CharacterAttack : MonoBehaviourPun
 
         mainTarget = null;
         targets.Clear();
-        
-        float applyAttackDelayIncrease = Mathf.Clamp(attackDelayIncrease, 0.1f, attackDelayIncrease);
 
-        float applyAttackDelay = attackDelay / applyAttackDelayIncrease;
-        applyAttackDelay = Mathf.Clamp(applyAttackDelay, 0.1f, applyAttackDelay);
-        attackTimeout = applyAttackDelay;
-
-        float applyAttackSpeed = attackSpeed * attackSpeedIncrease;
-        applyAttackSpeed = Mathf.Clamp(applyAttackSpeed, 0.1f, applyAttackDelay);
+        attackDelayDelta = applyAttackDelay;
 
         animator.SetFloat("AttackSpeed", attackClip.length / applyAttackSpeed);
         photonView.RPC("AttackTriggerRPC", RpcTarget.All);
 
         List<Target> targetInfo = new List<Target>();
-        float range = attackRange * attackRangeIncrease;
         foreach (EnemyModel enemy in EnemyManager.Instance.enemies)
         {
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distance < range)
+            if (distance < applyAttackRange)
             {
                 Target target = new Target(enemy, distance);
                 targetInfo.Add(target);
@@ -159,7 +159,7 @@ public class CharacterAttack : MonoBehaviourPun
 
     public void CancelAttack()
     {
-        attackTimeout = 0.1f;
+        attackDelayDelta = 0.1f;
         isAttacking = false;
     }
 
@@ -170,8 +170,7 @@ public class CharacterAttack : MonoBehaviourPun
             return;
         }
 
-        float damage = this.damage * damageIncrease;
-        float trueDamage = damage * trueDamagePercent * trueDamagePercentIncrease;
+        float trueDamage = applyDamage * applyTrueDamagePercent;
         float normalDamage = damage - trueDamage;
 
         int targetNumber = this.targetNumber + targetNumberIncrease;
@@ -193,8 +192,7 @@ public class CharacterAttack : MonoBehaviourPun
         float trueDamage = damage * trueDamagePercent * trueDamagePercentIncrease;
         float normalDamage = damage - trueDamage;
 
-        float area = attackArea * attackAreaIncrease;
-        Collider[] contectedColliders = Physics.OverlapSphere(mainTarget.transform.position, area);
+        Collider[] contectedColliders = Physics.OverlapSphere(mainTarget.transform.position, applyAttackArea);
 
         foreach (Collider collider in contectedColliders)
         {

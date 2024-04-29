@@ -19,7 +19,7 @@ public class CharacterUI : MonoBehaviour
     private void Awake()
     {
         model = GetComponentInParent<CharacterModel>();
-        coolDownSkill = model.skill.skills.Find((skill) => skill.type == SkillType.CoolDown);
+        coolDownSkill = model.skill.skills.Find((skill) => skill.skillType == SkillType.NonTargetCooldown);
     }
 
     private void Update()

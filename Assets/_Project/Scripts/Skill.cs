@@ -1,20 +1,31 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Transactions;
 using UnityEngine;
 
 public enum SkillType
 {
     Always,
-    CoolDown,
+    NonTargetCooldown,
+    TargetCooldown,
     Random,
+}
+
+public enum TargetType
+{
+    Enemy,
+    AllAlly,
+    StrongestAlly,
 }
 
 public class Skill : MonoBehaviour
 {
     public SkillSO defaultStat;
-    public SkillType type;
+    public SkillType skillType;
+    public TargetType mainTargetType;
 
     public int priority;
 
@@ -33,7 +44,10 @@ public class Skill : MonoBehaviour
         {
             return (currentCooldown - coolDownTimeout) / Mathf.Clamp(currentCooldown, 0.1f, currentCooldown);
         }
-    } 
+    }
+
+    public List<EnemyModel> enemyTargets;
+    public List<CharacterModel> allyTargets;
 
     private float coolDownTimeout;
     private float currentCooldown;
@@ -41,7 +55,7 @@ public class Skill : MonoBehaviour
     public float percentage;
     public float percentageIncrease;
 
-    protected virtual void OnEnable()
+    private void OnEnable()
     {
         targetNumberIncrease = 0;
         coolDownIncrease = 1.0f;
@@ -51,9 +65,9 @@ public class Skill : MonoBehaviour
         currentCooldown = coolDown * coolDownIncrease;
     }
 
-    protected virtual void Update()
+    private void Update()
     {
-        if (type == SkillType.CoolDown)
+        if (skillType == SkillType.NonTargetCooldown || skillType == SkillType.TargetCooldown)
         {
             if (coolDownTimeout <= 0.0f)
             {
@@ -67,21 +81,67 @@ public class Skill : MonoBehaviour
         }
     }
 
-    public virtual void StartSkill()
+    public Transform SetTarget(CharacterSkill owner)
     {
-        if (type == SkillType.CoolDown)
+        enemyTargets.Clear();
+        allyTargets.Clear();
+
+        List<Target> targetInfo = new List<Target>();
+        foreach (EnemyModel enemy in EnemyManager.Instance.enemies)
         {
-            currentCooldown = coolDown * coolDownIncrease;
-            coolDownTimeout = currentCooldown;
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distance < owner.attack.applyAttackRange)
+            {
+                Target target = new Target(enemy, distance);
+                targetInfo.Add(target);
+            }
         }
+
+        if (targetInfo.Count > 0)
+        {
+            targetInfo = targetInfo.OrderBy(a => a.distance).ToList();
+            enemyTargets = new List<EnemyModel>();
+            foreach (Target target in targetInfo)
+            {
+                enemyTargets.Add(target.model);
+            } 
+        }
+
+        allyTargets = CharacterManager.Instance.wholeCharacters;
+        allyTargets = allyTargets.OrderByDescending((model) => model.attack.applyDamage).ToList();
+
+        switch (mainTargetType)
+        {
+            case TargetType.Enemy:
+                if (enemyTargets.Count > 0)
+                {
+                    return enemyTargets[0].transform;
+                }
+                else
+                {
+                    return null;
+                }
+
+            case TargetType.AllAlly:
+                return owner.transform;
+
+            case TargetType.StrongestAlly:
+                return allyTargets[0].transform;
+        }
+        return null;
     }
 
-    public virtual void OnSkill()
+    public void StartSkill()
     {
 
     }
 
-    public virtual void CancelSkill()
+    public void OnSkill()
+    {
+
+    }
+
+    public void CancelSkill()
     {
 
     }
