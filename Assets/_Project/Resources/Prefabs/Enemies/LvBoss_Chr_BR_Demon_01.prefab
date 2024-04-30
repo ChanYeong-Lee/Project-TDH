@@ -1133,7 +1133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clip: {fileID: -203655887218126122, guid: 08ba81c98fd2bd14abdb0f0837011d43, type: 3}
   moveSpeed: 3.5
-  moveIncrease: 0
+  moveSpeedIncrease: 0
   angularSpeed: 10
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}

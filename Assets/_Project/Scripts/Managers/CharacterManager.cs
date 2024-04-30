@@ -1,11 +1,11 @@
 using Photon.Pun;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
     public static CharacterManager Instance { get; private set; }
-
     public List<CharacterModel> wholeCharacters; // 맵에 존재하는 모든 캐릭터들
     public List<CharacterModel> ownCharacters; // 맵에 존재하는 모든 자신의 캐릭터들
 
@@ -29,8 +29,7 @@ public class CharacterManager : MonoBehaviour
     {
         // 기존 캐릭터를 새 캐릭터로 업그레이드
 
-        int index = ownCharacters.FindIndex(0,(character) => character == currentCharacter);
-        ownCharacters[index] = targetCharacter;
+        
     }
 
     public void RemoveCharacter(CharacterModel removedCharacter)
@@ -40,7 +39,13 @@ public class CharacterManager : MonoBehaviour
         if (removedCharacter.photonView.IsMine)
         {
             ownCharacters.Remove(removedCharacter);
+            if (PlayerController.Instance.characters.Contains(removedCharacter))
+            {
+                PlayerController.Instance.characters.Remove(removedCharacter);
+            }
         }
+
+        Destroy(removedCharacter.gameObject);
     }
 
     private void SortList()

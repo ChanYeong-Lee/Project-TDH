@@ -19,23 +19,26 @@ public enum AttackType
 public class CharacterAttack : MonoBehaviourPun
 {
     private Animator animator;
+    private CharacterSkill skill;
 
+    [Header("설정")]
     public AttackType type;
     public AnimationClip attackClip;
+    
+    [Header("상태")]
     public bool canAttack;
     public bool isAttacking;
 
     public float applyDamage => damage * damageIncrease;
     public float damage;            // 캐릭터 기본 스탯 + 생성 변수
-    public float damageIncrease = 1.0f;    // 기본값 = 1.0, 버프에 따라 변화
+    public float damageIncrease;    // 기본값 = 1.0, 버프에 따라 변화
 
-    public float applyTrueDamagePercent => trueDamagePercent * trueDamagePercentIncrease;
+    public float applyTrueDamagePercent => trueDamagePercent + trueDamagePercentIncrease;
     public float trueDamagePercent;
-    public float trueDamagePercentIncrease = 1.0f;
+    public float trueDamagePercentIncrease;
 
-    public float applyAttackSpeed  => Mathf.Clamp(attackSpeed * attackSpeedIncrease, 0.1f, applyAttackDelay); // 한 공격이 끝마치는데 걸리는 시간
-    public float attackSpeed;
-    public float attackSpeedIncrease = 1.0f;
+    public float applyAttackSpeed  => Mathf.Clamp(attackSpeed, 0.1f, applyAttackDelay); // 한 공격이 끝마치는데 걸리는 시간
+    public float attackSpeed; // 기본 공격 속도
 
     public float applyAttackDelay => Mathf.Clamp(attackDelay / Mathf.Clamp(attackDelayIncrease, 0.1f, attackDelayIncrease), 0.1f, attackDelay / Mathf.Clamp(attackDelayIncrease, 0.1f, attackDelayIncrease));
     public float attackDelay;
@@ -59,9 +62,11 @@ public class CharacterAttack : MonoBehaviourPun
 
     private bool attackPrepared;
     private bool haveTarget;
+    private bool skillCasting;
 
     private void Awake()
     {
+        skill = GetComponent<CharacterSkill>();
         animator = GetComponent<Animator>();
     }
 
@@ -88,7 +93,9 @@ public class CharacterAttack : MonoBehaviourPun
             }
         }
 
-        canAttack = attackPrepared && haveTarget;
+        skillCasting = skill.isCasting;
+
+        canAttack = attackPrepared && haveTarget && (skillCasting == false);
     }
 
     public void StartAttack()

@@ -7,14 +7,14 @@ public class CharacterMove : MonoBehaviourPun
     private Animator animator;
     private NavMeshAgent agent;
 
-    public AnimationClip clip;
-    
     [Header("설정")]
-    public float moveSpeed;
-    public float moveIncrease;
+    public AnimationClip walkingClip;
     public float angularSpeed;
 
     [Header("상태")]
+    public float moveSpeed;
+    public float moveSpeedIncrease;
+
     public bool tryMove;
     public bool isMoving;
     
@@ -35,7 +35,7 @@ public class CharacterMove : MonoBehaviourPun
 
     private void OnEnable()
     {
-        moveIncrease = 1.0f;
+        moveSpeedIncrease = 1.0f;
         blendSpeed = 0.0f;
         agent.SetDestination(Vector3.right);
         // TODO : 다른 유저의 캐릭터를 건드릴 수 없도록, 
@@ -51,11 +51,11 @@ public class CharacterMove : MonoBehaviourPun
         CheckVelocity();
 
         float forwardValue = Vector3.Dot(transform.forward, agent.desiredVelocity);
-        float applyMoveSpeed = moveSpeed * moveIncrease * forwardValue;
+        float applyMoveSpeed = moveSpeed * moveSpeedIncrease * forwardValue;
         if (agent.hasPath)
         {
             blendSpeed = Mathf.Lerp(blendSpeed, 1.0f, 10.0f * Time.deltaTime);
-            moreSpeed = applyMoveSpeed / clip.averageSpeed.z;
+            moreSpeed = applyMoveSpeed / walkingClip.averageSpeed.z;
         }
         else
         {
@@ -85,7 +85,7 @@ public class CharacterMove : MonoBehaviourPun
         {
             tryMove = true;
             agent.SetDestination(transform.position + direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), angularSpeed * moveIncrease * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), angularSpeed * moveSpeedIncrease * Time.deltaTime);
         }
         else
         {
@@ -101,7 +101,7 @@ public class CharacterMove : MonoBehaviourPun
 
         if (direction != Vector3.zero)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), angularSpeed * moveIncrease * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), angularSpeed * moveSpeedIncrease * Time.deltaTime);
         }
     }
 }

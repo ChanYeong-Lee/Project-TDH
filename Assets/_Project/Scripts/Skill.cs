@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,19 +24,16 @@ public enum TargetType
 
 public class Skill : MonoBehaviour
 {
+    [Header("설정")]
     public SkillSO defaultStat;
-    public SkillType skillType;
-    public TargetType mainTargetType;
-
     public int priority;
+    public List<AttackEffect> attackEffects;
+    public List<BuffEffect> buffEffects;    
 
-    public int targetNumber;
-    public int targetNumberIncrease;
-
-    public float skillSpeed;
-
+    [Header("상태")]
     public bool isReady;
 
+    public float applyCooldown => Mathf.Clamp(coolDown / Mathf.Clamp(coolDownIncrease, 0.1f, coolDownIncrease), 0.1f, coolDown / Mathf.Clamp(coolDownIncrease, 0.1f, coolDownIncrease));
     public float coolDown;
     public float coolDownIncrease;
     public float coolDownAmount
@@ -46,28 +44,30 @@ public class Skill : MonoBehaviour
         }
     }
 
+    public float percentage;
+    public float percentageIncrease;
+
     public List<EnemyModel> enemyTargets;
     public List<CharacterModel> allyTargets;
 
     private float coolDownTimeout;
     private float currentCooldown;
 
-    public float percentage;
-    public float percentageIncrease;
-
     private void OnEnable()
     {
-        targetNumberIncrease = 0;
+        coolDown = defaultStat.defaultCooldown;
+        percentage = defaultStat.defaultPercent;
+
         coolDownIncrease = 1.0f;
         percentageIncrease = 1.0f;
 
         coolDownTimeout = 0.0f;
-        currentCooldown = coolDown * coolDownIncrease;
+        currentCooldown = applyCooldown;
     }
 
     private void Update()
     {
-        if (skillType == SkillType.NonTargetCooldown || skillType == SkillType.TargetCooldown)
+        if (defaultStat.skillType == SkillType.NonTargetCooldown || defaultStat.skillType == SkillType.TargetCooldown)
         {
             if (coolDownTimeout <= 0.0f)
             {
@@ -89,7 +89,7 @@ public class Skill : MonoBehaviour
         List<Target> targetInfo = new List<Target>();
         foreach (EnemyModel enemy in EnemyManager.Instance.enemies)
         {
-            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            float distance = Vector3.Distance(owner.transform.position, enemy.transform.position);
             if (distance < owner.attack.applyAttackRange)
             {
                 Target target = new Target(enemy, distance);
@@ -110,7 +110,7 @@ public class Skill : MonoBehaviour
         allyTargets = CharacterManager.Instance.wholeCharacters;
         allyTargets = allyTargets.OrderByDescending((model) => model.attack.applyDamage).ToList();
 
-        switch (mainTargetType)
+        switch (defaultStat.mainTargetType)
         {
             case TargetType.Enemy:
                 if (enemyTargets.Count > 0)
@@ -133,16 +133,28 @@ public class Skill : MonoBehaviour
 
     public void StartSkill()
     {
-
+        currentCooldown = applyCooldown;
+        coolDownTimeout = currentCooldown; 
     }
 
-    public void OnSkill()
+    public void OnSkill(CharacterSkill owner)
     {
+        foreach (AttackEffect attackEffect in attackEffects)
+        {
+            attackEffect.Execute(owner, enemyTargets);
+        }
 
+        foreach (BuffEffect buffEffect in buffEffects)
+        {
+            buffEffect.Execute(owner, allyTargets, enemyTargets);
+        }
     }
 
     public void CancelSkill()
     {
-
+        if (defaultStat.skillType == SkillType.NonTargetCooldown || defaultStat.skillType == SkillType.TargetCooldown)
+        {
+            coolDownTimeout = 0.1f;
+        }
     }
 }

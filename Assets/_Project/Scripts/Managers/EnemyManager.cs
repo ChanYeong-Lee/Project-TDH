@@ -18,7 +18,7 @@ public class EnemyManager : MonoBehaviour
     {
         foreach (EnemyModel enemy in enemies)
         {
-            enemy.move.moveIncrease = 2.0f;
+            enemy.move.moveSpeedIncrease = 2.0f;
         }
     }
 
@@ -26,7 +26,7 @@ public class EnemyManager : MonoBehaviour
     {
         foreach (EnemyModel enemy in enemies)
         {
-            enemy.move.moveIncrease = 1.0f;
+            enemy.move.moveSpeedIncrease = 1.0f;
         }
     }
 }

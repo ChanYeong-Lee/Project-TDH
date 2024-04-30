@@ -44117,13 +44117,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1229987725}
-        m_TargetAssemblyTypeName: EnemyManager, Assembly-CSharp
-        m_MethodName: TestFunction1
-        m_Mode: 1
+      - m_Target: {fileID: 1206034947}
+        m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
+        m_MethodName: RemoveCharacter
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: CharacterModel, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

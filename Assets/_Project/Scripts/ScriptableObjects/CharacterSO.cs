@@ -6,9 +6,13 @@ using UnityEngine;
 public class CharacterSO : ScriptableObject
 {
     public string characterName;
-    public float defaultDamage;
-    public float defaultAttackSpeed;
+
     public float defaultMoveSpeed;
+
+    public float defaultDamage;
+    public float defaultTrueDamagePercent;
+    public float defaultAttackSpeed;
+    public float defaultAttackDelay;
     public float defaultAttackRange;
 
     public int defaultTargetNumber;

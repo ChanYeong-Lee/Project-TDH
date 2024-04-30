@@ -1,12 +1,15 @@
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+public interface IModel { }
+
 public enum CharacterType
 {
-    TankT1_Peasant     = 00,
+    TankT1_Peasant      = 00,
     TankT2_Warrior      = 01,
     TankT3_Viking       = 02,
     TankT3_General      = 03,
@@ -28,17 +31,21 @@ public enum CharacterType
     HealT3_Queen        = 25,
 }
 
-public class CharacterModel : MonoBehaviourPun
+public class CharacterModel : MonoBehaviourPun, IModel
 {
-    public Animator animator;
-    public NavMeshAgent agent;
-
-    public int tier;
+    [HideInInspector] public Animator animator;
+    [HideInInspector] public NavMeshAgent agent;
+    [HideInInspector] public CharacterMove move;
+    [HideInInspector] public CharacterAttack attack;
+    [HideInInspector] public CharacterSkill skill;
+    
+    public Action onDisable;
+    public Dictionary<string, Buff> buffDictionary;
+    
+    [Header("¼³Á¤")]
     public CharacterType type;
+    public int tier;
     public CharacterSO defaultStat;
-    public CharacterMove move;
-    public CharacterAttack attack;
-    public CharacterSkill skill;
 
     private void Awake()
     {
@@ -48,6 +55,8 @@ public class CharacterModel : MonoBehaviourPun
         move = GetComponent<CharacterMove>();   
         attack = GetComponent<CharacterAttack>();
         skill = GetComponent<CharacterSkill>();
+
+        buffDictionary = new Dictionary<string, Buff>();
     }
 
     private void OnEnable()
@@ -81,5 +90,88 @@ public class CharacterModel : MonoBehaviourPun
             CharacterManager.Instance.ownCharacters.Remove(this);
         }
         CharacterManager.Instance.wholeCharacters.Remove(this);
+        onDisable?.Invoke();    
+    }
+
+    [PunRPC]
+    public void AddBuff(int casterId, string buffName, BuffType buffType, StatType statType, float increaseAmount, float limitTime)
+    {
+        if (photonView.IsMine == false)
+        {
+            return;
+        }
+
+        if (buffDictionary.ContainsKey(buffName))
+        {
+            return;
+        }
+
+        Buff newBuff = new Buff();
+        CharacterModel caster = CharacterManager.Instance.wholeCharacters.Find((model) => model.photonView.ViewID == casterId);
+
+        if (caster == null)
+        {
+            return;
+        }
+
+        newBuff.SetBuff(caster, this, buffName, buffType, statType, increaseAmount, limitTime);
+        switch (buffType)
+        {
+            case BuffType.Permanant:
+                newBuff.Activate();
+                break;
+            case BuffType.Limit:
+                StartCoroutine(newBuff.BuffCoroutine());
+                break;
+        }
+    }
+
+    [PunRPC]
+    public void AddBuff(int casterId, string buffName, BuffType buffType, StatType statType, int integerIncreaseAmount, float limitTime)
+    {
+        if (photonView.IsMine == false)
+        {
+            return;
+        }
+
+        if (buffDictionary.ContainsKey(buffName))
+        {
+            return;
+        }
+
+        Buff newBuff = new Buff();
+        CharacterModel caster = CharacterManager.Instance.wholeCharacters.Find((model) => model.photonView.ViewID == casterId);
+
+        if (caster == null)
+        {
+            return;
+        }
+
+        newBuff.SetBuff(caster, this, buffName, buffType, statType, integerIncreaseAmount, limitTime);
+        switch (buffType)
+        {
+            case BuffType.Permanant:
+                newBuff.Activate();
+                break;
+            case BuffType.Limit:
+                StartCoroutine(newBuff.BuffCoroutine());
+                break;
+        }
+    }
+
+    [PunRPC]
+    public void RemoveBuff(string buffName)
+    {
+        if (photonView.IsMine == false)
+        {
+            return;
+        }
+
+        if (buffDictionary.ContainsKey(buffName) == false)
+        {
+            return;
+        }
+
+        buffDictionary[buffName].Deactivate();
     }
 }

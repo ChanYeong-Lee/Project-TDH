@@ -10,6 +10,7 @@ public class AttackBehaviour : CharacterBehaviour
         {
             if (owner.attack.isAttacking)
             {
+                animator.SetTrigger("Cancel");
                 owner.attack.CancelAttack();
             }
         }
