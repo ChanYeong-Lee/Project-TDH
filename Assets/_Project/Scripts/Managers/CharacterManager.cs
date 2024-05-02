@@ -2,6 +2,7 @@ using Photon.Pun;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterManager : MonoBehaviour
 {
@@ -25,16 +26,22 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    public void UpgradeCharacter(CharacterModel currentCharacter, CharacterModel targetCharacter)
+    public void UpgradeCharacter(CharacterModel currentCharacter, CharacterType targetCharacterType)
     {
         // 기존 캐릭터를 새 캐릭터로 업그레이드
+        Vector3Int generationCrystals = currentCharacter.crystals;
+        CharacterModel targetCharacter = CharacterGenerator.Instance.GenerateCharacter(targetCharacterType);
+        targetCharacter.SetGenerationCrystals(generationCrystals);
 
-        
+        RemoveCharacter(currentCharacter);
     }
 
     public void RemoveCharacter(CharacterModel removedCharacter)
     {
-        wholeCharacters.Remove(removedCharacter);
+        if (wholeCharacters.Contains(removedCharacter))
+        {
+            wholeCharacters.Remove(removedCharacter);
+        }
 
         if (removedCharacter.photonView.IsMine)
         {
@@ -45,7 +52,7 @@ public class CharacterManager : MonoBehaviour
             }
         }
 
-        Destroy(removedCharacter.gameObject);
+        PhotonNetwork.Destroy(removedCharacter.gameObject);
     }
 
     private void SortList()

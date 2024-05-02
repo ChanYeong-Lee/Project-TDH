@@ -1,14 +1,7 @@
 using Photon.Pun;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
-using UnityEngine.Rendering;
-using static UnityEngine.GraphicsBuffer;
-using Random = UnityEngine.Random;
 
 public enum AttackType
 {
@@ -16,16 +9,15 @@ public enum AttackType
     Area    // 타겟 주위 정해진 범위만큼 공격
 }
 
-public class CharacterAttack : MonoBehaviourPun
+public class CharacterAttack : MonoBehaviourPun, IPunObservable
 {
     private Animator animator;
     private CharacterSkill skill;
 
-    [Header("설정")]
-    public AttackType type;
+    [Header("상태")]
+    public AttackType attackType;
     public AnimationClip attackClip;
     
-    [Header("상태")]
     public bool canAttack;
     public bool isAttacking;
 
@@ -33,7 +25,7 @@ public class CharacterAttack : MonoBehaviourPun
     public float damage;            // 캐릭터 기본 스탯 + 생성 변수
     public float damageIncrease;    // 기본값 = 1.0, 버프에 따라 변화
 
-    public float applyTrueDamagePercent => trueDamagePercent + trueDamagePercentIncrease;
+    public float applyTrueDamagePercent => Mathf.Clamp(trueDamagePercent + trueDamagePercentIncrease, 0.0f, 1.0f);
     public float trueDamagePercent;
     public float trueDamagePercentIncrease;
 
@@ -45,7 +37,7 @@ public class CharacterAttack : MonoBehaviourPun
     public float attackDelayIncrease = 1.0f;
     private float attackDelayDelta;
 
-    public float applyAttackRange => attackRange * attackRangeIncrease;
+    public float applyAttackRange => Mathf.Clamp(attackRange * attackRangeIncrease, 0.0f, attackRange * attackRangeIncrease);
     public float attackRange;
     public float attackRangeIncrease = 1.0f;
 
@@ -72,6 +64,11 @@ public class CharacterAttack : MonoBehaviourPun
 
     private void Update()
     {
+        if (photonView.IsMine == false)
+        {
+            return;
+        }
+
         if (attackPrepared == false)
         {
             attackDelayDelta -= Time.deltaTime;
@@ -98,6 +95,41 @@ public class CharacterAttack : MonoBehaviourPun
         canAttack = attackPrepared && haveTarget && (skillCasting == false);
     }
 
+    public void SetAttackStats(CharacterSO defaultStat)
+    {
+        this.attackType = defaultStat.attackType;
+        this.attackClip = defaultStat.attackClip;
+
+        this.damage = defaultStat.defaultDamage;
+        this.attackDelay = defaultStat.defaultAttackDelay;
+        this.attackArea = defaultStat.defaultAttackArea;
+        this.attackRange = defaultStat.defaultAttackRange;
+        this.attackSpeed = defaultStat.defaultAttackSpeed;
+        this.targetNumber = defaultStat.defaultTargetNumber;
+
+        damageIncrease = 1.0f;
+        attackDelayIncrease = 1.0f;
+        attackAreaIncrease = 1.0f;
+        attackRangeIncrease = 1.0f;
+
+        targetNumberIncrease = 0;
+    }
+
+    public void AddCrystal(Vector3Int crystals)
+    {
+        damageIncrease += 0.1f * crystals.x;
+        attackDelayIncrease += 0.1f * crystals.x;
+
+        attackAreaIncrease += 0.1f * crystals.y;
+        targetNumberIncrease += crystals.y;
+    }
+
+    public void StartSkill()
+    {
+        isAttacking = true;
+        attackDelayDelta = applyAttackDelay;
+    }
+
     public void StartAttack()
     {
         isAttacking = true;
@@ -108,7 +140,7 @@ public class CharacterAttack : MonoBehaviourPun
         attackDelayDelta = applyAttackDelay;
 
         animator.SetFloat("AttackSpeed", attackClip.length / applyAttackSpeed);
-        photonView.RPC("AttackTriggerRPC", RpcTarget.All);
+        photonView.RPC("SetTriggerRPC", RpcTarget.All, "Attack");
 
         List<Target> targetInfo = new List<Target>();
         foreach (EnemyModel enemy in EnemyManager.Instance.enemies)
@@ -133,10 +165,52 @@ public class CharacterAttack : MonoBehaviourPun
         }
     }
 
-    [PunRPC]
-    public void AttackTriggerRPC()
+    
+
+
+    public void CancelAttack()
     {
-        animator.SetTrigger("Attack");
+        attackDelayDelta = 0.1f;
+        isAttacking = false;
+    }
+
+    private void SingleAttack() // 단일 공격
+    {
+        if (mainTarget == null)
+        {
+            return;
+        }
+
+        float trueDamage = applyDamage * applyTrueDamagePercent;
+        float normalDamage = applyDamage - trueDamage;
+
+        targetNumber = Mathf.Clamp(applyTargetNumber, 0, targets.Count);
+        for (int i = 0; i < targetNumber; i++)
+        {
+            targets[i].health.photonView.RPC("TakeHitRPC", RpcTarget.All, normalDamage, trueDamage);
+        }
+    }
+    
+    private void AreaAttack() // 범위 공격
+    {
+        if (mainTarget == null)
+        {
+            return;
+        }
+
+        float trueDamage = applyDamage * applyTrueDamagePercent;
+        float normalDamage = applyDamage - trueDamage;
+
+        Collider[] contectedColliders = Physics.OverlapSphere(mainTarget.transform.position, applyAttackArea);
+
+        foreach (Collider collider in contectedColliders)
+        {
+            if (collider.tag == "Enemy")
+            {
+                EnemyModel enemy = collider.GetComponent<EnemyModel>();
+                enemy.health.photonView.RPC("TakeHitRPC", RpcTarget.All, normalDamage, trueDamage);
+            }
+        }
     }
 
     public void OnAttack(AnimationEvent animationEvent)
@@ -153,7 +227,7 @@ public class CharacterAttack : MonoBehaviourPun
             return;
         }
 
-        switch (type)
+        switch (attackType)
         {
             case AttackType.Single:
                 SingleAttack();
@@ -164,50 +238,23 @@ public class CharacterAttack : MonoBehaviourPun
         }
     }
 
-    public void CancelAttack()
+    [PunRPC]
+    public void SetTriggerRPC(string triggerName)
     {
-        attackDelayDelta = 0.1f;
-        isAttacking = false;
+        animator.SetTrigger(triggerName);
     }
 
-    private void SingleAttack() // 단일 공격
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (mainTarget == null)
+        if (stream.IsWriting)
         {
-            return;
+            stream.SendNext(damage);
+            stream.SendNext(damageIncrease);
         }
-
-        float trueDamage = applyDamage * applyTrueDamagePercent;
-        float normalDamage = damage - trueDamage;
-
-        int targetNumber = this.targetNumber + targetNumberIncrease;
-        targetNumber = Mathf.Clamp(targetNumber, 0, targets.Count);
-        for (int i = 0; i < targetNumber; i++)
+        else
         {
-            targets[i].health.GetComponent<PhotonView>().RPC("TakeHitRPC", RpcTarget.All, normalDamage, trueDamage);
-        }
-    }
-    
-    private void AreaAttack() // 범위 공격
-    {
-        if (mainTarget == null)
-        {
-            return;
-        }
-
-        float damage = this.damage * damageIncrease;
-        float trueDamage = damage * trueDamagePercent * trueDamagePercentIncrease;
-        float normalDamage = damage - trueDamage;
-
-        Collider[] contectedColliders = Physics.OverlapSphere(mainTarget.transform.position, applyAttackArea);
-
-        foreach (Collider collider in contectedColliders)
-        {
-            if (collider.tag == "Enemy")
-            {
-                EnemyModel enemy = collider.GetComponent<EnemyModel>();
-                enemy.health.GetComponent<PhotonView>().RPC("TakeHitRPC", RpcTarget.All, normalDamage, trueDamage);
-            }
+            damage = (float)stream.ReceiveNext();
+            damageIncrease = (float)stream.ReceiveNext();
         }
     }
 }

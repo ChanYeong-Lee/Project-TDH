@@ -15,14 +15,15 @@ public class CharacterGenerator : MonoBehaviour
         Instance = this;
     }
 
-    public void GenerateCharacter(CharacterType type)
+    public CharacterModel GenerateCharacter(CharacterType type)
     {
         CharacterModel prefab = characterPrefabs.Find((model) => model.type == type);
         string prefabName = prefab.name;
 
         CharacterModel newModel = PhotonNetwork.Instantiate(prefabPath + prefabName, Vector3.zero, Quaternion.identity).GetComponent<CharacterModel>();
 
-        //PlayerController.Instance.ResetCharacter();
+        PlayerController.Instance.ResetCharacter();
         PlayerController.Instance.AddCharacter(newModel);
+        return newModel;
     }
 }

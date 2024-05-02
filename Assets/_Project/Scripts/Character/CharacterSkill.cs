@@ -14,6 +14,9 @@ public class CharacterSkill : MonoBehaviourPun
     public Skill currentSkill;
     public bool isCasting;
     public Transform mainTarget;
+    
+    public float cooldownIncrease;
+    public float percentageIncrease;
 
     private void Awake()
     {
@@ -35,9 +38,12 @@ public class CharacterSkill : MonoBehaviourPun
     {
         foreach (Skill skill in skills)
         {
+            skill.coolDownIncrease = cooldownIncrease;
+            skill.percentageIncrease = percentageIncrease;
+
             if (skill.defaultStat.skillType == SkillType.Always)
             {
-                foreach (BuffEffect buff in skill.buffEffects)
+                foreach (BuffEffect buff in skill.defaultStat.buffEffects)
                 {
                     switch (buff.attackType)
                     {
@@ -128,6 +134,18 @@ public class CharacterSkill : MonoBehaviourPun
         }
     }
 
+    public void SetSkillStats()
+    {
+        cooldownIncrease = 1.0f;
+        percentageIncrease = 0.0f;
+    }
+
+    public void AddCrystal(Vector3Int crystals)
+    {
+        cooldownIncrease += 0.1f * crystals.z;
+        percentageIncrease += 0.1f * crystals.z;
+    }
+
     public bool CheckNonTargetCooldownSkill(out Skill readySkill)
     {
         List<Skill> readySkills = new List<Skill>();
@@ -144,7 +162,7 @@ public class CharacterSkill : MonoBehaviourPun
 
         if (readySkills.Count > 0)
         {
-            readySkills = readySkills.OrderBy(skill => skill.priority).ToList();
+            readySkills = readySkills.OrderBy(skill => skill.defaultStat.priority).ToList();
             readySkill = readySkills[0];
             return true;
         }
@@ -169,7 +187,7 @@ public class CharacterSkill : MonoBehaviourPun
 
         if (readySkills.Count > 0)
         {
-            readySkills = readySkills.OrderBy(skill => skill.priority).ToList();
+            readySkills = readySkills.OrderBy(skill => skill.defaultStat.priority).ToList();
             readySkill = readySkills[0];
             return true;
         }
@@ -186,10 +204,9 @@ public class CharacterSkill : MonoBehaviourPun
         {
             if (skill.defaultStat.skillType == SkillType.Random)
             {
-                float percentage = skill.percentage * skill.percentageIncrease;
                 float randomValue = Random.Range(0.0f, 1.0f);
 
-                if (randomValue < percentage)
+                if (randomValue < skill.applyPercentage)
                 {
                     activatedSkills.Add(skill);
                 }
@@ -198,7 +215,7 @@ public class CharacterSkill : MonoBehaviourPun
 
         if (activatedSkills.Count > 0)
         {
-            activatedSkills = activatedSkills.OrderBy(skill => skill.priority).ToList();
+            activatedSkills = activatedSkills.OrderBy(skill => skill.defaultStat.priority).ToList();
             activatedSkill = activatedSkills[0];
             return true;
         }

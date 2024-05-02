@@ -13,9 +13,28 @@ MonoBehaviour:
   m_Name: DealT2_Archer
   m_EditorClassIdentifier: 
   characterName: "\uAD81\uC218"
-  defaultDamage: 10
+  walkingClip: {fileID: -203655887218126122, guid: bd6da564ed4f1124e81071af525d5090,
+    type: 3}
+  defaultMoveSpeed: 3
+  attackType: 0
+  attackClip: {fileID: 7400000, guid: 3558db8e6c045c3418d8e7593f8a88de, type: 3}
+  defaultDamage: 15
+  defaultTrueDamagePercent: 0
   defaultAttackSpeed: 0.9
-  defaultMoveSpeed: 2.5
+  defaultAttackDelay: 0.9
   defaultAttackRange: 4
   defaultTargetNumber: 2
   defaultAttackArea: 0
+  revolutionData:
+  - needCrystalAmount: 3
+    minimumCrystal: {x: 2, y: 0, z: 0}
+    revolutionTarget: 12
+  - needCrystalAmount: 3
+    minimumCrystal: {x: 0, y: 2, z: 0}
+    revolutionTarget: 13
+  - needCrystalAmount: 3
+    minimumCrystal: {x: 0, y: 0, z: 2}
+    revolutionTarget: 14
+  - needCrystalAmount: 3
+    minimumCrystal: {x: 1, y: 1, z: 1}
+    revolutionTarget: 15

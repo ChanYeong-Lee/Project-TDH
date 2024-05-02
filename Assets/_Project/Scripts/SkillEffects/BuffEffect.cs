@@ -54,6 +54,10 @@ public class BuffEffect
                             }
                         }
                         break;
+                    case TargetType.Self:
+                        CharacterModel ownerModel = owner.GetComponent<CharacterModel>();
+                        ApplyBuff(owner, ownerModel);
+                        break;
                 }
                 break;
             case AttackType.Area:

@@ -652,11 +652,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc17928f136e35f49a6e48d7625e06f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHP: 100
-  maxHP: 100
-  defense: 0
+  currentHP: 0
+  maxHP: 25
+  defense: 1
   defenseIncrease: 1
-  hpRecovery: 1
+  hpRecovery: 2
   hpRecoveryIncrease: 1
   healthBar: {fileID: 2433420538307537654}
 --- !u!114 &-9133009104887109842

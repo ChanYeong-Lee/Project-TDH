@@ -8,12 +8,14 @@ public class CharacterMove : MonoBehaviourPun
     private NavMeshAgent agent;
 
     [Header("설정")]
-    public AnimationClip walkingClip;
     public float angularSpeed;
 
     [Header("상태")]
+    public AnimationClip walkingClip;
+
     public float moveSpeed;
     public float moveSpeedIncrease;
+    public float applyMoveSpeed => moveSpeed * moveSpeedIncrease;
 
     public bool tryMove;
     public bool isMoving;
@@ -35,7 +37,6 @@ public class CharacterMove : MonoBehaviourPun
 
     private void OnEnable()
     {
-        moveSpeedIncrease = 1.0f;
         blendSpeed = 0.0f;
         agent.SetDestination(Vector3.right);
         // TODO : 다른 유저의 캐릭터를 건드릴 수 없도록, 
@@ -50,8 +51,7 @@ public class CharacterMove : MonoBehaviourPun
     {
         CheckVelocity();
 
-        float forwardValue = Vector3.Dot(transform.forward, agent.desiredVelocity);
-        float applyMoveSpeed = moveSpeed * moveSpeedIncrease * forwardValue;
+        float applyMoveSpeed = moveSpeed * moveSpeedIncrease;
         if (agent.hasPath)
         {
             blendSpeed = Mathf.Lerp(blendSpeed, 1.0f, 10.0f * Time.deltaTime);
@@ -66,6 +66,19 @@ public class CharacterMove : MonoBehaviourPun
         animator.SetFloat("MoveSpeed", blendSpeed);
         animator.SetFloat("MoreSpeed", moreSpeed);
         animator.SetBool("TryMove", tryMove);
+    }
+
+    public void SetMoveStats(CharacterSO defaultStat)
+    {
+        this.walkingClip = defaultStat.walkingClip;
+        this.moveSpeed = defaultStat.defaultMoveSpeed;
+
+        moveSpeedIncrease = 1.0f;
+    }
+
+    public void AddCrystal(Vector3Int crystals)
+    {
+        moveSpeedIncrease += 0.1f * crystals.y;
     }
 
     private void CheckVelocity()

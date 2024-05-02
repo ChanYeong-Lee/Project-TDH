@@ -1187,10 +1187,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHP: 0
-  maxHP: 100
-  defense: 0
+  maxHP: 30000
+  defense: 20
   defenseIncrease: 1
-  hpRecovery: 1
+  hpRecovery: 50
   hpRecoveryIncrease: 1
   healthBar: {fileID: 8048581528748228188}
   bossHealthBar: {fileID: 0}

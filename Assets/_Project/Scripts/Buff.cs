@@ -23,13 +23,14 @@ public class Buff
 {
     public CharacterModel caster;
     public string buffName;
-    
+
     public BuffType buffType;
     public StatType statType;
 
     public float increaseAmount;
     public int integerIncreaseAmount;
     public float limitTime;
+    public Coroutine buffCoroutine;
 
     private CharacterModel allyTarget;
     private EnemyModel enemyTarget;
@@ -46,12 +47,10 @@ public class Buff
         if (target is CharacterModel)
         {
             allyTarget = (CharacterModel)target;
-            allyTarget.buffDictionary.Add(buffName, this);
         }
         else if (target is EnemyModel)
         {
             enemyTarget = (EnemyModel)target;
-            enemyTarget.buffDictionary.Add(buffName, this);
         }
 
         if (buffType == BuffType.Permanant)
@@ -73,12 +72,10 @@ public class Buff
         if (target is CharacterModel)
         {
             allyTarget = (CharacterModel)target;
-            allyTarget.buffDictionary.Add(buffName, this);
         }
         else if (target is EnemyModel)
         {
             enemyTarget = (EnemyModel)target;
-            allyTarget.buffDictionary.Add(buffName, this);
         }
 
         if (buffType == BuffType.Permanant)
@@ -99,16 +96,20 @@ public class Buff
     {
         if (allyTarget != null)
         {
+            if (allyTarget.buffDictionary.ContainsKey(buffName))
+            {
+                allyTarget.buffDictionary[buffName].Deactivate();
+            }
             switch (statType)
             {
                 case StatType.MoveSpeed:
                     allyTarget.move.moveSpeedIncrease += increaseAmount;
                     break;
                 case StatType.Damage:
-                    allyTarget.attack.damageIncrease += increaseAmount; 
+                    allyTarget.attack.damageIncrease += increaseAmount;
                     break;
                 case StatType.TrueDamagePercent:
-                    allyTarget.attack.trueDamagePercentIncrease += increaseAmount;  
+                    allyTarget.attack.trueDamagePercentIncrease += increaseAmount;
                     break;
                 case StatType.AttackDelay:
                     allyTarget.attack.attackDelayIncrease += increaseAmount;
@@ -117,11 +118,11 @@ public class Buff
                     allyTarget.attack.targetNumberIncrease += integerIncreaseAmount;
                     break;
                 case StatType.AttackArea:
-                    allyTarget.attack.attackAreaIncrease += increaseAmount;  
+                    allyTarget.attack.attackAreaIncrease += increaseAmount;
                     break;
             }
         }
-        else if (enemyTarget != null) 
+        else if (enemyTarget != null)
         {
             switch (statType)
             {
@@ -129,7 +130,7 @@ public class Buff
                     enemyTarget.move.moveSpeedIncrease += increaseAmount;
                     break;
                 case StatType.Defense:
-                    enemyTarget.health.defenseIncrease += increaseAmount;   
+                    enemyTarget.health.defenseIncrease += increaseAmount;
                     break;
             }
         }
@@ -175,7 +176,7 @@ public class Buff
             }
 
             enemyTarget.buffDictionary.Remove(buffName);
-            
+
             switch (statType)
             {
                 case StatType.MoveSpeed:

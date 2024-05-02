@@ -13,9 +13,28 @@ MonoBehaviour:
   m_Name: TankT2_Warrior
   m_EditorClassIdentifier: 
   characterName: "\uC804\uC0AC"
-  defaultDamage: 5
+  walkingClip: {fileID: -203655887218126122, guid: bd6da564ed4f1124e81071af525d5090,
+    type: 3}
+  defaultMoveSpeed: 3
+  attackType: 1
+  attackClip: {fileID: 7400000, guid: 3558db8e6c045c3418d8e7593f8a88de, type: 3}
+  defaultDamage: 15
+  defaultTrueDamagePercent: 0
   defaultAttackSpeed: 1
-  defaultMoveSpeed: 2.5
+  defaultAttackDelay: 1
   defaultAttackRange: 4
   defaultTargetNumber: 1
-  defaultAttackArea: 0
+  defaultAttackArea: 1.2
+  revolutionData:
+  - needCrystalAmount: 2
+    minimumCrystal: {x: 2, y: 0, z: 0}
+    revolutionTarget: 2
+  - needCrystalAmount: 3
+    minimumCrystal: {x: 0, y: 2, z: 0}
+    revolutionTarget: 3
+  - needCrystalAmount: 3
+    minimumCrystal: {x: 0, y: 0, z: 2}
+    revolutionTarget: 4
+  - needCrystalAmount: 3
+    minimumCrystal: {x: 1, y: 1, z: 1}
+    revolutionTarget: 5

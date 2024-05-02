@@ -232,8 +232,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clip: {fileID: -203655887218126122, guid: 08ba81c98fd2bd14abdb0f0837011d43, type: 3}
-  moveSpeed: 2.5
-  moveIncrease: 0
+  moveSpeed: 2.25
+  moveSpeedIncrease: 0
   angularSpeed: 5
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -286,11 +286,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc17928f136e35f49a6e48d7625e06f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHP: 100
-  maxHP: 100
-  defense: 0
+  currentHP: 0
+  maxHP: 200
+  defense: 8
   defenseIncrease: 1
-  hpRecovery: 10
+  hpRecovery: 5
   hpRecoveryIncrease: 1
   healthBar: {fileID: 5447271597336811950}
 --- !u!1 &636726230197629118

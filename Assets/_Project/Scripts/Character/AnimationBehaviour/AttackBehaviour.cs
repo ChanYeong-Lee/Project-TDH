@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ public class AttackBehaviour : CharacterBehaviour
         {
             if (owner.attack.isAttacking)
             {
-                animator.SetTrigger("Cancel");
+                owner.attack.photonView.RPC("SetTriggerRPC", RpcTarget.All, "Cancel");
                 owner.attack.CancelAttack();
             }
         }

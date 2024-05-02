@@ -14,6 +14,9 @@ public class SkillSO : ScriptableObject
 
     [Header("¼³Á¤")]
     [Range(0.0f, 1.0f)]
+    public int priority;
+    public List<AttackEffect> attackEffects;
+    public List<BuffEffect> buffEffects;
     public float defaultPercent;
     public float defaultCooldown;
 

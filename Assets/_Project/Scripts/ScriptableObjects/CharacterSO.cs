@@ -6,8 +6,13 @@ using UnityEngine;
 public class CharacterSO : ScriptableObject
 {
     public string characterName;
-
+    
+    public AnimationClip walkingClip;
     public float defaultMoveSpeed;
+    
+    public AttackType attackType;
+    public AnimationClip attackClip;
+
 
     public float defaultDamage;
     public float defaultTrueDamagePercent;
@@ -17,4 +22,6 @@ public class CharacterSO : ScriptableObject
 
     public int defaultTargetNumber;
     public float defaultAttackArea;
+
+    public List<RevolutionData> revolutionData;
 }

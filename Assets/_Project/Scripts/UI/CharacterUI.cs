@@ -9,7 +9,7 @@ public class CharacterUI : MonoBehaviour
     private CharacterModel model;
     private Skill coolDownSkill;
 
-    public RectTransform Indicator;
+    public RectTransform indicator;
     public RectTransform mainSelected;
 
     public RectTransform coolDown;
@@ -38,7 +38,22 @@ public class CharacterUI : MonoBehaviour
 
         if (coolDownSkill != null)
         {
+            coolDown.gameObject.SetActive(true);
             coolDownFillImage.fillAmount = coolDownSkill.coolDownAmount;
         }
+    }
+
+    public void Select(bool main, bool showAttackRange = false)
+    {
+        indicator.gameObject.SetActive(true); 
+        mainSelected.gameObject.SetActive(main);
+        attackRange.gameObject.SetActive(main && showAttackRange);
+    }
+
+    public void Deselect()
+    {
+        indicator.gameObject.SetActive(false);
+        mainSelected.gameObject.SetActive(false);
+        attackRange.gameObject.SetActive(false);
     }
 }

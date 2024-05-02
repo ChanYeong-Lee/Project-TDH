@@ -13,9 +13,16 @@ MonoBehaviour:
   m_Name: TankT3_General
   m_EditorClassIdentifier: 
   characterName: "\uC7A5\uAD70"
-  defaultDamage: 5
+  walkingClip: {fileID: -203655887218126122, guid: bd6da564ed4f1124e81071af525d5090,
+    type: 3}
+  defaultMoveSpeed: 3.5
+  attackType: 1
+  attackClip: {fileID: 7400000, guid: 3558db8e6c045c3418d8e7593f8a88de, type: 3}
+  defaultDamage: 40
+  defaultTrueDamagePercent: 0.1
   defaultAttackSpeed: 1
-  defaultMoveSpeed: 2.5
-  defaultAttackRange: 4
+  defaultAttackDelay: 1
+  defaultAttackRange: 4.5
   defaultTargetNumber: 1
-  defaultAttackArea: 0
+  defaultAttackArea: 1.8
+  revolutionData: []

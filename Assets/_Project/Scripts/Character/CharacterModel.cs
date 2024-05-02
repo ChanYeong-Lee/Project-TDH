@@ -1,6 +1,5 @@
 using Photon.Pun;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -12,22 +11,22 @@ public enum CharacterType
     TankT1_Peasant      = 00,
     TankT2_Warrior      = 01,
     TankT3_Viking       = 02,
-    TankT3_General      = 03,
-    TankT3_Knight       = 04,
+    TankT3_Knight       = 03,
+    TankT3_General      = 04,
     TankT3_King         = 05,
     
     DealT1_Peasant      = 10,
     DealT2_Archer       = 11,
     DealT3_Ranger       = 12,
-    DealT3_Pirate       = 13,
+    DealT3_Captain      = 13,
     DealT3_Wizzard      = 14,
     DealT3_Hero         = 15,
  
     HealT1_Peasant      = 20,
     HealT2_Gypsy        = 21,
     HealT3_Druid        = 22,
-    HealT3_Witch        = 23,
-    HealT3_Princess     = 24,
+    HealT3_Princess     = 23,
+    HealT3_Witch        = 24,
     HealT3_Queen        = 25,
 }
 
@@ -38,10 +37,15 @@ public class CharacterModel : MonoBehaviourPun, IModel
     [HideInInspector] public CharacterMove move;
     [HideInInspector] public CharacterAttack attack;
     [HideInInspector] public CharacterSkill skill;
-    
+    [HideInInspector] public CharacterUI ui;
+
     public Action onDisable;
     public Dictionary<string, Buff> buffDictionary;
-    
+
+    [Header("상태")]
+    public Vector3Int crystals;
+    public int crystalAmount => crystals.x + crystals.y + crystals.z;
+
     [Header("설정")]
     public CharacterType type;
     public int tier;
@@ -55,16 +59,20 @@ public class CharacterModel : MonoBehaviourPun, IModel
         move = GetComponent<CharacterMove>();   
         attack = GetComponent<CharacterAttack>();
         skill = GetComponent<CharacterSkill>();
+        ui = GetComponentInChildren<CharacterUI>();
 
         buffDictionary = new Dictionary<string, Buff>();
     }
 
     private void OnEnable()
     {
+        CharacterManager.Instance.AddCharacter(this);
+
         if (photonView.IsMine)
         {
-            CharacterManager.Instance.ownCharacters.Add(this);
+            agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
             agent.avoidancePriority = 50 + (10 - tier);
+            SetStats();
         }
         else
         {
@@ -76,11 +84,9 @@ public class CharacterModel : MonoBehaviourPun, IModel
             }
 
             move.enabled = false;
-            attack.enabled = false;
             skill.enabled = false;
+            ui.gameObject.SetActive(false);
         }
-
-        CharacterManager.Instance.wholeCharacters.Add(this);
     }
 
     private void OnDisable()
@@ -93,6 +99,40 @@ public class CharacterModel : MonoBehaviourPun, IModel
         onDisable?.Invoke();    
     }
 
+    public void SetStats()
+    {
+        move.SetMoveStats(defaultStat);
+        attack.SetAttackStats(defaultStat);
+        skill.SetSkillStats();
+    }
+
+    public void SetGenerationCrystals(Vector3Int crystals)
+    {
+        attack.AddCrystal(crystals);
+        move.AddCrystal(crystals);
+        skill.AddCrystal(crystals);
+    }
+
+    public void AddCrystals(Vector3Int crystals)
+    {
+        this.crystals += crystals;
+
+        attack.AddCrystal(crystals);
+        move.AddCrystal(crystals);
+        skill.AddCrystal(crystals);
+
+        foreach (RevolutionData revolutionDatum in defaultStat.revolutionData)
+        {
+            if (crystalAmount >= revolutionDatum.needCrystalAmount)
+            {
+                if (revolutionDatum.CheckRevolutionable(this.crystals))
+                {
+                    CharacterManager.Instance.UpgradeCharacter(this, revolutionDatum.revolutionTarget);
+                }
+            }
+        }
+    }
+
     [PunRPC]
     public void AddBuff(int casterId, string buffName, BuffType buffType, StatType statType, float increaseAmount, float limitTime)
     {
@@ -103,7 +143,8 @@ public class CharacterModel : MonoBehaviourPun, IModel
 
         if (buffDictionary.ContainsKey(buffName))
         {
-            return;
+            buffDictionary[buffName].Deactivate();
+            StopCoroutine(buffDictionary[buffName].buffCoroutine);
         }
 
         Buff newBuff = new Buff();
@@ -115,13 +156,15 @@ public class CharacterModel : MonoBehaviourPun, IModel
         }
 
         newBuff.SetBuff(caster, this, buffName, buffType, statType, increaseAmount, limitTime);
+        buffDictionary[buffName] = newBuff;
+
         switch (buffType)
         {
             case BuffType.Permanant:
                 newBuff.Activate();
                 break;
             case BuffType.Limit:
-                StartCoroutine(newBuff.BuffCoroutine());
+                newBuff.buffCoroutine = StartCoroutine(newBuff.BuffCoroutine());
                 break;
         }
     }
@@ -136,7 +179,8 @@ public class CharacterModel : MonoBehaviourPun, IModel
 
         if (buffDictionary.ContainsKey(buffName))
         {
-            return;
+            buffDictionary[buffName].Deactivate();
+            StopCoroutine(buffDictionary[buffName].buffCoroutine);
         }
 
         Buff newBuff = new Buff();
@@ -148,13 +192,15 @@ public class CharacterModel : MonoBehaviourPun, IModel
         }
 
         newBuff.SetBuff(caster, this, buffName, buffType, statType, integerIncreaseAmount, limitTime);
+        buffDictionary[buffName] = newBuff;
+
         switch (buffType)
         {
             case BuffType.Permanant:
                 newBuff.Activate();
                 break;
             case BuffType.Limit:
-                StartCoroutine(newBuff.BuffCoroutine());
+                newBuff.buffCoroutine = StartCoroutine(newBuff.BuffCoroutine());
                 break;
         }
     }

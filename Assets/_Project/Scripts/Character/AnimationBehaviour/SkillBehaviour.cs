@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +11,9 @@ public class SkillBehaviour : CharacterBehaviour
         {
             if (owner.skill.isCasting)
             {
-                animator.SetTrigger("Cancel");
+                owner.attack.photonView.RPC("SetTriggerRPC", RpcTarget.All, "Cancel");
                 owner.skill.CancelSkill();
+                owner.attack.CancelAttack();
             }
         }
     }
@@ -33,6 +35,7 @@ public class SkillBehaviour : CharacterBehaviour
         if (owner.skill.isCasting)
         {
             owner.skill.CancelSkill();
+            owner.attack.CancelAttack();
         }
     }
 }

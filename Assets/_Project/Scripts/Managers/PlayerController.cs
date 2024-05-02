@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class PlayerController : MonoBehaviour
 
     public PlayerInput input;
     public List<CharacterModel> characters; // 현재 선택된 캐릭터들
+    public CharacterModel mainCharacter;
+    public bool showAttackRange;
 
     private void Awake()
     {
@@ -27,8 +30,16 @@ public class PlayerController : MonoBehaviour
     public void AddCharacter(CharacterModel character)
     {
         // 명령을 내릴 캐릭터를 추가합니다.
+        if (mainCharacter != null)
+        {
+            mainCharacter.ui.Select(false);
+        }
 
+        character.agent.obstacleAvoidanceType = ObstacleAvoidanceType.LowQualityObstacleAvoidance;
         characters.Add(character);
+
+        mainCharacter = character;
+        character.ui.Select(true, showAttackRange);
     }
 
     public void ResetCharacter()
@@ -38,8 +49,21 @@ public class PlayerController : MonoBehaviour
         foreach (CharacterModel character in characters)
         {
             character.move.Move(Vector3.zero);
+            character.agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
+            character.ui.Deselect();
         }
 
         characters.Clear();
+        mainCharacter = null;
+    }
+
+    public void SetShowAttackRange()
+    {
+        showAttackRange = showAttackRange == false;
+
+        if (mainCharacter != null)
+        {
+            mainCharacter.ui.Select(true, showAttackRange);
+        }
     }
 }

@@ -8,15 +8,22 @@ public class LocomotionBehaviour : CharacterBehaviour
     {
         if (animator.GetBool("TryMove") == false)
         {
-            if (owner.attack.canAttack)
+            if (owner.skill.CheckNonTargetCooldownSkill(out Skill readyNonTargetSkill))
             {
-                if (owner.skill.CheckTargetCooldownSkill(out Skill readySkill))
+                owner.attack.StartSkill();
+                owner.skill.StartSkill(readyNonTargetSkill);
+            }
+            else if (owner.attack.canAttack)
+            {
+                if (owner.skill.CheckTargetCooldownSkill(out Skill readyTargetSkill))
                 {
-                    owner.skill.StartSkill(readySkill);
+                    owner.attack.StartSkill();
+                    owner.skill.StartSkill(readyTargetSkill);
                 }
-                else if (owner.skill.CheckAttackSkill(out Skill activatedSkill))
+                else if (owner.skill.CheckAttackSkill(out Skill activatedAttackSkill))
                 {
-                    owner.skill.StartSkill(activatedSkill);
+                    owner.attack.StartSkill();
+                    owner.skill.StartSkill(activatedAttackSkill);
                 }
                 else
                 {

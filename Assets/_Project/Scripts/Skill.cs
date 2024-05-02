@@ -20,15 +20,13 @@ public enum TargetType
     Enemy,
     AllAlly,
     StrongestAlly,
+    Self
 }
 
 public class Skill : MonoBehaviour
 {
     [Header("설정")]
     public SkillSO defaultStat;
-    public int priority;
-    public List<AttackEffect> attackEffects;
-    public List<BuffEffect> buffEffects;    
 
     [Header("상태")]
     public bool isReady;
@@ -44,6 +42,7 @@ public class Skill : MonoBehaviour
         }
     }
 
+    public float applyPercentage => Mathf.Clamp(percentage + percentageIncrease, 0.0f, 1.0f);
     public float percentage;
     public float percentageIncrease;
 
@@ -127,6 +126,8 @@ public class Skill : MonoBehaviour
 
             case TargetType.StrongestAlly:
                 return allyTargets[0].transform;
+            case TargetType.Self:
+                return owner.transform; 
         }
         return null;
     }
@@ -139,12 +140,12 @@ public class Skill : MonoBehaviour
 
     public void OnSkill(CharacterSkill owner)
     {
-        foreach (AttackEffect attackEffect in attackEffects)
+        foreach (AttackEffect attackEffect in defaultStat.attackEffects)
         {
             attackEffect.Execute(owner, enemyTargets);
         }
 
-        foreach (BuffEffect buffEffect in buffEffects)
+        foreach (BuffEffect buffEffect in defaultStat.buffEffects)
         {
             buffEffect.Execute(owner, allyTargets, enemyTargets);
         }
