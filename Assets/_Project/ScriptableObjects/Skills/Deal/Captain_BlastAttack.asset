@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c367a3212d781a4bb041dd0cef36970, type: 3}
+  m_Name: Captain_BlastAttack
+  m_EditorClassIdentifier: 
+  skillName: "\uD3ED\uD0C4 \uC138\uB840"
+  description: "\uBC94\uC704\uC758 \uC801\uB4E4\uC744 \uACF5\uACA9\uD569\uB2C8\uB2E4.
+    \uACF5\uACA9\uC5D0 \uC801\uC911\uD55C \uC801\uC740 \uBC29\uC5B4\uB825\uC774 \uAC10\uC18C\uD569\uB2C8\uB2E4."
+  skillType: 3
+  mainTargetType: 0
+  priority: 0
+  attackEffects: []
+  buffEffects: []
+  defaultPercent: 0.15
+  defaultCooldown: 0
+  triggerName: Skill1
+  skillSpeed: 1.2
+  skillClip: {fileID: 7400000, guid: fcaee7dea2aed644bb92287a55a72963, type: 2}

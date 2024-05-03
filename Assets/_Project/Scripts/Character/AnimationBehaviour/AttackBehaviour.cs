@@ -19,7 +19,7 @@ public class AttackBehaviour : CharacterBehaviour
 
     public override void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (owner.attack.mainTarget != null && owner.attack.mainTarget.gameObject.activeSelf)
+        if (owner.attack.mainTarget != null && owner.attack.mainTarget.gameObject.activeSelf && owner.attack.isAttacking)
         {
             Vector3 direction = owner.attack.mainTarget.transform.position - owner.transform.position;
             direction.y = 0.0f;

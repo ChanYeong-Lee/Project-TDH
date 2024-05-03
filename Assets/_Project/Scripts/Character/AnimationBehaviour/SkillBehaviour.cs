@@ -20,7 +20,7 @@ public class SkillBehaviour : CharacterBehaviour
 
     public override void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (owner.skill.mainTarget != null && owner.skill.mainTarget.gameObject.activeSelf)
+        if (owner.skill.mainTarget != null && owner.skill.mainTarget.gameObject.activeSelf && owner.skill.isCasting)
         {
             Vector3 direction = owner.skill.mainTarget.transform.position - owner.transform.position;
             direction.y = 0.0f;

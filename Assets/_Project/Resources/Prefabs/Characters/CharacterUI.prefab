@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 5438339027706873265}
   - component: {fileID: 1848424019152034735}
   - component: {fileID: 7935739131493753962}
-  - component: {fileID: 4621435431850953923}
+  - component: {fileID: 6586432376398583256}
   m_Layer: 5
   m_Name: CharacterUI
   m_TagString: Untagged
@@ -441,7 +441,7 @@ MonoBehaviour:
   coolDown: {fileID: 3136924913667435012}
   coolDownFillImage: {fileID: 4492394744618015615}
   attackRange: {fileID: 5788270648652124177}
---- !u!114 &4621435431850953923
+--- !u!114 &6586432376398583256
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -59,7 +59,8 @@ public class CharacterModel : MonoBehaviourPun, IModel
         move = GetComponent<CharacterMove>();   
         attack = GetComponent<CharacterAttack>();
         skill = GetComponent<CharacterSkill>();
-        ui = GetComponentInChildren<CharacterUI>();
+        ui = Instantiate(Resources.Load<CharacterUI>("Prefabs/Characters/CharacterUI"), transform);
+        //ui = GetComponentInChildren<CharacterUI>();
 
         buffDictionary = new Dictionary<string, Buff>();
     }

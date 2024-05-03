@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: TankT3_King
   m_EditorClassIdentifier: 
   characterName: "\uC655"
-  walkingClip: {fileID: -203655887218126122, guid: bd6da564ed4f1124e81071af525d5090,
+  walkingClip: {fileID: -203655887218126122, guid: 78e7b38bd790cb44ba2e06728ef98f38,
     type: 3}
   defaultMoveSpeed: 3.5
   attackType: 1
-  attackClip: {fileID: 7400000, guid: 3558db8e6c045c3418d8e7593f8a88de, type: 3}
+  attackClip: {fileID: 7400000, guid: ab42d20068f31124c990198ae75c2d9a, type: 3}
   defaultDamage: 35
   defaultTrueDamagePercent: 0.1
   defaultAttackSpeed: 1

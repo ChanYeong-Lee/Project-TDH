@@ -25,6 +25,15 @@ public class CharacterUI : MonoBehaviour
     private void Start()
     {
         coolDownSkill = model.skill.skills.Find((skill) => skill.defaultStat.skillType == SkillType.NonTargetCooldown);
+        if (coolDownSkill == null)
+        {
+            coolDownSkill = model.skill.skills.Find((skill) => skill.defaultStat.skillType == SkillType.TargetCooldown);
+        }
+
+        if (coolDownSkill == null)
+        {
+            coolDown.gameObject.SetActive(false);
+        }
     }
 
     private void Update()
@@ -34,7 +43,10 @@ public class CharacterUI : MonoBehaviour
             return;
         }
 
-        attackRange.localScale = model.attack.attackRange * model.attack.attackRangeIncrease * Vector3.one;
+        if (attackRange.gameObject.activeSelf)
+        {
+            attackRange.localScale = model.attack.attackRange * model.attack.attackRangeIncrease * Vector3.one;
+        }
 
         if (coolDownSkill != null)
         {
@@ -57,3 +69,4 @@ public class CharacterUI : MonoBehaviour
         attackRange.gameObject.SetActive(false);
     }
 }
+

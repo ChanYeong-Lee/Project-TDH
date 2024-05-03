@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c367a3212d781a4bb041dd0cef36970, type: 3}
+  m_Name: Wizard_ColdAura
+  m_EditorClassIdentifier: 
+  skillName: "\uD55C\uAE30"
+  description: "\uC8FC\uBCC0\uC758 \uC801\uC758 \uC774\uB3D9\uC18D\uB3C4\uAC00 \uAC10\uC18C\uD569\uB2C8\uB2E4."
+  skillType: 3
+  mainTargetType: 0
+  priority: 0
+  attackEffects: []
+  buffEffects: []
+  defaultPercent: 0.15
+  defaultCooldown: 0
+  triggerName: Skill1
+  skillSpeed: 1.2
+  skillClip: {fileID: 7400000, guid: fcaee7dea2aed644bb92287a55a72963, type: 2}

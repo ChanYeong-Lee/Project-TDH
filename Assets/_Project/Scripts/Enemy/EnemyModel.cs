@@ -71,7 +71,8 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
     {
         if (buffDictionary.ContainsKey(buffName))
         {
-            return;
+            buffDictionary[buffName].Deactivate();
+            StopCoroutine(buffDictionary[buffName].buffCoroutine);
         }
 
         Buff newBuff = new Buff();
@@ -83,13 +84,15 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
         }
 
         newBuff.SetBuff(caster, this, buffName, buffType, statType, increaseAmount, limitTime);
+        buffDictionary[buffName] = newBuff;
+
         switch (buffType)
         {
             case BuffType.Permanant:
                 newBuff.Activate();
                 break;
             case BuffType.Limit:
-                StartCoroutine(newBuff.BuffCoroutine());
+                newBuff.buffCoroutine = StartCoroutine(newBuff.BuffCoroutine());
                 break;
         }
     }

@@ -149,6 +149,7 @@ public class Skill : MonoBehaviour
         {
             buffEffect.Execute(owner, allyTargets, enemyTargets);
         }
+        print($"{defaultStat.skillName}!\n{defaultStat.description}"); 
     }
 
     public void CancelSkill()

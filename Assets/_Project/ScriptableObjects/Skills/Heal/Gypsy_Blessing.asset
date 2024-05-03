@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c367a3212d781a4bb041dd0cef36970, type: 3}
+  m_Name: Gypsy_Blessing
+  m_EditorClassIdentifier: 
+  skillName: "\uCD95\uBCF5"
+  description: "\uAC00\uC7A5 \uAC15\uB825\uD55C \uC544\uAD70\uC758 \uACF5\uACA9\uB825\uC744
+    \uC99D\uAC00\uC2DC\uD0B5\uB2C8\uB2E4."
+  skillType: 0
+  mainTargetType: 0
+  priority: 0
+  attackEffects:
+  - attackType: 1
+    fixedDamage: 20
+    relativeDamagePercent: 0
+    targetNumber: 0
+    attackArea: 3
+  buffEffects:
+  - buffName: "\uC774\uB3D9\uC18D\uB3C4 \uAC10\uC18C"
+    attackType: 1
+    targetType: 0
+    buffType: 1
+    statType: 0
+    increaseAmount: -0.5
+    integerIncreaseAmount: 0
+    limitTime: 8
+    targetNumber: 0
+    attackArea: 3
+  defaultPercent: 0
+  defaultCooldown: 10
+  triggerName: Skill1
+  skillSpeed: 2.4
+  skillClip: {fileID: -203655887218126122, guid: cbe05d373e07bf44c96d21da872be9b6,
+    type: 3}

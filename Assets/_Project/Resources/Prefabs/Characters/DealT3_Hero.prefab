@@ -1828,6 +1828,7 @@ MonoBehaviour:
   move: {fileID: 0}
   attack: {fileID: 0}
   skill: {fileID: 0}
+  ui: {fileID: 0}
   crystals: {x: 0, y: 0, z: 0}
   type: 15
   tier: 3

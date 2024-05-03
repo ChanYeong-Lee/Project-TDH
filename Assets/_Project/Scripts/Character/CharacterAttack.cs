@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public enum AttackType
 {
@@ -50,6 +51,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
     public float attackAreaIncrease = 1.0f;
 
     public EnemyModel mainTarget;
+    [HideInInspector]
     public List<EnemyModel> targets;
 
     private bool attackPrepared;
@@ -143,8 +145,14 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
         photonView.RPC("SetTriggerRPC", RpcTarget.All, "Attack");
 
         List<Target> targetInfo = new List<Target>();
-        foreach (EnemyModel enemy in EnemyManager.Instance.enemies)
+        for(int i = 0; i<EnemyManager.Instance.enemies.Count; i++)
         {
+            EnemyModel enemy = EnemyManager.Instance.enemies[i];
+            if (enemy == null || enemy.gameObject.activeSelf == false)
+            {
+                continue;
+            }
+
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
             if (distance < applyAttackRange)
             {
@@ -184,9 +192,14 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
         float trueDamage = applyDamage * applyTrueDamagePercent;
         float normalDamage = applyDamage - trueDamage;
 
-        targetNumber = Mathf.Clamp(applyTargetNumber, 0, targets.Count);
+        int targetNumber = Mathf.Clamp(applyTargetNumber, 0, targets.Count);
         for (int i = 0; i < targetNumber; i++)
         {
+            if (targets[i] == null || targets[i].gameObject.activeSelf == false)
+            {
+                continue;
+            }
+
             targets[i].health.photonView.RPC("TakeHitRPC", RpcTarget.All, normalDamage, trueDamage);
         }
     }
@@ -208,6 +221,12 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
             if (collider.tag == "Enemy")
             {
                 EnemyModel enemy = collider.GetComponent<EnemyModel>();
+
+                if (enemy == null || enemy.gameObject.activeSelf == false)
+                {
+                    continue;
+                }
+
                 enemy.health.photonView.RPC("TakeHitRPC", RpcTarget.All, normalDamage, trueDamage);
             }
         }
@@ -215,7 +234,8 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
 
     public void OnAttack(AnimationEvent animationEvent)
     {
-        if (animationEvent.animatorClipInfo.weight < 0.9f)
+        print("ATTACK!");
+        if (animationEvent.animatorClipInfo.weight < 0.8f)
         {
             return;
         }
