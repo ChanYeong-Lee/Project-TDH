@@ -8,7 +8,8 @@ public class EnemyHealth : MonoBehaviourPun
 {
     public float currentHP;
     public float maxHP;
-    
+
+    public float applyDefense => defense + defenseIncrease;
     public float defense;
     public float defenseIncrease;
 
@@ -56,12 +57,13 @@ public class EnemyHealth : MonoBehaviourPun
         {
             return;
         }
-        float defenseAmount = defense * defenseIncrease;
-        float damage = normalDamage - defenseAmount + trueDamage;
-        
+
+        float applyNormalDamage = Mathf.Clamp((normalDamage - applyDefense), 0.0f, Mathf.Infinity);
+        float damage = Mathf.Clamp(applyNormalDamage + trueDamage, 0.0f, Mathf.Infinity);
+
         currentHP -= damage;
 
-        print($"데미지를 {damage}만큼 입었습니다.");
+        print($"데미지를 normal = {applyNormalDamage}, true = {trueDamage} => damage = {damage} 만큼 입었습니다.");
 
         if (currentHP <= 0)
         {

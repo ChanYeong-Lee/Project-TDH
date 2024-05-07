@@ -28,6 +28,7 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
     private void OnDisable()
     {
         EnemyManager.Instance.enemies.Remove(this);
+        buffDictionary.Clear();
     }
 
     private void Update()
@@ -69,10 +70,15 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
     [PunRPC]
     public void AddBuff(int casterId, string buffName, BuffType buffType, StatType statType, float increaseAmount, float limitTime)
     {
+        if (gameObject.activeSelf == false)
+        {
+            return;
+        }
+
         if (buffDictionary.ContainsKey(buffName))
         {
-            buffDictionary[buffName].Deactivate();
             StopCoroutine(buffDictionary[buffName].buffCoroutine);
+            buffDictionary[buffName].Deactivate();
         }
 
         Buff newBuff = new Buff();
@@ -100,7 +106,7 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
     [PunRPC]
     public void RemoveBuff(string buffName)
     {
-        if (photonView.IsMine == false)
+        if (gameObject.activeSelf == false)
         {
             return;
         }

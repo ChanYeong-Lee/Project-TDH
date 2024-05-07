@@ -19,10 +19,30 @@ MonoBehaviour:
   skillType: 3
   mainTargetType: 0
   priority: 0
-  attackEffects: []
-  buffEffects: []
+  attackEffects:
+  - attackType: 0
+    projectilePrefab: {fileID: 3040857776797610877, guid: 60cf1f4818185fa46879eed295ff45f8,
+      type: 3}
+    fixedDamage: 0
+    relativeDamagePercent: 1.5
+    targetNumber: 4
+    attackArea: 0
+  buffEffects:
+  - buffName: Ranger_Stun
+    attackType: 0
+    targetType: 0
+    buffType: 0
+    statType: 0
+    increaseAmount: -1
+    integerIncreaseAmount: 0
+    limitTime: 1
+    targetNumber: 4
+    attackArea: 0
+    allyTargets: []
+    enemyTargets: []
   defaultPercent: 0.15
   defaultCooldown: 0
   triggerName: Skill1
   skillSpeed: 1.2
-  skillClip: {fileID: 7400000, guid: fcaee7dea2aed644bb92287a55a72963, type: 2}
+  skillClip: {fileID: -203655887218126122, guid: 59026dfbe6107534e94323e6d09afa0d,
+    type: 3}

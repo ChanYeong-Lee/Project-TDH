@@ -415,7 +415,7 @@ MonoBehaviour:
   currentHP: 0
   maxHP: 10000
   defense: 15
-  defenseIncrease: 1
+  defenseIncrease: 0
   hpRecovery: 25
   hpRecoveryIncrease: 1
   healthBar: {fileID: 465570772253203036}

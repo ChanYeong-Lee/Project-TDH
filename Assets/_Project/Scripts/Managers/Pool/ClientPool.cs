@@ -16,7 +16,7 @@ public class ClientPool
         this.parent = parent;
     }
 
-    public GameObject Spawn(GameObject prefab, Vector2 position, Quaternion rotation)
+    public GameObject Spawn(GameObject prefab, Vector3 position, Quaternion rotation)
     {
         string prefabName = prefab.name;
         
@@ -27,9 +27,10 @@ public class ClientPool
 
         GameObject instance = poolDictionary[prefabName].Get();
         
-        instance.transform.parent = parent;
+        //instance.transform.parent = parent;
         instance.transform.position = position;
         instance.transform.rotation = rotation;
+        instance.SetActive(true);
 
         return instance;
     }
@@ -55,7 +56,7 @@ public class ClientPool
         }
 
         instance.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-
+        instance.SetActive(true);
         return instance;
     }
 
@@ -66,12 +67,9 @@ public class ClientPool
             {
                 GameObject obj = UnityEngine.Object.Instantiate(prefab);
                 obj.gameObject.name = prefabName;
+                obj.gameObject.SetActive(false);
 
                 return obj;
-            },
-            actionOnGet: (GameObject obj) =>
-            {
-                obj.gameObject.SetActive(true);
             },
             actionOnRelease: (GameObject obj) =>
             {
@@ -87,7 +85,7 @@ public class ClientPool
 
     public void Despawn(GameObject gameObject)
     {
-        string objectName = gameObject.gameObject.name;
+        string objectName = gameObject.name;
         if (poolDictionary.ContainsKey(objectName))
         {
             poolDictionary[objectName].Release(gameObject);

@@ -16,12 +16,32 @@ MonoBehaviour:
   description: "\uBC94\uC704 \uB0B4\uC758 \uC544\uAD70\uC758 \uACF5\uACA9\uB825\uACFC
     \uACF5\uACA9 \uC18D\uB3C4\uAC00 \uC99D\uAC00\uD569\uB2C8\uB2E4."
   skillType: 0
-  mainTargetType: 0
+  mainTargetType: 1
   priority: 0
   attackEffects: []
-  buffEffects: []
-  defaultPercent: 0.15
+  buffEffects:
+  - buffName: Hero_IncreaseDamage
+    attackType: 1
+    targetType: 1
+    buffType: 0
+    statType: 1
+    increaseAmount: 0.1
+    integerIncreaseAmount: 0
+    limitTime: 0
+    targetNumber: 0
+    attackArea: 3
+  - buffName: Hero_IncreaseAttackDelay
+    attackType: 1
+    targetType: 1
+    buffType: 0
+    statType: 3
+    increaseAmount: 0.1
+    integerIncreaseAmount: 0
+    limitTime: 0
+    targetNumber: 0
+    attackArea: 3
+  defaultPercent: 0
   defaultCooldown: 0
-  triggerName: Skill1
-  skillSpeed: 1.2
-  skillClip: {fileID: 7400000, guid: fcaee7dea2aed644bb92287a55a72963, type: 2}
+  triggerName: 
+  skillSpeed: 0
+  skillClip: {fileID: 0}

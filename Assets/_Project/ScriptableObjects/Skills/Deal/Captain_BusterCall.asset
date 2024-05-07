@@ -15,13 +15,33 @@ MonoBehaviour:
   skillName: "\uBC84\uC2A4\uD130\uCF5C"
   description: "\uC8FC\uBCC0 \uC544\uAD70\uB4E4\uC758 \uACF5\uACA9\uB825\uACFC \uACF5\uACA9
     \uC18D\uB3C4\uB97C \uC99D\uAC00\uC2DC\uD0B5\uB2C8\uB2E4."
-  skillType: 3
-  mainTargetType: 0
+  skillType: 2
+  mainTargetType: 1
   priority: 0
   attackEffects: []
-  buffEffects: []
-  defaultPercent: 0.15
-  defaultCooldown: 0
-  triggerName: Skill1
+  buffEffects:
+  - buffName: Captain_IncreaseDamage
+    attackType: 1
+    targetType: 1
+    buffType: 1
+    statType: 1
+    increaseAmount: 0.1
+    integerIncreaseAmount: 0
+    limitTime: 8
+    targetNumber: 0
+    attackArea: 3
+  - buffName: Captain_IncreaseAttackDelay
+    attackType: 1
+    targetType: 1
+    buffType: 1
+    statType: 3
+    increaseAmount: 0.1
+    integerIncreaseAmount: 0
+    limitTime: 8
+    targetNumber: 0
+    attackArea: 3
+  defaultPercent: 0
+  defaultCooldown: 15
+  triggerName: Skill2
   skillSpeed: 1.2
-  skillClip: {fileID: 7400000, guid: fcaee7dea2aed644bb92287a55a72963, type: 2}
+  skillClip: {fileID: 7400000, guid: 7167fb5a29ae66143a722b3ba5d5c519, type: 2}

@@ -13,6 +13,7 @@ public class CharacterSO : ScriptableObject
     public AttackType attackType;
     public AnimationClip attackClip;
 
+    public Projectile projectilePrefab;
 
     public float defaultDamage;
     public float defaultTrueDamagePercent;

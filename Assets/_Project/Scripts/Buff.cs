@@ -90,16 +90,13 @@ public class Buff
         Activate();
         yield return new WaitForSeconds(this.limitTime);
         Deactivate();
+        buffCoroutine = null;
     }
 
     public void Activate()
     {
         if (allyTarget != null)
         {
-            if (allyTarget.buffDictionary.ContainsKey(buffName))
-            {
-                allyTarget.buffDictionary[buffName].Deactivate();
-            }
             switch (statType)
             {
                 case StatType.MoveSpeed:

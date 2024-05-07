@@ -144,8 +144,8 @@ public class CharacterModel : MonoBehaviourPun, IModel
 
         if (buffDictionary.ContainsKey(buffName))
         {
-            buffDictionary[buffName].Deactivate();
             StopCoroutine(buffDictionary[buffName].buffCoroutine);
+            buffDictionary[buffName].Deactivate();
         }
 
         Buff newBuff = new Buff();
@@ -180,8 +180,8 @@ public class CharacterModel : MonoBehaviourPun, IModel
 
         if (buffDictionary.ContainsKey(buffName))
         {
-            buffDictionary[buffName].Deactivate();
             StopCoroutine(buffDictionary[buffName].buffCoroutine);
+            buffDictionary[buffName].Deactivate();
         }
 
         Buff newBuff = new Buff();

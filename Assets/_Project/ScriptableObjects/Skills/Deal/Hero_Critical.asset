@@ -16,13 +16,30 @@ MonoBehaviour:
   description: "\uC801\uC758 \uAE09\uC18C\uB97C \uACF5\uACA9\uD569\uB2C8\uB2E4. \uACF5\uACA9\uC5D0
     \uC801\uC911\uD55C \uC801\uC740 1.5\uCD08 \uB3D9\uC548 \uAE30\uC808 \uC0C1\uD0DC\uAC00
     \uB429\uB2C8\uB2E4."
-  skillType: 0
+  skillType: 3
   mainTargetType: 0
   priority: 0
-  attackEffects: []
-  buffEffects: []
+  attackEffects:
+  - attackType: 0
+    projectilePrefab: {fileID: 0}
+    fixedDamage: 0
+    relativeDamagePercent: 1.5
+    targetNumber: 3
+    attackArea: 0
+  buffEffects:
+  - buffName: Hero_Stun
+    attackType: 0
+    targetType: 0
+    buffType: 1
+    statType: 0
+    increaseAmount: -1
+    integerIncreaseAmount: 0
+    limitTime: 1.5
+    targetNumber: 3
+    attackArea: 0
   defaultPercent: 0.15
   defaultCooldown: 0
   triggerName: Skill1
   skillSpeed: 1.2
-  skillClip: {fileID: 7400000, guid: fcaee7dea2aed644bb92287a55a72963, type: 2}
+  skillClip: {fileID: -203655887218126122, guid: 59026dfbe6107534e94323e6d09afa0d,
+    type: 3}

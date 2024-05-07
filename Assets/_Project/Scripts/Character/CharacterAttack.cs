@@ -12,13 +12,17 @@ public enum AttackType
 
 public class CharacterAttack : MonoBehaviourPun, IPunObservable
 {
+    private const string projectilePath = "Prefabs/Projectiles/";
     private Animator animator;
     private CharacterSkill skill;
+
+    public Transform shotPoint;
 
     [Header("상태")]
     public AttackType attackType;
     public AnimationClip attackClip;
-    
+    public Projectile projectilePrefab;
+
     public bool canAttack;
     public bool isAttacking;
 
@@ -30,7 +34,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
     public float trueDamagePercent;
     public float trueDamagePercentIncrease;
 
-    public float applyAttackSpeed  => Mathf.Clamp(attackSpeed, 0.1f, applyAttackDelay); // 한 공격이 끝마치는데 걸리는 시간
+    public float applyAttackSpeed => Mathf.Clamp(attackSpeed, 0.1f, applyAttackDelay + 0.1f); // 한 공격이 끝마치는데 걸리는 시간
     public float attackSpeed; // 기본 공격 속도
 
     public float applyAttackDelay => Mathf.Clamp(attackDelay / Mathf.Clamp(attackDelayIncrease, 0.1f, attackDelayIncrease), 0.1f, attackDelay / Mathf.Clamp(attackDelayIncrease, 0.1f, attackDelayIncrease));
@@ -56,7 +60,6 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
 
     private bool attackPrepared;
     private bool haveTarget;
-    private bool skillCasting;
 
     private void Awake()
     {
@@ -92,15 +95,14 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
             }
         }
 
-        skillCasting = skill.isCasting;
-
-        canAttack = attackPrepared && haveTarget && (skillCasting == false);
+        canAttack = attackPrepared && haveTarget;
     }
 
     public void SetAttackStats(CharacterSO defaultStat)
     {
         this.attackType = defaultStat.attackType;
         this.attackClip = defaultStat.attackClip;
+        this.projectilePrefab = defaultStat.projectilePrefab;
 
         this.damage = defaultStat.defaultDamage;
         this.attackDelay = defaultStat.defaultAttackDelay;
@@ -145,7 +147,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
         photonView.RPC("SetTriggerRPC", RpcTarget.All, "Attack");
 
         List<Target> targetInfo = new List<Target>();
-        for(int i = 0; i<EnemyManager.Instance.enemies.Count; i++)
+        for (int i = 0; i < EnemyManager.Instance.enemies.Count; i++)
         {
             EnemyModel enemy = EnemyManager.Instance.enemies[i];
             if (enemy == null || enemy.gameObject.activeSelf == false)
@@ -173,9 +175,6 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
         }
     }
 
-    
-
-
     public void CancelAttack()
     {
         attackDelayDelta = 0.1f;
@@ -189,8 +188,8 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
             return;
         }
 
+        float normalDamage = applyDamage;
         float trueDamage = applyDamage * applyTrueDamagePercent;
-        float normalDamage = applyDamage - trueDamage;
 
         int targetNumber = Mathf.Clamp(applyTargetNumber, 0, targets.Count);
         for (int i = 0; i < targetNumber; i++)
@@ -200,10 +199,21 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
                 continue;
             }
 
+            if (projectilePrefab != null)
+            {
+                Vector3 spawnPosition = shotPoint.position;
+                Quaternion spawnRotation = shotPoint.rotation;
+
+                int targetViewID = targets[i].photonView.ViewID;
+                Vector3 destination = targets[i].transform.position + Vector3.up;
+
+                photonView.RPC("ShotProjectileRPC", RpcTarget.All, projectilePrefab.name, spawnPosition, spawnRotation, targetViewID, destination);
+            }
+
             targets[i].health.photonView.RPC("TakeHitRPC", RpcTarget.All, normalDamage, trueDamage);
         }
     }
-    
+
     private void AreaAttack() // 범위 공격
     {
         if (mainTarget == null)
@@ -216,7 +226,19 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
 
         Collider[] contectedColliders = Physics.OverlapSphere(mainTarget.transform.position, applyAttackArea);
 
-        foreach (Collider collider in contectedColliders)
+        if (projectilePrefab != null)
+        {
+            Vector3 spawnPosition = shotPoint.position;
+            Quaternion spawnRotation = shotPoint.rotation;
+
+            int targetViewID = mainTarget.photonView.ViewID;
+
+            Vector3 destination = mainTarget.transform.position + Vector3.up;
+
+            photonView.RPC("ShotProjectileRPC", RpcTarget.All, projectilePrefab.name, spawnPosition, spawnRotation, targetViewID, destination);
+        }
+
+        foreach (Collider collider in contectedColliders)   
         {
             if (collider.tag == "Enemy")
             {
@@ -262,6 +284,21 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
     public void SetTriggerRPC(string triggerName)
     {
         animator.SetTrigger(triggerName);
+    }
+
+    [PunRPC]
+    public void ShotProjectileRPC(string prefabName, Vector3 spawnPosition, Quaternion spawnRotation, int targetViewID, Vector3 destination)
+    {
+        Projectile projectilePrefab = Resources.Load<Projectile>(projectilePath + prefabName);
+        Projectile projectileInstance = PoolManager.Instance.clientPool.Spawn(projectilePrefab.gameObject, spawnPosition, spawnRotation).GetComponent<Projectile>();
+
+        EnemyModel target = EnemyManager.Instance.enemies.Find((model) => model.photonView.ViewID == targetViewID);
+
+        if (target != null)
+        {
+            projectileInstance.target = target.transform;
+            projectileInstance.destination = destination;
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

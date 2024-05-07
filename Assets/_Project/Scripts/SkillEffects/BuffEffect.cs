@@ -21,6 +21,10 @@ public class BuffEffect
     public int targetNumber;
     public float attackArea;
 
+    public List<CharacterModel> allyTargets;
+    public List<EnemyModel> enemyTargets;
+
+
     public void Execute(CharacterSkill owner, List<CharacterModel> allyTargets, List<EnemyModel> enemyTargets)
     {
         switch (attackType)

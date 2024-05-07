@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CharacterSkill : MonoBehaviourPun
 {
+    private const string projectilePath = "Prefabs/Projectiles/";
     private Animator animator;
     [HideInInspector] public CharacterAttack attack;
     [HideInInspector] public Transform skillParent;
@@ -43,7 +44,7 @@ public class CharacterSkill : MonoBehaviourPun
 
             if (skill.defaultStat.skillType == SkillType.Always)
             {
-                foreach (BuffEffect buff in skill.defaultStat.buffEffects)
+                foreach (BuffEffect buff in skill.buffEffects)
                 {
                     switch (buff.attackType)
                     {
@@ -55,9 +56,9 @@ public class CharacterSkill : MonoBehaviourPun
                                 case TargetType.AllAlly:
                                     foreach (CharacterModel model in CharacterManager.Instance.wholeCharacters)
                                     {
-                                        if (skill.allyTargets.Contains(model) == false)
+                                        if (buff.allyTargets.Contains(model) == false)
                                         {
-                                            skill.allyTargets.Add(model);
+                                            buff.allyTargets.Add(model);
                                             buff.ApplyBuff(this, model);
                                         }
                                     }
@@ -65,21 +66,21 @@ public class CharacterSkill : MonoBehaviourPun
                                 case TargetType.StrongestAlly:
                                     int allyTargetNumber = Mathf.Clamp(buff.targetNumber + attack.targetNumberIncrease, 0, CharacterManager.Instance.wholeCharacters.Count);
                                     List<CharacterModel> strongestModels = CharacterManager.Instance.wholeCharacters.OrderByDescending((model) => (model.attack.applyDamage)).ToList();
-                                    if (skill.allyTargets.Count >= allyTargetNumber)
+                                    if (buff.allyTargets.Count >= allyTargetNumber)
                                     {
-                                        while (skill.allyTargets.Count < allyTargetNumber)
+                                        while (buff.allyTargets.Count < allyTargetNumber)
                                         {
-                                            skill.allyTargets[skill.allyTargets.Count - 1].photonView.RPC("RemoveBuff", RpcTarget.All, buff.buffName);
-                                            skill.allyTargets.RemoveAt(skill.allyTargets.Count - 1);
+                                            buff.allyTargets[buff.allyTargets.Count - 1].photonView.RPC("RemoveBuff", RpcTarget.All, buff.buffName);
+                                            buff.allyTargets.RemoveAt(buff.allyTargets.Count - 1);
                                         }
                                     }
                                     for (int i = 0; i < allyTargetNumber; i++)
                                     {
-                                        if ((skill.allyTargets[i] == strongestModels[i]) == false)
+                                        if ((buff.allyTargets[i] == strongestModels[i]) == false)
                                         {
-                                            skill.allyTargets[i].photonView.RPC("RemoveBuff",RpcTarget.All, buff.buffName);
-                                            skill.allyTargets[i] = strongestModels[i];
-                                            buff.ApplyBuff(this, skill.allyTargets[i]);
+                                            buff.allyTargets[i].photonView.RPC("RemoveBuff",RpcTarget.All, buff.buffName);
+                                            buff.allyTargets[i] = strongestModels[i];
+                                            buff.ApplyBuff(this, buff.allyTargets[i]);
                                         }
                                     }
                                     break;
@@ -94,17 +95,17 @@ public class CharacterSkill : MonoBehaviourPun
                                     {
                                         if (Vector3.Distance(transform.position, enemy.transform.position) < applyBuffArea)
                                         {
-                                            if (skill.enemyTargets.Contains(enemy) == false)
+                                            if (buff.enemyTargets.Contains(enemy) == false)
                                             {
-                                                skill.enemyTargets.Add(enemy);
+                                                buff.enemyTargets.Add(enemy);
                                                 buff.ApplyBuff(this, enemy);
                                             }
                                         }
                                         else
                                         {
-                                            if (skill.enemyTargets.Contains(enemy))
+                                            if (buff.enemyTargets.Contains(enemy))
                                             {
-                                                skill.enemyTargets.Remove(enemy);
+                                                buff.enemyTargets.Remove(enemy);
                                                 enemy.photonView.RPC("RemoveBuff", RpcTarget.All, buff.buffName);
                                             }
                                         }
@@ -115,10 +116,18 @@ public class CharacterSkill : MonoBehaviourPun
                                     {
                                         if (Vector3.Distance(transform.position, ally.transform.position) < applyBuffArea)
                                         {
-                                            if (skill.allyTargets.Contains(ally) == false)
+                                            if (buff.allyTargets.Contains(ally) == false)
                                             {
-                                                skill.allyTargets.Add(ally);
+                                                buff.allyTargets.Add(ally);
                                                 buff.ApplyBuff(this, ally);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (buff.allyTargets.Contains(ally))
+                                            {
+                                                buff.allyTargets.Remove(ally);
+                                                ally.photonView.RPC("RemoveBuff", RpcTarget.All, buff.buffName);
                                             }
                                         }
                                     }
@@ -232,7 +241,7 @@ public class CharacterSkill : MonoBehaviourPun
         mainTarget = currentSkill.SetTarget(this);
         currentSkill.StartSkill();
 
-        float applySkillSpeed = Mathf.Clamp(skill.defaultStat.skillSpeed, 0.1f, attack.applyAttackDelay);
+        float applySkillSpeed = Mathf.Clamp(skill.defaultStat.skillSpeed, 0.1f, attack.applyAttackDelay + 0.1f);
 
         animator.SetFloat("SkillSpeed", skill.defaultStat.skillClip.length / applySkillSpeed);
         photonView.RPC("SkillTriggerRPC", RpcTarget.All, skill.defaultStat.triggerName);
@@ -242,6 +251,21 @@ public class CharacterSkill : MonoBehaviourPun
     public void SkillTriggerRPC(string triggerName)
     {
         animator.SetTrigger(triggerName);
+    }
+
+    [PunRPC]
+    public void ShotSkillProjectileRPC(string prefabName, Vector3 spawnPosition, Quaternion spawnRotation, int targetViewID, Vector3 destination)
+        {
+        Projectile projectilePrefab = Resources.Load<Projectile>(projectilePath + prefabName);
+        Projectile projectileInstance = PoolManager.Instance.clientPool.Spawn(projectilePrefab.gameObject, spawnPosition, spawnRotation).GetComponent<Projectile>();
+
+        EnemyModel target = EnemyManager.Instance.enemies.Find((model) => model.photonView.ViewID == targetViewID);
+
+        if (target != null)
+        {
+            projectileInstance.target = target.transform;
+            projectileInstance.destination = destination;
+        }
     }
 
     public void OnSkill(AnimationEvent animationEvent)

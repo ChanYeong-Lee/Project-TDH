@@ -46,6 +46,9 @@ public class Skill : MonoBehaviour
     public float percentage;
     public float percentageIncrease;
 
+    public List<AttackEffect> attackEffects;
+    public List<BuffEffect> buffEffects;    
+
     public List<EnemyModel> enemyTargets;
     public List<CharacterModel> allyTargets;
 
@@ -54,6 +57,9 @@ public class Skill : MonoBehaviour
 
     private void OnEnable()
     {
+        attackEffects = defaultStat.attackEffects;
+        buffEffects = defaultStat.buffEffects;
+
         coolDown = defaultStat.defaultCooldown;
         percentage = defaultStat.defaultPercent;
 
@@ -140,12 +146,12 @@ public class Skill : MonoBehaviour
 
     public void OnSkill(CharacterSkill owner)
     {
-        foreach (AttackEffect attackEffect in defaultStat.attackEffects)
+        foreach (AttackEffect attackEffect in attackEffects)
         {
             attackEffect.Execute(owner, enemyTargets);
         }
 
-        foreach (BuffEffect buffEffect in defaultStat.buffEffects)
+        foreach (BuffEffect buffEffect in buffEffects)
         {
             buffEffect.Execute(owner, allyTargets, enemyTargets);
         }

@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
             character.move.Move(Vector3.zero);
             character.agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
             character.ui.Deselect();
+            print($"{character.name} delete from list");
         }
 
         characters.Clear();

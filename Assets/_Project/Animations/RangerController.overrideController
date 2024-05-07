@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: RangerController
+  m_Controller: {fileID: 9100000, guid: 07294f05ba3bf124ea5facbcbea2b51f, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: ab42d20068f31124c990198ae75c2d9a, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: fc81b4c3c5c69884e8f5b3fbbed0d323, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: fcaee7dea2aed644bb92287a55a72963, type: 2}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 59026dfbe6107534e94323e6d09afa0d,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: aad92d19714f6aa4e89e5f720fe40de5, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 1946edf47b1a8b044a2e2513eb1f14e1, type: 2}
