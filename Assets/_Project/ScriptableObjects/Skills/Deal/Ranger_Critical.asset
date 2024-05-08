@@ -31,7 +31,7 @@ MonoBehaviour:
   - buffName: Ranger_Stun
     attackType: 0
     targetType: 0
-    buffType: 0
+    buffType: 1
     statType: 0
     increaseAmount: -1
     integerIncreaseAmount: 0

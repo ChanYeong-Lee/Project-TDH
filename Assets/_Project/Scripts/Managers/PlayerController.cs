@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
             mainCharacter.ui.Select(false);
         }
 
-        character.agent.obstacleAvoidanceType = ObstacleAvoidanceType.LowQualityObstacleAvoidance;
+        character.agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
         characters.Add(character);
 
         mainCharacter = character;

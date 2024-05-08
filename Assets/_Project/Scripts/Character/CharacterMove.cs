@@ -15,7 +15,7 @@ public class CharacterMove : MonoBehaviourPun
 
     public float moveSpeed;
     public float moveSpeedIncrease;
-    public float applyMoveSpeed => moveSpeed * moveSpeedIncrease;
+    public float applyMoveSpeed => Mathf.Clamp(moveSpeed * moveSpeedIncrease, 0.0f, Mathf.Infinity);
 
     public bool tryMove;
     public bool isMoving;

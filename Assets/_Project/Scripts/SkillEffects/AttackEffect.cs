@@ -2,6 +2,7 @@ using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -10,6 +11,7 @@ public class AttackEffect
 {
     public AttackType attackType;
     public Projectile projectilePrefab;
+    public ParticleSystem particlePrefab;
 
     public float fixedDamage;       // 스킬 기본 데미지
     public float relativeDamagePercent; // 스탯 비례계수
@@ -52,6 +54,11 @@ public class AttackEffect
 
         for (int i = 0; i < applyTargetNumber; i++)
         {
+            if (targets[i] == null || targets[i].gameObject.activeSelf == false)
+            {
+                continue;
+            }
+
             if (projectilePrefab != null)
             {
                 string prefabName = projectilePrefab.name;
@@ -62,6 +69,16 @@ public class AttackEffect
 
                 owner.photonView.RPC("ShotSkillProjectileRPC", RpcTarget.All, prefabName, spawnPosition, spawnRotation, targetViewID, destination);
             }
+            
+            if (particlePrefab != null)
+            {
+                string prefabName = particlePrefab.name;
+                Vector3 spawnPosition = targets[i].transform.position;
+                Quaternion spawnRotation = Quaternion.identity;
+
+                owner.photonView.RPC("ShotSkillParticleRPC", RpcTarget.All, prefabName, spawnPosition, spawnRotation);
+            }
+
             targets[i].health.GetComponent<PhotonView>().RPC("TakeHitRPC", RpcTarget.All, normalDamage, trueDamage);
         }
     }
@@ -85,6 +102,16 @@ public class AttackEffect
 
             owner.photonView.RPC("ShotSkillProjectileRPC", RpcTarget.All, prefabName, spawnPosition, spawnRotation, targetViewID, destination);
         }
+
+        if (particlePrefab != null)
+        {
+            string prefabName = particlePrefab.name;
+            Vector3 spawnPosition = target.transform.position;
+            Quaternion spawnRotation = Quaternion.identity;
+
+            owner.photonView.RPC("ShotSkillParticleRPC", RpcTarget.All, prefabName, spawnPosition, spawnRotation);
+        }
+
         Collider[] contectedColliders = Physics.OverlapSphere(target.transform.position, applyAttackArea);
 
         foreach (Collider collider in contectedColliders)

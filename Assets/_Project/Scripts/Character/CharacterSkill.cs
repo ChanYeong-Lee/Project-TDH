@@ -6,6 +6,8 @@ using UnityEngine;
 public class CharacterSkill : MonoBehaviourPun
 {
     private const string projectilePath = "Prefabs/Projectiles/";
+    private const string particlePath = "Prefabs/Particles/";
+
     private Animator animator;
     [HideInInspector] public CharacterAttack attack;
     [HideInInspector] public Transform skillParent;
@@ -255,7 +257,7 @@ public class CharacterSkill : MonoBehaviourPun
 
     [PunRPC]
     public void ShotSkillProjectileRPC(string prefabName, Vector3 spawnPosition, Quaternion spawnRotation, int targetViewID, Vector3 destination)
-        {
+    {
         Projectile projectilePrefab = Resources.Load<Projectile>(projectilePath + prefabName);
         Projectile projectileInstance = PoolManager.Instance.clientPool.Spawn(projectilePrefab.gameObject, spawnPosition, spawnRotation).GetComponent<Projectile>();
 
@@ -266,6 +268,13 @@ public class CharacterSkill : MonoBehaviourPun
             projectileInstance.target = target.transform;
             projectileInstance.destination = destination;
         }
+    }
+
+    [PunRPC]
+    public void ShotSkillParticleRPC(string prefabName, Vector3 spawnPosition, Quaternion spawnRotation)
+    {
+        ParticleSystem particlePrefab = Resources.Load<ParticleSystem>(particlePath + prefabName);
+        ParticleSystem particleInstance = PoolManager.Instance.clientPool.Spawn(particlePrefab.gameObject, spawnPosition, spawnRotation).GetComponent<ParticleSystem>();
     }
 
     public void OnSkill(AnimationEvent animationEvent)

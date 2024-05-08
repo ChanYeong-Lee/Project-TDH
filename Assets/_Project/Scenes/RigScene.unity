@@ -533,6 +533,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DealT1_Peasant
       objectReference: {fileID: 0}
+    - target: {fileID: 2671746649971722368, guid: eb16dd4196d6cec45817179beed66a15,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5992653427093877142, guid: eb16dd4196d6cec45817179beed66a15,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -22,7 +22,7 @@ public class CharacterGenerator : MonoBehaviour
 
         CharacterModel newModel = PhotonNetwork.Instantiate(prefabPath + prefabName, Vector3.zero, Quaternion.identity).GetComponent<CharacterModel>();
 
-        PlayerController.Instance.ResetCharacter();
+        //PlayerController.Instance.ResetCharacter();
         PlayerController.Instance.AddCharacter(newModel);
         return newModel;
     }

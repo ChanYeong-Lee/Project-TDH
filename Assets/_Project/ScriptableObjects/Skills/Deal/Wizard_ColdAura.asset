@@ -14,13 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: "\uD55C\uAE30"
   description: "\uC8FC\uBCC0\uC758 \uC801\uC758 \uC774\uB3D9\uC18D\uB3C4\uAC00 \uAC10\uC18C\uD569\uB2C8\uB2E4."
-  skillType: 3
+  skillType: 0
   mainTargetType: 0
   priority: 0
   attackEffects: []
-  buffEffects: []
-  defaultPercent: 0.15
+  buffEffects:
+  - buffName: Wizard_DecreaseMoveSpeed
+    attackType: 1
+    targetType: 0
+    buffType: 0
+    statType: 0
+    increaseAmount: -0.2
+    integerIncreaseAmount: 0
+    limitTime: 0
+    targetNumber: 0
+    attackArea: 4
+    allyTargets: []
+    enemyTargets: []
+  defaultPercent: 0
   defaultCooldown: 0
-  triggerName: Skill1
-  skillSpeed: 1.2
-  skillClip: {fileID: 7400000, guid: fcaee7dea2aed644bb92287a55a72963, type: 2}
+  triggerName: 
+  skillSpeed: 0
+  skillClip: {fileID: 0}

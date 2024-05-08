@@ -15,29 +15,37 @@ MonoBehaviour:
   skillName: "\uCD95\uBCF5"
   description: "\uAC00\uC7A5 \uAC15\uB825\uD55C \uC544\uAD70\uC758 \uACF5\uACA9\uB825\uACFC
     \uACE0\uC815\uB370\uBBF8\uC9C0\uB97C \uC99D\uAC00\uC2DC\uD0B5\uB2C8\uB2E4."
-  skillType: 0
-  mainTargetType: 0
+  skillType: 2
+  mainTargetType: 2
   priority: 0
-  attackEffects:
-  - attackType: 1
-    fixedDamage: 20
-    relativeDamagePercent: 0
-    targetNumber: 0
-    attackArea: 3
+  attackEffects: []
   buffEffects:
-  - buffName: "\uC774\uB3D9\uC18D\uB3C4 \uAC10\uC18C"
-    attackType: 1
-    targetType: 0
+  - buffName: Queen_IncreaseDamage
+    attackType: 0
+    targetType: 2
     buffType: 1
-    statType: 0
-    increaseAmount: -0.5
+    statType: 1
+    increaseAmount: 0.3
     integerIncreaseAmount: 0
-    limitTime: 8
-    targetNumber: 0
-    attackArea: 3
+    limitTime: 10
+    targetNumber: 1
+    attackArea: 0
+    allyTargets: []
+    enemyTargets: []
+  - buffName: Queen_IncreaseTrueDamage
+    attackType: 0
+    targetType: 2
+    buffType: 1
+    statType: 2
+    increaseAmount: 0.2
+    integerIncreaseAmount: 0
+    limitTime: 10
+    targetNumber: 1
+    attackArea: 0
+    allyTargets: []
+    enemyTargets: []
   defaultPercent: 0
-  defaultCooldown: 10
+  defaultCooldown: 12
   triggerName: Skill1
-  skillSpeed: 2.4
-  skillClip: {fileID: -203655887218126122, guid: cbe05d373e07bf44c96d21da872be9b6,
-    type: 3}
+  skillSpeed: 2
+  skillClip: {fileID: 7400000, guid: c3a15f14bf622cb4ab038cc253ad51a3, type: 2}

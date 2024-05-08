@@ -1626,8 +1626,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e1e6e9347287f34b8cb7373e0933a8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shotPoint: {fileID: 0}
   attackType: 0
   attackClip: {fileID: 0}
+  projectilePrefab: {fileID: 0}
   canAttack: 0
   isAttacking: 0
   damage: 0
@@ -1695,7 +1697,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 6816441381231706868}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.25
+  m_Radius: 0.5
   m_Speed: 1
   m_Acceleration: 0
   avoidancePriority: 50

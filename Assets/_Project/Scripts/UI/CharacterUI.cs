@@ -32,7 +32,7 @@ public class CharacterUI : MonoBehaviour
 
         if (coolDownSkill == null)
         {
-            coolDown.gameObject.SetActive(false);
+            coolDownFillImage.gameObject.SetActive(false);
         }
     }
 
@@ -50,7 +50,7 @@ public class CharacterUI : MonoBehaviour
 
         if (coolDownSkill != null)
         {
-            coolDown.gameObject.SetActive(true);
+            //coolDown.gameObject.SetActive(true);
             coolDownFillImage.fillAmount = coolDownSkill.coolDownAmount;
         }
     }

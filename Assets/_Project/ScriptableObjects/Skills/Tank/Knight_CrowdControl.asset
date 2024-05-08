@@ -23,6 +23,6 @@ MonoBehaviour:
   buffEffects: []
   defaultPercent: 0.15
   defaultCooldown: 0
-  triggerName: Skill1
-  skillSpeed: 1.2
+  triggerName: Skill2
+  skillSpeed: 1.5
   skillClip: {fileID: 7400000, guid: fcaee7dea2aed644bb92287a55a72963, type: 2}

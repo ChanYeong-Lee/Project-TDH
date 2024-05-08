@@ -28,6 +28,14 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
     private void OnDisable()
     {
         EnemyManager.Instance.enemies.Remove(this);
+        foreach (Buff buff in buffDictionary.Values)
+        {
+            if (buff.buffCoroutine != null)
+            {
+                StopCoroutine(buff.buffCoroutine);
+            }
+            buff.Deactivate();
+        }
         buffDictionary.Clear();
     }
 
@@ -74,14 +82,7 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
         {
             return;
         }
-
-        if (buffDictionary.ContainsKey(buffName))
-        {
-            StopCoroutine(buffDictionary[buffName].buffCoroutine);
-            buffDictionary[buffName].Deactivate();
-        }
-
-        Buff newBuff = new Buff();
+        
         CharacterModel caster = CharacterManager.Instance.wholeCharacters.Find((model) => model.photonView.ViewID == casterId);
 
         if (caster == null)
@@ -89,6 +90,17 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
             return;
         }
 
+        if (buffDictionary.ContainsKey(buffName))
+        {
+            if (buffDictionary[buffName].buffType == BuffType.Limit)
+            {
+                StopCoroutine(buffDictionary[buffName].buffCoroutine);
+            }
+            buffDictionary[buffName].Deactivate();
+        }
+
+        Buff newBuff = new Buff();
+        
         newBuff.SetBuff(caster, this, buffName, buffType, statType, increaseAmount, limitTime);
         buffDictionary[buffName] = newBuff;
 
@@ -117,5 +129,6 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
         }
 
         buffDictionary[buffName].Deactivate();
+        buffDictionary.Remove(buffName);
     }
 }

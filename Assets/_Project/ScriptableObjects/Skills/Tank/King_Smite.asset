@@ -19,10 +19,29 @@ MonoBehaviour:
   skillType: 3
   mainTargetType: 0
   priority: 0
-  attackEffects: []
-  buffEffects: []
-  defaultPercent: 0.15
+  attackEffects:
+  - attackType: 1
+    projectilePrefab: {fileID: 0}
+    particlePrefab: {fileID: 0}
+    fixedDamage: 100
+    relativeDamagePercent: 0.25
+    targetNumber: 0
+    attackArea: 4
+  buffEffects:
+  - buffName: King_Stun
+    attackType: 1
+    targetType: 0
+    buffType: 1
+    statType: 0
+    increaseAmount: -1
+    integerIncreaseAmount: 0
+    limitTime: 3
+    targetNumber: 0
+    attackArea: 4
+    allyTargets: []
+    enemyTargets: []
+  defaultPercent: 0.2
   defaultCooldown: 0
   triggerName: Skill1
-  skillSpeed: 1.2
-  skillClip: {fileID: 7400000, guid: fcaee7dea2aed644bb92287a55a72963, type: 2}
+  skillSpeed: 1.5
+  skillClip: {fileID: 7400000, guid: cc6c33bd863d680408f806d4d9e80677, type: 2}

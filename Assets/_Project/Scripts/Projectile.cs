@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -6,10 +7,14 @@ public class Projectile : MonoBehaviour
     private MeshRenderer mesh;
     private TrailRenderer trail;
 
+    public List<ParticleSystem> meshParticles;
+
     public float speed;
     public float lifeTime;
     private float lifeTimeDelta;
-    
+
+    public float alternativeTrailTime;
+
     public Transform target;
     public Vector3 destination; // 쏘기 전에 죽은 적이 있을수 있으니 임시로 담아두는 목표점
 
@@ -28,8 +33,16 @@ public class Projectile : MonoBehaviour
             trail.Clear();
             trail.enabled = true;
         }
+        if (mesh != null)
+        {
+            mesh.enabled = true;
+        }
 
-        mesh.enabled = true;
+        foreach (ParticleSystem meshParticle in meshParticles)
+        {
+            meshParticle.Play();
+        }
+
         lifeTimeDelta = lifeTime;
     }
 
@@ -54,11 +67,6 @@ public class Projectile : MonoBehaviour
             || Vector3.Distance(destination, transform.position) < 0.25f
             || lifeTimeDelta <= 0.0f)
         {
-            if (trail == null)
-            {
-                PoolManager.Instance.clientPool.Despawn(gameObject);
-                return;
-            }
             if (despawnCoroutine == null)
             {
                 despawnCoroutine = StartCoroutine(DespawnCoroutine());
@@ -69,11 +77,20 @@ public class Projectile : MonoBehaviour
         
         if (distance < 0.25f)
         {
-            mesh.enabled = false;
+            if (mesh != null)
+            {
+                mesh.enabled = false;
+            }
+
+            foreach (ParticleSystem meshParticle in meshParticles)
+            {
+                meshParticle.Stop(false);
+                meshParticle.Clear(false);
+            }
             return;
         }
 
-        float distanceValue = Mathf.Clamp(1.0f / distance, 0.0f, 1.0f);
+        float distanceValue = Mathf.Clamp(2.0f / distance, 0.0f, 1.0f);
 
         Vector3 direction = destination - transform.position;
         direction.Normalize();
@@ -89,7 +106,16 @@ public class Projectile : MonoBehaviour
     private IEnumerator DespawnCoroutine()
     {
         yield return new WaitUntil(() => distance < 0.25f);
-        yield return new WaitForSeconds(trail.time);
+
+        if (trail != null)
+        {
+            yield return new WaitForSeconds(trail.time);
+        }
+        else
+        {
+            yield return new WaitForSeconds(alternativeTrailTime);
+        }
+
         PoolManager.Instance.clientPool.Despawn(gameObject);
         despawnCoroutine = null;
     }

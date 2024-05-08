@@ -15,29 +15,33 @@ MonoBehaviour:
   skillName: "\uC232\uC758 \uD798"
   description: "\uBC94\uC704 \uB0B4\uC758 \uC801\uB4E4\uC744 \uACF5\uACA9\uD569\uB2C8\uB2E4.
     \uBC94\uC704 \uB0B4\uC758 \uC801\uB4E4\uC758 \uC774\uB3D9\uC18D\uB3C4\uAC00 \uAC10\uC18C\uD569\uB2C8\uB2E4."
-  skillType: 0
+  skillType: 3
   mainTargetType: 0
   priority: 0
   attackEffects:
   - attackType: 1
-    fixedDamage: 20
-    relativeDamagePercent: 0
+    projectilePrefab: {fileID: 0}
+    particlePrefab: {fileID: 198759441112702650, guid: 0e920b8ddbe511e4eb5d57c522da2da7,
+      type: 3}
+    fixedDamage: 80
+    relativeDamagePercent: 0.2
     targetNumber: 0
     attackArea: 3
   buffEffects:
-  - buffName: "\uC774\uB3D9\uC18D\uB3C4 \uAC10\uC18C"
+  - buffName: Druid_DecreaseMoveSpeed
     attackType: 1
     targetType: 0
     buffType: 1
     statType: 0
-    increaseAmount: -0.5
+    increaseAmount: -0.25
     integerIncreaseAmount: 0
-    limitTime: 8
+    limitTime: 3
     targetNumber: 0
     attackArea: 3
-  defaultPercent: 0
-  defaultCooldown: 10
+    allyTargets: []
+    enemyTargets: []
+  defaultPercent: 0.2
+  defaultCooldown: 0
   triggerName: Skill1
   skillSpeed: 2.4
-  skillClip: {fileID: -203655887218126122, guid: cbe05d373e07bf44c96d21da872be9b6,
-    type: 3}
+  skillClip: {fileID: 7400000, guid: 7ad5742a10fb85f4592bc4dacc290581, type: 2}

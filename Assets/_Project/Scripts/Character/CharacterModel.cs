@@ -144,7 +144,10 @@ public class CharacterModel : MonoBehaviourPun, IModel
 
         if (buffDictionary.ContainsKey(buffName))
         {
-            StopCoroutine(buffDictionary[buffName].buffCoroutine);
+            if (buffDictionary[buffName].buffType == BuffType.Limit)
+            {
+                StopCoroutine(buffDictionary[buffName].buffCoroutine);
+            }
             buffDictionary[buffName].Deactivate();
         }
 
@@ -180,7 +183,10 @@ public class CharacterModel : MonoBehaviourPun, IModel
 
         if (buffDictionary.ContainsKey(buffName))
         {
-            StopCoroutine(buffDictionary[buffName].buffCoroutine);
+            if (buffDictionary[buffName].buffType == BuffType.Limit)
+            {
+                StopCoroutine(buffDictionary[buffName].buffCoroutine);
+            }
             buffDictionary[buffName].Deactivate();
         }
 
@@ -220,5 +226,6 @@ public class CharacterModel : MonoBehaviourPun, IModel
         }
 
         buffDictionary[buffName].Deactivate();
+        buffDictionary.Remove(buffName);
     }
 }

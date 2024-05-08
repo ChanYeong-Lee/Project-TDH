@@ -55,6 +55,8 @@ MonoBehaviour:
   - SetTriggerRPC
   - ShotProjectileRPC
   - ShotSkillProjectileRPC
+  - ShotSkillAttackParticleRPC
+  - ShotSkillParticleRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

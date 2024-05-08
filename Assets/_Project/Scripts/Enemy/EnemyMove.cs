@@ -13,6 +13,8 @@ public class EnemyMove : MonoBehaviour
     [Header("설정")]
     public float moveSpeed;
     public float moveSpeedIncrease;
+    public float applyMoveSpeed => Mathf.Clamp(moveSpeed * moveSpeedIncrease, 0.0f, Mathf.Infinity);
+
     public float angularSpeed;
 
     [Header("상태")]
@@ -46,7 +48,7 @@ public class EnemyMove : MonoBehaviour
 
         if (agent.hasPath)
         {
-            moreSpeed = (moveSpeed * moveSpeedIncrease) / (clip.averageSpeed.z * transform.localScale.z);
+            moreSpeed = applyMoveSpeed / (clip.averageSpeed.z * transform.localScale.z);
         }
         else
         {

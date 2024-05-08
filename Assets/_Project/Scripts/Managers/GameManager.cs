@@ -35,7 +35,8 @@ public class GameManager : MonoBehaviour
         defensePlayer.nickName = PhotonNetwork.LocalPlayer.NickName;
         defensePlayer.classType = (ClassType)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
 
-        CharacterGenerator.Instance.GenerateCharacter(CharacterType.DealT3_Ranger);
+
+        CharacterGenerator.Instance.GenerateCharacter(CharacterType.TankT3_King);
 
         if (PhotonNetwork.IsMasterClient)
         {

@@ -18,26 +18,23 @@ MonoBehaviour:
   skillType: 0
   mainTargetType: 0
   priority: 0
-  attackEffects:
-  - attackType: 1
-    fixedDamage: 20
-    relativeDamagePercent: 0
-    targetNumber: 0
-    attackArea: 3
+  attackEffects: []
   buffEffects:
   - buffName: "\uC774\uB3D9\uC18D\uB3C4 \uAC10\uC18C"
     attackType: 1
     targetType: 0
-    buffType: 1
+    buffType: 0
     statType: 0
-    increaseAmount: -0.5
+    increaseAmount: -0.25
     integerIncreaseAmount: 0
-    limitTime: 8
+    limitTime: 0
     targetNumber: 0
-    attackArea: 3
+    attackArea: 4
+    allyTargets: []
+    enemyTargets: []
   defaultPercent: 0
-  defaultCooldown: 10
-  triggerName: Skill1
-  skillSpeed: 2.4
+  defaultCooldown: 0
+  triggerName: 
+  skillSpeed: 0
   skillClip: {fileID: -203655887218126122, guid: cbe05d373e07bf44c96d21da872be9b6,
     type: 3}

@@ -16,29 +16,33 @@ MonoBehaviour:
   description: "\uBC94\uC704 \uB0B4\uC758 \uC801\uB4E4\uC744 \uACF5\uACA9\uD569\uB2C8\uB2E4.
     \uBC94\uC704 \uB0B4\uC758 \uC801\uB4E4\uC740 \uAE30\uC808 \uC0C1\uD0DC\uAC00
     \uB429\uB2C8\uB2E4."
-  skillType: 0
+  skillType: 2
   mainTargetType: 0
   priority: 0
   attackEffects:
   - attackType: 1
-    fixedDamage: 20
-    relativeDamagePercent: 0
+    projectilePrefab: {fileID: 0}
+    particlePrefab: {fileID: 198202731371243394, guid: a2cdbec219bbf57428511be4ac640997,
+      type: 3}
+    fixedDamage: 100
+    relativeDamagePercent: 0.2
     targetNumber: 0
     attackArea: 3
   buffEffects:
-  - buffName: "\uC774\uB3D9\uC18D\uB3C4 \uAC10\uC18C"
+  - buffName: Witch_Stun
     attackType: 1
     targetType: 0
     buffType: 1
     statType: 0
-    increaseAmount: -0.5
+    increaseAmount: -1
     integerIncreaseAmount: 0
-    limitTime: 8
+    limitTime: 3
     targetNumber: 0
     attackArea: 3
+    allyTargets: []
+    enemyTargets: []
   defaultPercent: 0
-  defaultCooldown: 10
+  defaultCooldown: 15
   triggerName: Skill1
   skillSpeed: 2.4
-  skillClip: {fileID: -203655887218126122, guid: cbe05d373e07bf44c96d21da872be9b6,
-    type: 3}
+  skillClip: {fileID: 7400000, guid: bcc5ec0dd10706c429cb5aa91492c205, type: 2}

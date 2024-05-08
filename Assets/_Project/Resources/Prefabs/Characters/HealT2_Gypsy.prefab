@@ -1005,8 +1005,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e1e6e9347287f34b8cb7373e0933a8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shotPoint: {fileID: 0}
   attackType: 0
   attackClip: {fileID: 0}
+  projectilePrefab: {fileID: 0}
   canAttack: 0
   isAttacking: 0
   damage: 0
@@ -1054,13 +1056,16 @@ Animator:
   m_GameObject: {fileID: 3551154068155509370}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: c9a34c70f1c0d00409f41fcfbb2a6871, type: 3}
-  m_Controller: {fileID: 9100000, guid: 07294f05ba3bf124ea5facbcbea2b51f, type: 2}
+  m_Controller: {fileID: 22100000, guid: 3691203a40274754e8c307010480d105, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Spine_03'\n\tTransform 'Spine_03'\n\tTransform
+    'Spine_03'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -1074,7 +1079,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 3551154068155509370}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.25
+  m_Radius: 0.5
   m_Speed: 1
   m_Acceleration: 0
   avoidancePriority: 50
@@ -1368,13 +1373,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4103241759840248574}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6264706, y: 0.02791646, z: -0.022461431, w: 0.778621}
-  m_LocalPosition: {x: -0.083, y: -0.053, z: 0.018}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: 0.82346904, y: -0.009861417, z: -0.000614285, w: 0.56727517}
+  m_LocalPosition: {x: -0.094, y: -0.022, z: -0.009}
+  m_LocalScale: {x: 0.74999994, y: 0.74999994, z: 0.74999994}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2217612670068738019}
-  m_LocalEulerAnglesHint: {x: 77.64, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 110.892, y: 1.9609985, z: 2.7220001}
 --- !u!33 &4103241759841198912
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1871,7 +1876,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5996960682890228314}
   m_Father: {fileID: 1804655713348955691}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6794212283894041299
@@ -2254,3 +2260,77 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2978793100321389017}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &9203865679061557471
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7723708417894113619}
+    m_Modifications:
+    - target: {fileID: 3207628249441522309, guid: 0ff68a247e49bb8498ba6b89b88c4036,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3207628249441522309, guid: 0ff68a247e49bb8498ba6b89b88c4036,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3207628249441522309, guid: 0ff68a247e49bb8498ba6b89b88c4036,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.00000011920929
+      objectReference: {fileID: 0}
+    - target: {fileID: 3207628249441522309, guid: 0ff68a247e49bb8498ba6b89b88c4036,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3207628249441522309, guid: 0ff68a247e49bb8498ba6b89b88c4036,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3207628249441522309, guid: 0ff68a247e49bb8498ba6b89b88c4036,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3207628249441522309, guid: 0ff68a247e49bb8498ba6b89b88c4036,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3207628249441522309, guid: 0ff68a247e49bb8498ba6b89b88c4036,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3207628249441522309, guid: 0ff68a247e49bb8498ba6b89b88c4036,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3207628249441522309, guid: 0ff68a247e49bb8498ba6b89b88c4036,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4980377976919951114, guid: 0ff68a247e49bb8498ba6b89b88c4036,
+        type: 3}
+      propertyPath: m_Name
+      value: Gypsy_Blessing
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0ff68a247e49bb8498ba6b89b88c4036, type: 3}
+--- !u!4 &5996960682890228314 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3207628249441522309, guid: 0ff68a247e49bb8498ba6b89b88c4036,
+    type: 3}
+  m_PrefabInstance: {fileID: 9203865679061557471}
+  m_PrefabAsset: {fileID: 0}

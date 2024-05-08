@@ -52,12 +52,6 @@ public class Buff
         {
             enemyTarget = (EnemyModel)target;
         }
-
-        if (buffType == BuffType.Permanant)
-        {
-            caster.onDisable -= Deactivate;
-            caster.onDisable += Deactivate;
-        }
     }
 
     public void SetBuff(CharacterModel caster, IModel target, string buffName, BuffType buffType, StatType statType, int integerIncreaseAmount, float limitTime)
@@ -77,12 +71,6 @@ public class Buff
         {
             enemyTarget = (EnemyModel)target;
         }
-
-        if (buffType == BuffType.Permanant)
-        {
-            caster.onDisable -= Deactivate;
-            caster.onDisable += Deactivate;
-        }
     }
 
     public IEnumerator BuffCoroutine()
@@ -90,6 +78,16 @@ public class Buff
         Activate();
         yield return new WaitForSeconds(this.limitTime);
         Deactivate();
+
+        if (allyTarget != null)
+        {
+            allyTarget.buffDictionary.Remove(buffName);
+        }
+        else if (enemyTarget != null)
+        {
+            enemyTarget.buffDictionary.Remove(buffName);
+        }
+
         buffCoroutine = null;
     }
 
@@ -131,6 +129,11 @@ public class Buff
                     break;
             }
         }
+
+        if (buffType == BuffType.Permanant)
+        {
+            caster.onDisable += Deactivate;
+        }
     }
 
     public void Deactivate()
@@ -142,7 +145,6 @@ public class Buff
                 return;
             }
 
-            allyTarget.buffDictionary.Remove(buffName);
             switch (statType)
             {
                 case StatType.MoveSpeed:
@@ -172,7 +174,6 @@ public class Buff
                 return;
             }
 
-            enemyTarget.buffDictionary.Remove(buffName);
 
             switch (statType)
             {
