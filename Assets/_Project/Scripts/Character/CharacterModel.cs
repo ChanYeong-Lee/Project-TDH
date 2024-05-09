@@ -72,7 +72,7 @@ public class CharacterModel : MonoBehaviourPun, IModel
         if (photonView.IsMine)
         {
             agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
-            agent.avoidancePriority = 50 + (10 - tier);
+            agent.avoidancePriority = 50;
             SetStats();
         }
         else

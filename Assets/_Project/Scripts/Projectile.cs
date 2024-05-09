@@ -52,6 +52,12 @@ public class Projectile : MonoBehaviour
         {
             trail.enabled = false;
         }
+
+        if (target != null)
+        {
+            EnemyModel targetModel = target.GetComponent<EnemyModel>();
+            targetModel.onDisable -= ResetTarget;
+        }
         target = null;
     }
 
@@ -69,7 +75,7 @@ public class Projectile : MonoBehaviour
         {
             if (despawnCoroutine == null)
             {
-                despawnCoroutine = StartCoroutine(DespawnCoroutine());
+                despawnCoroutine = StartCoroutine(DespawnCoroutine()); 
             }
         }
 
@@ -101,6 +107,11 @@ public class Projectile : MonoBehaviour
         transform.position = transform.position + moveVector;
 
         lifeTimeDelta -= Time.deltaTime;
+    }
+
+    public void ResetTarget()
+    {
+        target = null;
     }
 
     private IEnumerator DespawnCoroutine()

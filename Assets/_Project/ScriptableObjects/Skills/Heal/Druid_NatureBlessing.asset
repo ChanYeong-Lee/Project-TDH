@@ -27,7 +27,7 @@ MonoBehaviour:
     statType: 1
     increaseAmount: 0.15
     integerIncreaseAmount: 0
-    limitTime: 8
+    limitTime: 6
     targetNumber: 1
     attackArea: 0
     allyTargets: []
@@ -39,13 +39,13 @@ MonoBehaviour:
     statType: 2
     increaseAmount: 0.15
     integerIncreaseAmount: 0
-    limitTime: 8
+    limitTime: 6
     targetNumber: 1
     attackArea: 0
     allyTargets: []
     enemyTargets: []
   defaultPercent: 0
-  defaultCooldown: 12
+  defaultCooldown: 7
   triggerName: Skill2
   skillSpeed: 2.4
   skillClip: {fileID: 7400000, guid: e6c67dc3467f71b43b273e3232042344, type: 2}

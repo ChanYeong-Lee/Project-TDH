@@ -137,6 +137,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
     public void StartAttack()
     {
         isAttacking = true;
+        canAttack = false;
 
         mainTarget = null;
         targets.Clear();
@@ -179,6 +180,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
     {
         attackDelayDelta = 0.1f;
         isAttacking = false;
+        canAttack = false;
     }
 
     private void SingleAttack() // 단일 공격
@@ -256,27 +258,29 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
 
     public void OnAttack(AnimationEvent animationEvent)
     {
-        print("ATTACK!");
-        if (animationEvent.animatorClipInfo.weight < 0.8f)
-        {
-            return;
-        }
-
-        isAttacking = false;
-
         if (photonView.IsMine == false)
         {
             return;
         }
 
-        switch (attackType)
+        if (animationEvent.animatorClipInfo.weight < 0.8f)
         {
-            case AttackType.Single:
-                SingleAttack();
-                break;
-            case AttackType.Area:
-                AreaAttack();
-                break;
+            return;
+        }
+
+        if (isAttacking)
+        {
+            isAttacking = false;
+
+            switch (attackType)
+            {
+                case AttackType.Single:
+                    SingleAttack();
+                    break;
+                case AttackType.Area:
+                    AreaAttack();
+                    break;
+            }
         }
     }
 
@@ -296,6 +300,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
 
         if (target != null)
         {
+            target.onDisable += projectileInstance.ResetTarget;
             projectileInstance.target = target.transform;
             projectileInstance.destination = destination;
         }

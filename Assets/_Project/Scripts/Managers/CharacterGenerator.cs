@@ -1,8 +1,6 @@
 using Photon.Pun;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class CharacterGenerator : MonoBehaviour
 {
@@ -25,5 +23,17 @@ public class CharacterGenerator : MonoBehaviour
         //PlayerController.Instance.ResetCharacter();
         PlayerController.Instance.AddCharacter(newModel);
         return newModel;
+    }
+
+    [VisibleEnum(typeof(CharacterType))]
+    public void GenerateNewCharacter(int type)
+    {
+        CharacterModel prefab = characterPrefabs.Find((model) => model.type == (CharacterType)type);
+        string prefabName = prefab.name;
+
+        CharacterModel newModel = PhotonNetwork.Instantiate(prefabPath + prefabName, Vector3.zero, Quaternion.identity).GetComponent<CharacterModel>();
+
+        //PlayerController.Instance.ResetCharacter();
+        PlayerController.Instance.AddCharacter(newModel);
     }
 }

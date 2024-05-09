@@ -126,10 +126,8 @@ public class Skill : MonoBehaviour
                 {
                     return null;
                 }
-
             case TargetType.AllAlly:
                 return owner.transform;
-
             case TargetType.StrongestAlly:
                 return allyTargets[0].transform;
             case TargetType.Self:
@@ -155,7 +153,7 @@ public class Skill : MonoBehaviour
         {
             buffEffect.Execute(owner, allyTargets, enemyTargets);
         }
-        print($"{defaultStat.skillName}!\n{defaultStat.description}"); 
+        print($"{defaultStat.skillName}! {defaultStat.description}"); 
     }
 
     public void CancelSkill()

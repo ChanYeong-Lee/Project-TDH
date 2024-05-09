@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
             mainCharacter.ui.Select(false);
         }
 
+        character.agent.avoidancePriority = 50 + (10 - character.tier);
         character.agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
         characters.Add(character);
 
@@ -49,6 +50,7 @@ public class PlayerController : MonoBehaviour
         foreach (CharacterModel character in characters)
         {
             character.move.Move(Vector3.zero);
+            character.agent.avoidancePriority = 50;
             character.agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
             character.ui.Deselect();
             print($"{character.name} delete from list");
@@ -56,6 +58,14 @@ public class PlayerController : MonoBehaviour
 
         characters.Clear();
         mainCharacter = null;
+    }
+
+    public void SelectAllCharacter()
+    {
+        foreach (CharacterModel character in CharacterManager.Instance.ownCharacters)
+        {
+            AddCharacter(character);
+        }
     }
 
     public void SetShowAttackRange()

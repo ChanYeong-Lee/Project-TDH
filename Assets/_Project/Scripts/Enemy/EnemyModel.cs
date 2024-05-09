@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
     public EnemyMove move;
     public EnemyHealth health;
     public Dictionary<string, Buff> buffDictionary;
+    public Action onDisable;
 
     public float syncTimeoutDelta = 0.0f;
 
@@ -37,6 +39,8 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
             buff.Deactivate();
         }
         buffDictionary.Clear();
+        onDisable?.Invoke();
+        onDisable = null;
     }
 
     private void Update()

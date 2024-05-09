@@ -21,7 +21,10 @@ MonoBehaviour:
   priority: 0
   attackEffects:
   - attackType: 0
-    projectilePrefab: {fileID: 0}
+    projectilePrefab: {fileID: 3040857776797610877, guid: dbca3a8d2a0840b46ae40a382d07ade1,
+      type: 3}
+    particlePrefab: {fileID: 198759441112702650, guid: f8ec00d53e7668245961a96ebabd2453,
+      type: 3}
     fixedDamage: 0
     relativeDamagePercent: 1.5
     targetNumber: 3
@@ -37,9 +40,10 @@ MonoBehaviour:
     limitTime: 1.5
     targetNumber: 3
     attackArea: 0
+    allyTargets: []
+    enemyTargets: []
   defaultPercent: 0.15
   defaultCooldown: 0
   triggerName: Skill1
-  skillSpeed: 1.2
-  skillClip: {fileID: -203655887218126122, guid: 59026dfbe6107534e94323e6d09afa0d,
-    type: 3}
+  skillSpeed: 2
+  skillClip: {fileID: 7400000, guid: 007315f535263b84f86d819e02451e03, type: 2}

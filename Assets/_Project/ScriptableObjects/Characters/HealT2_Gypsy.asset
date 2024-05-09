@@ -17,13 +17,14 @@ MonoBehaviour:
     type: 3}
   defaultMoveSpeed: 3
   attackType: 0
-  attackClip: {fileID: 7400000, guid: ab42d20068f31124c990198ae75c2d9a, type: 3}
+  attackClip: {fileID: 7400000, guid: 84911e8607cb9ef468b009dd9d29db37, type: 2}
+  projectilePrefab: {fileID: 0}
   defaultDamage: 15
   defaultTrueDamagePercent: 0
   defaultAttackSpeed: 1
   defaultAttackDelay: 1
   defaultAttackRange: 4
-  defaultTargetNumber: 1
+  defaultTargetNumber: 3
   defaultAttackArea: 0
   revolutionData:
   - needCrystalAmount: 3

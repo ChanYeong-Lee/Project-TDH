@@ -18,10 +18,30 @@ MonoBehaviour:
   skillType: 3
   mainTargetType: 0
   priority: 0
-  attackEffects: []
-  buffEffects: []
-  defaultPercent: 0.15
+  attackEffects:
+  - attackType: 0
+    projectilePrefab: {fileID: 0}
+    particlePrefab: {fileID: 0}
+    fixedDamage: 150
+    relativeDamagePercent: 0.5
+    targetNumber: 1
+    attackArea: 0
+  buffEffects:
+  - buffName: Viking_Stun
+    attackType: 0
+    targetType: 0
+    buffType: 1
+    statType: 0
+    increaseAmount: -1
+    integerIncreaseAmount: 0
+    limitTime: 1.5
+    targetNumber: 1
+    attackArea: 0
+    allyTargets: []
+    enemyTargets: []
+  defaultPercent: 0.2
   defaultCooldown: 0
   triggerName: Skill1
-  skillSpeed: 1.2
-  skillClip: {fileID: 7400000, guid: fcaee7dea2aed644bb92287a55a72963, type: 2}
+  skillSpeed: 2
+  skillClip: {fileID: -203655887218126122, guid: f4e434c0124cb2f4ea0f365330475b50,
+    type: 3}

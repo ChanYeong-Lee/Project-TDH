@@ -44,5 +44,5 @@ MonoBehaviour:
   defaultPercent: 0
   defaultCooldown: 15
   triggerName: Skill1
-  skillSpeed: 1.2
+  skillSpeed: 3
   skillClip: {fileID: 7400000, guid: 5c0abb47da8923047923e2106432cf98, type: 2}

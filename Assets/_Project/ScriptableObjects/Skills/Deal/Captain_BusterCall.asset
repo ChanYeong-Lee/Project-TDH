@@ -30,6 +30,9 @@ MonoBehaviour:
     limitTime: 8
     targetNumber: 0
     attackArea: 3
+    allyTargets:
+    - {fileID: 0}
+    enemyTargets: []
   - buffName: Captain_IncreaseAttackDelay
     attackType: 1
     targetType: 1
@@ -40,8 +43,11 @@ MonoBehaviour:
     limitTime: 8
     targetNumber: 0
     attackArea: 3
+    allyTargets:
+    - {fileID: 0}
+    enemyTargets: []
   defaultPercent: 0
   defaultCooldown: 15
   triggerName: Skill2
-  skillSpeed: 1.2
+  skillSpeed: 2
   skillClip: {fileID: 7400000, guid: 7167fb5a29ae66143a722b3ba5d5c519, type: 2}

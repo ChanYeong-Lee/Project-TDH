@@ -15,8 +15,10 @@ public class AttackBehaviour : CharacterBehaviour
             {
                 owner.attack.photonView.RPC("SetTriggerRPC", RpcTarget.All, "Cancel");
                 owner.attack.CancelAttack();
+                Debug.Log("공격을 취소합니다");
             }
         }
+
         if (owner.attack.isAttacking == false && animator.GetBool("TryMove") == false)
         {
             if (owner.skill.CheckNonTargetCooldownSkill(out Skill readyNonTargetSkill))
@@ -62,6 +64,7 @@ public class AttackBehaviour : CharacterBehaviour
         if (owner.attack.isAttacking && continueAttack == false)
         {
             owner.attack.CancelAttack();
+            Debug.Log("공격을 취소합니다");
         }
     }
 }

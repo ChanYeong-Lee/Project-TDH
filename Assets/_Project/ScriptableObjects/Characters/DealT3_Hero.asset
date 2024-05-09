@@ -17,10 +17,10 @@ MonoBehaviour:
     type: 3}
   defaultMoveSpeed: 3.5
   attackType: 0
-  attackClip: {fileID: 7400000, guid: ab42d20068f31124c990198ae75c2d9a, type: 3}
+  attackClip: {fileID: 7400000, guid: e6b852f0a42eb0840a104839d5cd0608, type: 2}
   projectilePrefab: {fileID: 3040857776797610877, guid: 60cf1f4818185fa46879eed295ff45f8,
     type: 3}
-  defaultDamage: 40
+  defaultDamage: 60
   defaultTrueDamagePercent: 0.2
   defaultAttackSpeed: 1
   defaultAttackDelay: 0.8

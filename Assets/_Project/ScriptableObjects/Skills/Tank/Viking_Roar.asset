@@ -15,13 +15,38 @@ MonoBehaviour:
   skillName: "\uD3EC\uD6A8"
   description: "\uC790\uC2E0\uACFC \uAC00\uC7A5 \uAC15\uB825\uD55C \uC544\uAD70\uC758
     \uACF5\uACA9 \uC18D\uB3C4\uAC00 \uC99D\uAC00\uD569\uB2C8\uB2E4."
-  skillType: 3
-  mainTargetType: 0
+  skillType: 2
+  mainTargetType: 3
   priority: 0
   attackEffects: []
-  buffEffects: []
-  defaultPercent: 0.15
-  defaultCooldown: 0
-  triggerName: Skill1
-  skillSpeed: 1.2
-  skillClip: {fileID: 7400000, guid: fcaee7dea2aed644bb92287a55a72963, type: 2}
+  buffEffects:
+  - buffName: Viking_IncreaseAttackDelaySelf
+    attackType: 0
+    targetType: 3
+    buffType: 1
+    statType: 3
+    increaseAmount: 0.3
+    integerIncreaseAmount: 0
+    limitTime: 5
+    targetNumber: 0
+    attackArea: 0
+    allyTargets: []
+    enemyTargets: []
+  - buffName: Viking_IncreaseAttackDelay
+    attackType: 0
+    targetType: 2
+    buffType: 1
+    statType: 3
+    increaseAmount: 0.3
+    integerIncreaseAmount: 0
+    limitTime: 5
+    targetNumber: 1
+    attackArea: 0
+    allyTargets: []
+    enemyTargets: []
+  defaultPercent: 0
+  defaultCooldown: 10
+  triggerName: Skill2
+  skillSpeed: 2
+  skillClip: {fileID: -203655887218126122, guid: e2b2322c9bc61924f9c5cb3f72876092,
+    type: 3}
