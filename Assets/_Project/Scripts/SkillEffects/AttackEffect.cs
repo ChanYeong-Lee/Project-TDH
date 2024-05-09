@@ -85,6 +85,11 @@ public class AttackEffect
 
     private void AreaAttack(CharacterSkill owner, EnemyModel target) // 범위 공격
     {
+        if (target == null || target.gameObject.activeSelf == false)
+        {
+            return;
+        }
+
         float applyDamage = CalculateDamage(owner.attack.applyDamage);
 
         float trueDamage = applyDamage * owner.attack.applyTrueDamagePercent;

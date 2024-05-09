@@ -23,7 +23,7 @@ MonoBehaviour:
   defaultTrueDamagePercent: 0
   defaultAttackSpeed: 1
   defaultAttackDelay: 1
-  defaultAttackRange: 4
+  defaultAttackRange: 4.5
   defaultTargetNumber: 3
   defaultAttackArea: 0
   revolutionData:

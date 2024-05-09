@@ -64,7 +64,7 @@ public class Skill : MonoBehaviour
         percentage = defaultStat.defaultPercent;
 
         coolDownIncrease = 1.0f;
-        percentageIncrease = 1.0f;
+        percentageIncrease = 0.0f;
 
         coolDownTimeout = 0.0f;
         currentCooldown = applyCooldown;
@@ -111,7 +111,6 @@ public class Skill : MonoBehaviour
                 enemyTargets.Add(target.model);
             } 
         }
-
         allyTargets = CharacterManager.Instance.wholeCharacters;
         allyTargets = allyTargets.OrderByDescending((model) => model.attack.applyDamage).ToList();
 

@@ -70,7 +70,8 @@ public class EnemyHealth : MonoBehaviourPun
             currentHP = 0.0f;
             if (PhotonNetwork.IsMasterClient)
             {
-                PoolManager.Instance.networkPool.Despawn(gameObject);
+                PhotonNetwork.Destroy(gameObject);
+                //PoolManager.Instance.networkPool.Despawn(gameObject);
             }
         }
     }

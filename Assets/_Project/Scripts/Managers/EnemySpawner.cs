@@ -42,12 +42,12 @@ public class EnemySpawner : MonoBehaviour
         Vector3 spawnPosition = EnemyManager.Instance.enemyPaths[0].startPos.position;
         Quaternion spawnRotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);    
 
-        PoolManager.Instance.networkPool.PreSpawn(prefabPath + enemy.name, spawnCount / 2, spawnPosition, spawnRotation);
+        //PoolManager.Instance.networkPool.PreSpawn(prefabPath + enemy.name, spawnCount / 2, spawnPosition, spawnRotation);
 
         for (int i = 0; i < spawnCount; i++)
         {
-            EnemyModel enemyInstance = PoolManager.Instance.networkPool.Spawn(prefabPath + enemy.name, spawnPosition, spawnRotation).GetComponent<EnemyModel>();
-
+            //EnemyModel enemyInstance = PoolManager.Instance.networkPool.Spawn(prefabPath + enemy.name, spawnPosition, spawnRotation).GetComponent<EnemyModel>();
+            EnemyModel enemyInstance = PhotonNetwork.Instantiate(prefabPath + enemy.name, spawnPosition, spawnRotation).GetComponent<EnemyModel>();
             currentSpawnCount = i + 1;
             // 생성하는 로직.
 

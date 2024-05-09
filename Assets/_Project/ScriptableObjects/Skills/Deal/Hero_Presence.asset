@@ -30,6 +30,8 @@ MonoBehaviour:
     limitTime: 0
     targetNumber: 0
     attackArea: 3
+    allyTargets: []
+    enemyTargets: []
   - buffName: Hero_IncreaseAttackDelay
     attackType: 1
     targetType: 1
@@ -40,6 +42,8 @@ MonoBehaviour:
     limitTime: 0
     targetNumber: 0
     attackArea: 3
+    allyTargets: []
+    enemyTargets: []
   defaultPercent: 0
   defaultCooldown: 0
   triggerName: 

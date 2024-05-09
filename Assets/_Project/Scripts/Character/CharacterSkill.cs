@@ -80,7 +80,7 @@ public class CharacterSkill : MonoBehaviourPun
         //                            {
         //                                if ((buff.allyTargets[i] == strongestModels[i]) == false)
         //                                {
-        //                                    buff.allyTargets[i].photonView.RPC("RemoveBuff",RpcTarget.All, buff.buffName);
+        //                                    buff.allyTargets[i].photonView.RPC("RemoveBuff", RpcTarget.All, buff.buffName);
         //                                    buff.allyTargets[i] = strongestModels[i];
         //                                    buff.ApplyBuff(this, buff.allyTargets[i]);
         //                                }
@@ -138,7 +138,6 @@ public class CharacterSkill : MonoBehaviourPun
         //                            break;
         //                    }
         //                    break;
-
         //            }
         //        }
         //    }
@@ -265,9 +264,11 @@ public class CharacterSkill : MonoBehaviourPun
 
         if (target != null)
         {
-            target.onDisable += projectileInstance.ResetTarget;
-            projectileInstance.target = target.transform;
-            projectileInstance.destination = destination;
+            projectileInstance.SetTarget(target);
+        }
+        else
+        {
+            PoolManager.Instance.clientPool.Despawn(projectileInstance.gameObject);
         }
     }
 

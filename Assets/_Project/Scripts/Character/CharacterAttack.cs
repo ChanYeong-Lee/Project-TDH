@@ -300,9 +300,11 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
 
         if (target != null)
         {
-            target.onDisable += projectileInstance.ResetTarget;
-            projectileInstance.target = target.transform;
-            projectileInstance.destination = destination;
+            projectileInstance.SetTarget(target);
+        }
+        else
+        {
+            PoolManager.Instance.clientPool.Despawn(projectileInstance.gameObject);
         }
     }
 

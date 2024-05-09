@@ -39,6 +39,7 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
             buff.Deactivate();
         }
         buffDictionary.Clear();
+
         onDisable?.Invoke();
         onDisable = null;
     }
@@ -49,7 +50,7 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
         {
             if (syncTimeoutDelta <= 0.0f)
             {
-                photonView.RPC("SyncPosition", RpcTarget.Others, transform.position, move.moveSpeed * move.moveSpeedIncrease);
+                photonView.RPC("SyncPosition", RpcTarget.Others, transform.position, move.applyMoveSpeed);
                 syncTimeoutDelta = 1.0f;
             }
             else

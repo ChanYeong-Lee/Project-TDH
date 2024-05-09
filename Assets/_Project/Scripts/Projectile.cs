@@ -19,7 +19,7 @@ public class Projectile : MonoBehaviour
     public Vector3 destination; // 쏘기 전에 죽은 적이 있을수 있으니 임시로 담아두는 목표점
 
     private Coroutine despawnCoroutine;
-    private float distance;
+    private float SqrDistance;
     private void Awake()
     {
         mesh = GetComponentInChildren<MeshRenderer>();
@@ -68,9 +68,11 @@ public class Projectile : MonoBehaviour
             destination = target.position + Vector3.up;   
         }
 
+        SqrDistance = Vector3.SqrMagnitude(destination - transform.position);
+
         if (target == null
             || target.gameObject.activeSelf == false
-            || Vector3.Distance(destination, transform.position) < 0.25f
+            || SqrDistance < 0.1f
             || lifeTimeDelta <= 0.0f)
         {
             if (despawnCoroutine == null)
@@ -79,9 +81,7 @@ public class Projectile : MonoBehaviour
             }
         }
 
-        distance = Vector3.Distance(destination, transform.position);
-        
-        if (distance < 0.25f)
+        if (SqrDistance < 0.1f)
         {
             if (mesh != null)
             {
@@ -96,17 +96,23 @@ public class Projectile : MonoBehaviour
             return;
         }
 
-        float distanceValue = Mathf.Clamp(2.0f / distance, 0.0f, 1.0f);
+        float distanceValue = Mathf.Clamp(4.0f / SqrDistance, 0.0f, 1.0f);
 
         Vector3 direction = destination - transform.position;
         direction.Normalize();
 
-        transform.forward = Vector3.Lerp(transform.forward, direction, distanceValue);
+        transform.forward = direction;
 
         Vector3 moveVector = speed * transform.forward * Time.deltaTime;
         transform.position = transform.position + moveVector;
 
         lifeTimeDelta -= Time.deltaTime;
+    }
+
+    public void SetTarget(EnemyModel target)
+    {
+        this.target = target.transform;
+        destination = target.transform.position + Vector3.up;
     }
 
     public void ResetTarget()
@@ -116,8 +122,6 @@ public class Projectile : MonoBehaviour
 
     private IEnumerator DespawnCoroutine()
     {
-        yield return new WaitUntil(() => distance < 0.25f);
-
         if (trail != null)
         {
             yield return new WaitForSeconds(trail.time);
