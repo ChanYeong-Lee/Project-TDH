@@ -24,8 +24,8 @@ MonoBehaviour:
     projectilePrefab: {fileID: 0}
     particlePrefab: {fileID: 198963655649139852, guid: 0d7866d35c111904d99f6e164f560a64,
       type: 3}
-    fixedDamage: 100
-    relativeDamagePercent: 0.3
+    fixedDamage: 120
+    relativeDamagePercent: 0.5
     targetNumber: 0
     attackArea: 3
   buffEffects:

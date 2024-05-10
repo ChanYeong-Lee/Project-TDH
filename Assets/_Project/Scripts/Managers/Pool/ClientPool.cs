@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq.Expressions;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -20,7 +22,7 @@ public class ClientPool
     {
         string prefabName = prefab.name;
         
-        if (!poolDictionary.ContainsKey(prefabName))
+        if (poolDictionary.ContainsKey(prefabName) == false)
         {
             CreatePool(prefab, prefabName);
         }
@@ -57,6 +59,7 @@ public class ClientPool
 
         instance.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         instance.SetActive(true);
+
         return instance;
     }
 
@@ -89,6 +92,10 @@ public class ClientPool
         if (poolDictionary.ContainsKey(objectName))
         {
             poolDictionary[objectName].Release(gameObject);
+        }
+        else
+        {
+            UnityEngine.Object.Destroy(gameObject);
         }
     }
 }

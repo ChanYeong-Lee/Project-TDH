@@ -84,6 +84,11 @@ public class CharacterModel : MonoBehaviourPun, IModel
                 Destroy(behaviours[i]);
             }
 
+            foreach (Skill skill in skill.skills)
+            {
+                Destroy(skill.gameObject);
+            }
+
             move.enabled = false;
             skill.enabled = false;
             ui.gameObject.SetActive(false);
@@ -135,7 +140,7 @@ public class CharacterModel : MonoBehaviourPun, IModel
     }
 
     [PunRPC]
-    public void AddBuff(int casterId, string buffName, BuffType buffType, StatType statType, float increaseAmount, float limitTime)
+    public void AddBuff(int casterId, string buffName, BuffType buffType, StatType statType, float increaseAmount, float limitTime, PhotonMessageInfo info)
     {
         if (photonView.IsMine == false)
         {
@@ -151,6 +156,8 @@ public class CharacterModel : MonoBehaviourPun, IModel
             buffDictionary[buffName].Deactivate();
         }
 
+        float lag = (float)(PhotonNetwork.Time - info.SentServerTime);
+
         Buff newBuff = new Buff();
         CharacterModel caster = CharacterManager.Instance.wholeCharacters.Find((model) => model.photonView.ViewID == casterId);
 
@@ -159,7 +166,7 @@ public class CharacterModel : MonoBehaviourPun, IModel
             return;
         }
 
-        newBuff.SetBuff(caster, this, buffName, buffType, statType, increaseAmount, limitTime);
+        newBuff.SetBuff(caster, this, buffName, buffType, statType, increaseAmount, limitTime - lag);
         buffDictionary[buffName] = newBuff;
 
         switch (buffType)

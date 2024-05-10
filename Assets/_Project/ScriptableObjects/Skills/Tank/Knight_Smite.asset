@@ -23,8 +23,8 @@ MonoBehaviour:
   - attackType: 1
     projectilePrefab: {fileID: 0}
     particlePrefab: {fileID: 0}
-    fixedDamage: 80
-    relativeDamagePercent: 0.2
+    fixedDamage: 30
+    relativeDamagePercent: 0.7
     targetNumber: 0
     attackArea: 4
   buffEffects:

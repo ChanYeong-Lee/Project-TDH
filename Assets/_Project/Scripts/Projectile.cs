@@ -1,25 +1,36 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Projectile : MonoBehaviour
 {
     private MeshRenderer mesh;
     private TrailRenderer trail;
-
+    
+    [Header("설정")]
     public List<ParticleSystem> meshParticles;
-
     public float speed;
     public float lifeTime;
+    public float alternativeTrailTime;
     private float lifeTimeDelta;
 
-    public float alternativeTrailTime;
+    [Header("상태")]
+    public EnemyModel target;
+    public CharacterAttack owner;
+    public int targetPoolCount;
+    public AttackType attackType;
+    public float normalDamage;
+    public float trueDamage;
+    public float attackArea;
 
-    public Transform target;
     public Vector3 destination; // 쏘기 전에 죽은 적이 있을수 있으니 임시로 담아두는 목표점
 
     private Coroutine despawnCoroutine;
-    private float SqrDistance;
+    private float distance;
     private void Awake()
     {
         mesh = GetComponentInChildren<MeshRenderer>();
@@ -53,55 +64,63 @@ public class Projectile : MonoBehaviour
             trail.enabled = false;
         }
 
-        if (target != null)
-        {
-            EnemyModel targetModel = target.GetComponent<EnemyModel>();
-            targetModel.onDisable -= ResetTarget;
-        }
         target = null;
+
+        if (despawnCoroutine != null)
+        {
+            StopCoroutine(despawnCoroutine);
+        }
+        despawnCoroutine = null;
     }
 
     private void Update()
     {
-        if (target != null && target.gameObject.activeSelf && despawnCoroutine == null)
+        if (target != null
+            && target.gameObject.activeSelf
+            && target.poolCount == targetPoolCount
+            && despawnCoroutine == null)
         {
-            destination = target.position + Vector3.up;   
+            destination = target.transform.position + Vector3.up;
         }
 
-        SqrDistance = Vector3.SqrMagnitude(destination - transform.position);
+        distance = Vector3.Distance(destination, transform.position);
 
-        if (target == null
-            || target.gameObject.activeSelf == false
-            || SqrDistance < 0.1f
+        if (distance < 0.25f
             || lifeTimeDelta <= 0.0f)
         {
             if (despawnCoroutine == null)
             {
-                despawnCoroutine = StartCoroutine(DespawnCoroutine()); 
+                despawnCoroutine = StartCoroutine(DespawnCoroutine());
             }
         }
 
-        if (SqrDistance < 0.1f)
-        {
-            if (mesh != null)
-            {
-                mesh.enabled = false;
-            }
+       if (distance < 0.25f)
+       {
+           transform.position = destination;
 
-            foreach (ParticleSystem meshParticle in meshParticles)
-            {
-                meshParticle.Stop(false);
-                meshParticle.Clear(false);
-            }
-            return;
-        }
+           if (mesh != null)
+           {
+               mesh.enabled = false;
+           }
 
-        float distanceValue = Mathf.Clamp(4.0f / SqrDistance, 0.0f, 1.0f);
+           foreach (ParticleSystem meshParticle in meshParticles)
+           {
+               meshParticle.Stop(false);
+               meshParticle.Clear(false);
+           }
+           return;
+       }
+
 
         Vector3 direction = destination - transform.position;
         direction.Normalize();
 
-        transform.forward = direction;
+        float distanceValue = Mathf.Clamp(2.0f / distance, 0.0f, 1.0f);
+
+        float forwardX = Mathf.Lerp(transform.forward.x, direction.x, distanceValue);
+        float forwardY = direction.y;
+        float forwardZ = Mathf.Lerp(transform.forward.z, direction.z, distanceValue);
+        transform.forward = new Vector3(forwardX, forwardY, forwardZ);
 
         Vector3 moveVector = speed * transform.forward * Time.deltaTime;
         transform.position = transform.position + moveVector;
@@ -109,19 +128,16 @@ public class Projectile : MonoBehaviour
         lifeTimeDelta -= Time.deltaTime;
     }
 
-    public void SetTarget(EnemyModel target)
-    {
-        this.target = target.transform;
-        destination = target.transform.position + Vector3.up;
-    }
-
-    public void ResetTarget()
-    {
-        target = null;
-    }
-
     private IEnumerator DespawnCoroutine()
     {
+        if (owner.photonView.IsMine
+            && target != null
+            && target.gameObject.activeSelf
+            && target.poolCount == targetPoolCount)
+        {
+            ApplyDamage();
+        }
+
         if (trail != null)
         {
             yield return new WaitForSeconds(trail.time);
@@ -133,5 +149,23 @@ public class Projectile : MonoBehaviour
 
         PoolManager.Instance.clientPool.Despawn(gameObject);
         despawnCoroutine = null;
+    }
+
+    private void ApplyDamage()
+    {
+        switch (attackType)
+        {
+            case AttackType.Single:
+                target.health.photonView.RPC("TakeHitRPC", RpcTarget.All, target.poolCount, normalDamage, trueDamage);
+                break;
+            case AttackType.Area:
+                Collider[] contectedColliders = Physics.OverlapSphere(target.transform.position, attackArea, LayerMask.GetMask("Enemy"));
+                foreach (Collider collider in contectedColliders)
+                {
+                    EnemyModel enemy = collider.GetComponent<EnemyModel>();
+                    enemy.health.photonView.RPC("TakeHitRPC", RpcTarget.All, enemy.poolCount, normalDamage, trueDamage);
+                }
+                break;
+        }
     }
 }

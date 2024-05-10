@@ -25,6 +25,9 @@ public enum TargetType
 
 public class Skill : MonoBehaviour
 {
+    private CapsuleCollider trigger;
+    private CharacterSkill owner;
+
     [Header("설정")]
     public SkillSO defaultStat;
 
@@ -55,6 +58,11 @@ public class Skill : MonoBehaviour
     private float coolDownTimeout;
     private float currentCooldown;
 
+    private void Awake()
+    {
+        owner = GetComponentInParent<CharacterSkill>(); 
+    }
+
     private void OnEnable()
     {
         attackEffects = defaultStat.attackEffects;
@@ -68,6 +76,16 @@ public class Skill : MonoBehaviour
 
         coolDownTimeout = 0.0f;
         currentCooldown = applyCooldown;
+
+        if (defaultStat.skillType == SkillType.Always)
+        {
+            trigger = gameObject.AddComponent<CapsuleCollider>();
+            trigger.isTrigger = true;
+
+            Rigidbody rigidbody = gameObject.AddComponent<Rigidbody>();
+            rigidbody.useGravity = false;
+            rigidbody.isKinematic = true;
+        }
     }
 
     private void Update()
@@ -82,6 +100,17 @@ public class Skill : MonoBehaviour
             {
                 isReady = false;
                 coolDownTimeout -= Time.deltaTime;
+            }
+        }
+
+        if (defaultStat.skillType == SkillType.Always)
+        {
+            foreach (BuffEffect buff in buffEffects)
+            {
+                if (buff.buffType == BuffType.Permanant)
+                {
+                    trigger.radius = buff.attackArea * owner.attack.attackAreaIncrease;
+                }
             }
         }
     }
@@ -111,6 +140,7 @@ public class Skill : MonoBehaviour
                 enemyTargets.Add(target.model);
             } 
         }
+
         allyTargets = CharacterManager.Instance.wholeCharacters;
         allyTargets = allyTargets.OrderByDescending((model) => model.attack.applyDamage).ToList();
 
@@ -145,7 +175,7 @@ public class Skill : MonoBehaviour
     {
         foreach (AttackEffect attackEffect in attackEffects)
         {
-            attackEffect.Execute(owner, enemyTargets);
+            attackEffect.Execute(owner, enemyTargets[0]);
         }
 
         foreach (BuffEffect buffEffect in buffEffects)
@@ -160,6 +190,104 @@ public class Skill : MonoBehaviour
         if (defaultStat.skillType == SkillType.NonTargetCooldown || defaultStat.skillType == SkillType.TargetCooldown)
         {
             coolDownTimeout = 0.1f;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        foreach (BuffEffect buff in buffEffects)
+        {
+            switch (buff.targetType)
+            {
+                case TargetType.Enemy:
+                    EnemyModel enemyModel = other.GetComponent<EnemyModel>();
+                    if (enemyModel == null)
+                    {
+                        continue;
+                    }
+
+                    if (buff.enemyTargets.Contains(enemyModel))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        buff.ApplyBuff(owner, enemyModel);
+                        buff.enemyTargets.Add(enemyModel);
+                        print($"{enemyModel}에게 {buff.buffName} 적용");
+                    }
+
+                    break;
+
+                case TargetType.AllAlly:
+                    CharacterModel allyModel = other.GetComponent<CharacterModel>();
+                    if (allyModel == null)
+                    {
+                        return;
+                    }
+
+                    if (buff.allyTargets.Contains(allyModel))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        buff.ApplyBuff(owner, allyModel);
+                        buff.allyTargets.Add(allyModel);
+                        print($"{allyModel}에게 {buff.buffName} 적용");
+                    }
+
+                    break;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        foreach (BuffEffect buff in buffEffects)
+        {
+            switch (buff.targetType)
+            {
+                case TargetType.Enemy:
+                    EnemyModel enemyModel = other.GetComponent<EnemyModel>();
+                    if (enemyModel == null)
+                    {
+                        continue;
+                    }
+
+                    if (buff.enemyTargets.Contains(enemyModel))
+                    {
+                        buff.RemoveBuff(enemyModel);
+                        buff.enemyTargets.Remove(enemyModel);
+                        print($"{enemyModel}에게 {buff.buffName} 해제");
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    break;
+
+                case TargetType.AllAlly:
+                    CharacterModel allyModel = other.GetComponent<CharacterModel>();
+                    if (allyModel == null)
+                    {
+                        return;
+                    }
+
+                    if (buff.allyTargets.Contains(allyModel))
+                    {
+                        buff.RemoveBuff(allyModel);
+                        buff.allyTargets.Remove(allyModel);
+                        print($"{allyModel}에게 {buff.buffName} 해제");
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    break;
+            }
         }
     }
 }

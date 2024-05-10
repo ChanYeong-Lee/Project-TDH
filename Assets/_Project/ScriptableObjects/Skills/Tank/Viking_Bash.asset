@@ -22,8 +22,8 @@ MonoBehaviour:
   - attackType: 0
     projectilePrefab: {fileID: 0}
     particlePrefab: {fileID: 0}
-    fixedDamage: 150
-    relativeDamagePercent: 0.5
+    fixedDamage: 100
+    relativeDamagePercent: 0.8
     targetNumber: 1
     attackArea: 0
   buffEffects:

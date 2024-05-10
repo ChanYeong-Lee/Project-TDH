@@ -55,8 +55,8 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
     public float attackAreaIncrease = 1.0f;
 
     public EnemyModel mainTarget;
+    public int mainTargetPoolCount;
     [HideInInspector]
-    public List<EnemyModel> targets;
 
     private bool attackPrepared;
     private bool haveTarget;
@@ -105,6 +105,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
         this.projectilePrefab = defaultStat.projectilePrefab;
 
         this.damage = defaultStat.defaultDamage;
+        this.trueDamagePercent = defaultStat.defaultTrueDamagePercent;
         this.attackDelay = defaultStat.defaultAttackDelay;
         this.attackArea = defaultStat.defaultAttackArea;
         this.attackRange = defaultStat.defaultAttackRange;
@@ -115,6 +116,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
         attackDelayIncrease = 1.0f;
         attackAreaIncrease = 1.0f;
         attackRangeIncrease = 1.0f;
+        trueDamagePercentIncrease = 0.0f;
 
         targetNumberIncrease = 0;
     }
@@ -140,7 +142,6 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
         canAttack = false;
 
         mainTarget = null;
-        targets.Clear();
 
         attackDelayDelta = applyAttackDelay;
 
@@ -167,12 +168,9 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
         if (targetInfo.Count > 0)
         {
             targetInfo = targetInfo.OrderBy(a => a.distance).ToList();
-            targets = new List<EnemyModel>();
-            foreach (Target target in targetInfo)
-            {
-                targets.Add(target.model);
-            }
-            mainTarget = targets[0];
+
+            mainTarget = targetInfo[0].model;
+            mainTargetPoolCount = mainTarget.poolCount;
         }
     }
 
@@ -185,9 +183,39 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
 
     private void SingleAttack() // 단일 공격
     {
-        if (mainTarget == null)
+        if (mainTarget == null 
+            || mainTarget.gameObject.activeSelf == false
+            || mainTargetPoolCount != mainTarget.poolCount)
         {
             return;
+        }
+
+        List<Target> targetInfo = new List<Target>();
+        List<EnemyModel> targets = new List<EnemyModel>();
+
+        for (int i = 0; i < EnemyManager.Instance.enemies.Count; i++)
+        {
+            EnemyModel enemy = EnemyManager.Instance.enemies[i];
+            if (enemy == null || enemy.gameObject.activeSelf == false)
+            {
+                continue;
+            }
+
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distance < applyAttackRange)
+            {
+                Target target = new Target(enemy, distance);
+                targetInfo.Add(target);
+            }
+        }
+
+        if (targetInfo.Count > 0)
+        {
+            targetInfo = targetInfo.OrderBy(a => a.distance).ToList();
+            for (int i = 0; i < targetInfo.Count; i++)
+            {
+                targets.Add(targetInfo[i].model);
+            }
         }
 
         float normalDamage = applyDamage;
@@ -196,7 +224,8 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
         int targetNumber = Mathf.Clamp(applyTargetNumber, 0, targets.Count);
         for (int i = 0; i < targetNumber; i++)
         {
-            if (targets[i] == null || targets[i].gameObject.activeSelf == false)
+            if (targets[i] == null 
+                || targets[i].gameObject.activeSelf == false)
             {
                 continue;
             }
@@ -209,16 +238,23 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
                 int targetViewID = targets[i].photonView.ViewID;
                 Vector3 destination = targets[i].transform.position + Vector3.up;
 
-                photonView.RPC("ShotProjectileRPC", RpcTarget.All, projectilePrefab.name, spawnPosition, spawnRotation, targetViewID, destination);
+                photonView.RPC("ShotProjectileRPC", RpcTarget.All, 
+                    projectilePrefab.name, spawnPosition, spawnRotation, 
+                    targetViewID, targets[i].poolCount, destination, 
+                    attackType, normalDamage, trueDamage, 0.0f);
             }
-
-            targets[i].health.photonView.RPC("TakeHitRPC", RpcTarget.All, normalDamage, trueDamage);
+            else
+            {
+                targets[i].health.photonView.RPC("TakeHitRPC", RpcTarget.All, targets[i].poolCount, normalDamage, trueDamage);
+            }
         }
     }
 
     private void AreaAttack() // 범위 공격
     {
-        if (mainTarget == null)
+        if (mainTarget == null 
+            || mainTarget.gameObject.activeSelf == false
+            || mainTargetPoolCount != mainTarget.poolCount)
         {
             return;
         }
@@ -226,7 +262,6 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
         float trueDamage = applyDamage * applyTrueDamagePercent;
         float normalDamage = applyDamage - trueDamage;
 
-        Collider[] contectedColliders = Physics.OverlapSphere(mainTarget.transform.position, applyAttackArea);
 
         if (projectilePrefab != null)
         {
@@ -237,21 +272,28 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
 
             Vector3 destination = mainTarget.transform.position + Vector3.up;
 
-            photonView.RPC("ShotProjectileRPC", RpcTarget.All, projectilePrefab.name, spawnPosition, spawnRotation, targetViewID, destination);
+            photonView.RPC("ShotProjectileRPC", RpcTarget.All,
+                projectilePrefab.name, spawnPosition, spawnRotation,
+                targetViewID, mainTarget.poolCount, destination,
+                attackType, normalDamage, trueDamage, applyAttackArea);
         }
-
-        foreach (Collider collider in contectedColliders)   
+        else
         {
-            if (collider.tag == "Enemy")
+            Collider[] contectedColliders = Physics.OverlapSphere(mainTarget.transform.position, applyAttackArea);
+
+            foreach (Collider collider in contectedColliders)
             {
-                EnemyModel enemy = collider.GetComponent<EnemyModel>();
-
-                if (enemy == null || enemy.gameObject.activeSelf == false)
+                if (collider.tag == "Enemy")
                 {
-                    continue;
-                }
+                    EnemyModel enemy = collider.GetComponent<EnemyModel>();
 
-                enemy.health.photonView.RPC("TakeHitRPC", RpcTarget.All, normalDamage, trueDamage);
+                    if (enemy == null || enemy.gameObject.activeSelf == false)
+                    {
+                        continue;
+                    }
+
+                    enemy.health.photonView.RPC("TakeHitRPC", RpcTarget.All, enemy.poolCount, normalDamage, trueDamage);
+                }
             }
         }
     }
@@ -291,16 +333,27 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
     }
 
     [PunRPC]
-    public void ShotProjectileRPC(string prefabName, Vector3 spawnPosition, Quaternion spawnRotation, int targetViewID, Vector3 destination)
+    public void ShotProjectileRPC
+        (string prefabName, Vector3 spawnPosition, Quaternion spawnRotation, 
+        int targetViewID, int targetPoolCount, Vector3 destination, 
+        AttackType attackType, float normalDamage, float trueDamage, float attackArea)
     {
-        Projectile projectilePrefab = Resources.Load<Projectile>(projectilePath + prefabName);
-        Projectile projectileInstance = PoolManager.Instance.clientPool.Spawn(projectilePrefab.gameObject, spawnPosition, spawnRotation).GetComponent<Projectile>();
+        GameObject projectilePrefab = Resources.Load<GameObject>(projectilePath + prefabName);
+
+        Projectile projectileInstance = PoolManager.Instance.clientPool.Spawn(projectilePrefab, spawnPosition, spawnRotation).GetComponent<Projectile>();
 
         EnemyModel target = EnemyManager.Instance.enemies.Find((model) => model.photonView.ViewID == targetViewID);
 
         if (target != null)
         {
-            projectileInstance.SetTarget(target);
+            projectileInstance.target = target;
+            projectileInstance.owner = this;
+            projectileInstance.targetPoolCount = targetPoolCount;
+            projectileInstance.destination = destination;
+            projectileInstance.attackType = attackType;
+            projectileInstance.normalDamage = normalDamage;
+            projectileInstance.trueDamage = trueDamage;
+            projectileInstance.attackArea = attackArea;
         }
         else
         {

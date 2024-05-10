@@ -17,7 +17,8 @@ public class CharacterSkill : MonoBehaviourPun
     public Skill currentSkill;
     public bool isCasting;
     public Transform mainTarget;
-    
+    public int targetPoolCount;
+
     public float cooldownIncrease;
     public float percentageIncrease;
 
@@ -237,9 +238,20 @@ public class CharacterSkill : MonoBehaviourPun
     public void StartSkill(Skill skill)
     {
         currentSkill = skill;
-        isCasting = true;
-
         mainTarget = currentSkill.SetTarget(this);
+
+        if (mainTarget == null)
+        {
+            return;
+        }
+
+        isCasting = true;
+        
+        if (mainTarget.TryGetComponent(out EnemyModel enemyTarget))
+        {
+            targetPoolCount = enemyTarget.poolCount;
+        }
+
         currentSkill.StartSkill();
 
         float applySkillSpeed = Mathf.Clamp(skill.defaultStat.skillSpeed, 0.1f, attack.applyAttackDelay + 0.1f);
@@ -255,7 +267,7 @@ public class CharacterSkill : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void ShotSkillProjectileRPC(string prefabName, Vector3 spawnPosition, Quaternion spawnRotation, int targetViewID, Vector3 destination)
+    public void ShotSkillProjectileRPC(string prefabName, Vector3 spawnPosition, Quaternion spawnRotation, int targetViewID, int targetPoolCount, Vector3 destination, AttackType attackType, float normalDamage, float trueDamage, float attackArea)
     {
         Projectile projectilePrefab = Resources.Load<Projectile>(projectilePath + prefabName);
         Projectile projectileInstance = PoolManager.Instance.clientPool.Spawn(projectilePrefab.gameObject, spawnPosition, spawnRotation).GetComponent<Projectile>();
@@ -264,7 +276,14 @@ public class CharacterSkill : MonoBehaviourPun
 
         if (target != null)
         {
-            projectileInstance.SetTarget(target);
+            projectileInstance.target = target;
+            projectileInstance.owner = attack;
+            projectileInstance.targetPoolCount = targetPoolCount;
+            projectileInstance.destination = destination;
+            projectileInstance.attackType = attackType;
+            projectileInstance.normalDamage = normalDamage;
+            projectileInstance.trueDamage = trueDamage;
+            projectileInstance.attackArea = attackArea;
         }
         else
         {

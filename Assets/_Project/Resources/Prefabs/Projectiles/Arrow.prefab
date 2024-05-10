@@ -265,7 +265,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b105e04c52d04e84188fb66af73fc156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshParticles: []
   speed: 30
   lifeTime: 5
+  alternativeTrailTime: 0
   target: {fileID: 0}
+  owner: {fileID: 0}
+  targetPoolCount: 0
+  attackType: 0
+  normalDamage: 0
+  trueDamage: 0
+  attackArea: 0
   destination: {x: 0, y: 0, z: 0}

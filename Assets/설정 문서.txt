@@ -53,3 +53,16 @@ BBx : 마녀
 RGB : 여왕
 - 가장 센 유닛 공증 + 고정 데미지 증가 (쿨타임)
 - 범위 공증 + 범위 공속 증가 (항상)
+
+MAIN ISSUES!!!!!
+1. Object Pool 때문에 대상 몬스터가 죽어도 Target이 유지됨.
+2. Area Attack, Multi Attack 등이 Main Target 하나 때문에 취소됨.
+3. Always Type의 Buff가 메모리를 너무 잡아먹음.
+4. Projectile들이 더 자연스럽게 나가고 자연스럽게 사라져야 됨.
+
+Sub Issues
+1. Buff에도 Particle이 필요할 듯.
+2. Skill 구조가 너무 복잡함.
+3. Balance?
+4. Attack에도 particle이 필요할까?
+5. UI 시인성?

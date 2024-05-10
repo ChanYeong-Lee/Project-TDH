@@ -51,9 +51,12 @@ public class EnemyHealth : MonoBehaviourPun
     }
 
     [PunRPC]
-    protected virtual void TakeHitRPC(float normalDamage, float trueDamage, PhotonMessageInfo info)
+    protected virtual void TakeHitRPC(int poolCount, float normalDamage, float trueDamage, PhotonMessageInfo info)
     {
-        if (gameObject.activeSelf == false)
+        int modelPoolCount = GetComponent<EnemyModel>().poolCount;
+
+        if (gameObject.activeSelf == false
+            || poolCount != modelPoolCount)
         {
             return;
         }
@@ -70,18 +73,8 @@ public class EnemyHealth : MonoBehaviourPun
             currentHP = 0.0f;
             if (PhotonNetwork.IsMasterClient)
             {
-                PhotonNetwork.Destroy(gameObject);
-                //PoolManager.Instance.networkPool.Despawn(gameObject);
+                PoolManager.Instance.networkPool.Despawn(gameObject);
             }
-        }
-    }
-
-    [PunRPC]
-    private void TestFunc(int number)
-    {
-        if (PhotonNetwork.LocalPlayer.ActorNumber == number)
-        {
-            // DO Somthing;
         }
     }
 }

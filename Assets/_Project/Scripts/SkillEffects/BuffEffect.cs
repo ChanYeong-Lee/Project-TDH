@@ -112,6 +112,19 @@ public class BuffEffect
 
     public void ApplyBuff(CharacterSkill owner, EnemyModel model)
     {
-        model.photonView.RPC("AddBuff", RpcTarget.All, owner.photonView.ViewID, buffName, buffType, statType, increaseAmount, limitTime);
+        model.photonView.RPC("AddBuff", RpcTarget.All, 
+            owner.photonView.ViewID, model.poolCount,
+            buffName, buffType, statType, 
+            increaseAmount, limitTime);
+    }
+
+    public void RemoveBuff(CharacterModel model)
+    {
+        model.photonView.RPC("RemoveBuff", RpcTarget.All, buffName);
+    }
+
+    public void RemoveBuff(EnemyModel model)
+    {
+        model.photonView.RPC("RemoveBuff", RpcTarget.All, buffName);
     }
 }

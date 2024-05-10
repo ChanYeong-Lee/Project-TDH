@@ -10,7 +10,8 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
     public EnemyMove move;
     public EnemyHealth health;
     public Dictionary<string, Buff> buffDictionary;
-    public Action onDisable;
+
+    public int poolCount;
 
     public float syncTimeoutDelta = 0.0f;
 
@@ -25,6 +26,7 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
     private void OnEnable()
     {
         EnemyManager.Instance.enemies.Add(this);
+        poolCount++;
     }
 
     private void OnDisable()
@@ -39,9 +41,6 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
             buff.Deactivate();
         }
         buffDictionary.Clear();
-
-        onDisable?.Invoke();
-        onDisable = null;
     }
 
     private void Update()
@@ -81,7 +80,10 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
     }
 
     [PunRPC]
-    public void AddBuff(int casterId, string buffName, BuffType buffType, StatType statType, float increaseAmount, float limitTime)
+    public void AddBuff
+        (int casterId, int modelPoolCount, 
+        string buffName, BuffType buffType, StatType statType, 
+        float increaseAmount, float limitTime, PhotonMessageInfo info)
     {
         if (gameObject.activeSelf == false)
         {
@@ -104,9 +106,11 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
             buffDictionary[buffName].Deactivate();
         }
 
+        float lag = (float)(PhotonNetwork.Time - info.SentServerTime);
+
         Buff newBuff = new Buff();
         
-        newBuff.SetBuff(caster, this, buffName, buffType, statType, increaseAmount, limitTime);
+        newBuff.SetBuff(caster, this, buffName, buffType, statType, increaseAmount, limitTime - lag);
         buffDictionary[buffName] = newBuff;
 
         switch (buffType)

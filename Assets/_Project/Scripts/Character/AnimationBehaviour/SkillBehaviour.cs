@@ -7,7 +7,19 @@ public class SkillBehaviour : CharacterBehaviour
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (owner.skill.mainTarget == null || owner.skill.mainTarget.gameObject.activeSelf == false)
+        bool correctEnemy = false;
+        if (owner.skill.mainTarget.TryGetComponent(out EnemyModel enemyTarget))
+        {
+            correctEnemy = enemyTarget.poolCount == owner.skill.targetPoolCount;
+        }
+        else
+        {
+            correctEnemy = true;
+        }
+
+        if (owner.skill.mainTarget == null 
+            || owner.skill.mainTarget.gameObject.activeSelf == false
+            || correctEnemy == false)
         {
             if (owner.skill.isCasting)
             {

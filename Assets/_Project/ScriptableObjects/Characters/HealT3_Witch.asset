@@ -26,5 +26,5 @@ MonoBehaviour:
   defaultAttackDelay: 1.1
   defaultAttackRange: 5.5
   defaultTargetNumber: 1
-  defaultAttackArea: 1.5
+  defaultAttackArea: 3
   revolutionData: []

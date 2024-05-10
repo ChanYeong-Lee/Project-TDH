@@ -51,6 +51,12 @@ MonoBehaviour:
   lifeTime: 3
   alternativeTrailTime: 0
   target: {fileID: 0}
+  owner: {fileID: 0}
+  targetPoolCount: 0
+  attackType: 0
+  normalDamage: 0
+  trueDamage: 0
+  attackArea: 0
   destination: {x: 0, y: 0, z: 0}
 --- !u!1 &3661870174173866251
 GameObject:
