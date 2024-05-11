@@ -9,25 +9,28 @@ public class AttackBehaviour : CharacterBehaviour
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (owner.attack.mainTarget == null || owner.attack.mainTarget.gameObject.activeSelf == false)
+        if (owner.attack.isAttacking)
         {
-            if (owner.attack.isAttacking)
+            if (owner.attack.mainTarget == null 
+                || owner.attack.mainTarget.gameObject.activeSelf == false
+                || owner.attack.mainTarget.poolCount != owner.attack.mainTargetPoolCount)
             {
                 owner.attack.photonView.RPC("SetTriggerRPC", RpcTarget.All, "Cancel");
                 owner.attack.CancelAttack();
                 Debug.Log("공격을 취소합니다");
             }
         }
-
-        if (owner.attack.isAttacking == false && animator.GetBool("TryMove") == false)
+        else
         {
-            if (owner.skill.CheckNonTargetCooldownSkill(out Skill readyNonTargetSkill))
+            if (animator.GetBool("TryMove") == false
+                && owner.attack.canAttack
+                && owner.attack.CheckTarget())
             {
-                owner.attack.StartSkill();
-                owner.skill.StartSkill(readyNonTargetSkill);
-            }
-            if (owner.attack.canAttack)
-            {
+                //if (owner.skill.CheckNonTargetCooldownSkill(out Skill readyNonTargetSkill))
+                //{
+                //    owner.attack.StartSkill();
+                //    owner.skill.StartSkill(readyNonTargetSkill);
+                //}
                 if (owner.skill.CheckTargetCooldownSkill(out Skill readyTargetSkill))
                 {
                     owner.attack.StartSkill();
@@ -49,7 +52,9 @@ public class AttackBehaviour : CharacterBehaviour
 
     public override void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (owner.attack.mainTarget != null && owner.attack.mainTarget.gameObject.activeSelf && owner.attack.isAttacking)
+        if (owner.attack.isAttacking
+            && owner.attack.mainTarget != null 
+            && owner.attack.mainTarget.gameObject.activeSelf)
         {
             Vector3 direction = owner.attack.mainTarget.transform.position - owner.transform.position;
             direction.y = 0.0f;
@@ -61,7 +66,8 @@ public class AttackBehaviour : CharacterBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (owner.attack.isAttacking && continueAttack == false)
+        if (owner.attack.isAttacking 
+            && continueAttack == false)
         {
             owner.attack.CancelAttack();
             Debug.Log("공격을 취소합니다");

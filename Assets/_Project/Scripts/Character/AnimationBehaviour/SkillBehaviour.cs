@@ -4,24 +4,28 @@ using UnityEngine;
 public class SkillBehaviour : CharacterBehaviour
 {
     private bool continueSkill;
+    private bool correctTarget;
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        bool correctEnemy = false;
-        if (owner.skill.mainTarget.TryGetComponent(out EnemyModel enemyTarget))
+        if (owner.skill.isCasting)
         {
-            correctEnemy = enemyTarget.poolCount == owner.skill.targetPoolCount;
-        }
-        else
-        {
-            correctEnemy = true;
-        }
+            if (owner.skill.mainTarget != null
+                && owner.skill.mainTarget.gameObject.activeSelf)
+            {
+                if (owner.skill.mainTarget.TryGetComponent(out EnemyModel enemyTarget))
+                {
+                    correctTarget = enemyTarget.poolCount == owner.skill.targetPoolCount;
+                }
+                else
+                {
+                    correctTarget = true;
+                }
+            }
 
-        if (owner.skill.mainTarget == null 
+            if (owner.skill.mainTarget == null
             || owner.skill.mainTarget.gameObject.activeSelf == false
-            || correctEnemy == false)
-        {
-            if (owner.skill.isCasting)
+            || correctTarget == false)
             {
                 owner.attack.photonView.RPC("SetTriggerRPC", RpcTarget.All, "Cancel");
                 owner.skill.CancelSkill();
@@ -29,41 +33,38 @@ public class SkillBehaviour : CharacterBehaviour
                 Debug.Log("스킬을 취소합니다");
             }
         }
-
-        if (owner.skill.isCasting == false && animator.GetBool("TryMove") == false)
+        else
         {
-            if (owner.skill.CheckNonTargetCooldownSkill(out Skill readyNonTargetSkill))
+            if (animator.GetBool("TryMove") == false)
             {
-                owner.attack.StartSkill();
-                owner.skill.StartSkill(readyNonTargetSkill);
-                continueSkill = true;
-            }
-            else if (owner.attack.canAttack)
-            {
-                if (owner.skill.CheckTargetCooldownSkill(out Skill readyTargetSkill))
+                if (owner.attack.canAttack
+                    && owner.attack.CheckTarget())
                 {
-                    owner.attack.StartSkill();
-                    owner.skill.StartSkill(readyTargetSkill);
+                    if (owner.skill.CheckTargetCooldownSkill(out Skill readyTargetSkill))
+                    {
+                        owner.attack.StartSkill();
+                        owner.skill.StartSkill(readyTargetSkill);
+                    }
+                    else if (owner.skill.CheckAttackSkill(out Skill activatedAttackSkill))
+                    {
+                        owner.attack.StartSkill();
+                        owner.skill.StartSkill(activatedAttackSkill);
+                    }
+                    else
+                    {
+                        owner.attack.StartAttack();
+                    }
+                    continueSkill = true;
                 }
-                else if (owner.skill.CheckAttackSkill(out Skill activatedAttackSkill))
-                {
-                    owner.attack.StartSkill();
-                    owner.skill.StartSkill(activatedAttackSkill);
-                }
-                else
-                {
-                    owner.attack.StartAttack();
-                }
-                continueSkill = true;
             }
         }
     }
 
     public override void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (owner.skill.mainTarget != null 
+        if (owner.skill.isCasting
+            && owner.skill.mainTarget != null 
             && owner.skill.mainTarget.gameObject.activeSelf 
-            && owner.skill.isCasting
             && owner.skill.mainTarget != owner.transform)
         {
             Vector3 direction = owner.skill.mainTarget.transform.position - owner.transform.position;
@@ -76,7 +77,8 @@ public class SkillBehaviour : CharacterBehaviour
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (owner.skill.isCasting && continueSkill == false)
+        if (owner.skill.isCasting 
+            && continueSkill == false)
         {
             owner.skill.CancelSkill();
             owner.attack.CancelAttack();

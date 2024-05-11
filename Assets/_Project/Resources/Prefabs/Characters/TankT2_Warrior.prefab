@@ -91,8 +91,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 761426414864087309}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.00000011920929, y: 0.85176706, z: -0.04837639}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -822,7 +822,6 @@ MonoBehaviour:
   attackType: 0
   attackClip: {fileID: 0}
   projectilePrefab: {fileID: 0}
-  canAttack: 0
   isAttacking: 0
   damage: 0
   damageIncrease: 0
@@ -839,6 +838,7 @@ MonoBehaviour:
   attackAreaIncrease: 1
   mainTarget: {fileID: 0}
   mainTargetPoolCount: 0
+  canAttack: 0
 --- !u!114 &-8118845442920189518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2555,7 +2555,7 @@ PrefabInstance:
     - target: {fileID: 3207628249441522309, guid: 0da97288620a4104f9b1df1d277f998c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.00000011920929
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3207628249441522309, guid: 0da97288620a4104f9b1df1d277f998c,
         type: 3}
@@ -2596,11 +2596,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Warrior_Smite
-      objectReference: {fileID: 0}
-    - target: {fileID: 4980377976919951114, guid: 0da97288620a4104f9b1df1d277f998c,
-        type: 3}
-      propertyPath: m_Layer
-      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

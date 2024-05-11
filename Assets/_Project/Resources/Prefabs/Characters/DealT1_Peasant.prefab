@@ -106,7 +106,6 @@ MonoBehaviour:
   attackType: 0
   attackClip: {fileID: 7400000, guid: 3558db8e6c045c3418d8e7593f8a88de, type: 3}
   projectilePrefab: {fileID: 0}
-  canAttack: 0
   isAttacking: 0
   damage: 10
   damageIncrease: 1
@@ -123,6 +122,7 @@ MonoBehaviour:
   attackAreaIncrease: 1
   mainTarget: {fileID: 0}
   mainTargetPoolCount: 0
+  canAttack: 0
 --- !u!114 &8851169931848037835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2314,7 +2314,7 @@ PrefabInstance:
     - target: {fileID: 2202527994299553442, guid: 7e5e9f36127829846adcb2c960d1ab86,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8926192050751065931, guid: 7e5e9f36127829846adcb2c960d1ab86,
         type: 3}

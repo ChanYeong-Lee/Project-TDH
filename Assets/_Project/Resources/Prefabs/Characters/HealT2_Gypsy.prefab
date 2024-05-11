@@ -1010,7 +1010,6 @@ MonoBehaviour:
   attackType: 0
   attackClip: {fileID: 0}
   projectilePrefab: {fileID: 0}
-  canAttack: 0
   isAttacking: 0
   damage: 0
   damageIncrease: 0
@@ -1027,6 +1026,7 @@ MonoBehaviour:
   attackAreaIncrease: 1
   mainTarget: {fileID: 0}
   mainTargetPoolCount: 0
+  canAttack: 0
 --- !u!114 &-494808843483305504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1064,10 +1064,7 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'Spine_03'\n\tTransform 'Spine_03'\n\tTransform
-    'Spine_03'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -1897,8 +1894,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6766223750645018120}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2306,7 +2303,7 @@ PrefabInstance:
     - target: {fileID: 3207628249441522309, guid: 0ff68a247e49bb8498ba6b89b88c4036,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.00000011920929
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3207628249441522309, guid: 0ff68a247e49bb8498ba6b89b88c4036,
         type: 3}
@@ -2351,7 +2348,7 @@ PrefabInstance:
     - target: {fileID: 4980377976919951114, guid: 0ff68a247e49bb8498ba6b89b88c4036,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

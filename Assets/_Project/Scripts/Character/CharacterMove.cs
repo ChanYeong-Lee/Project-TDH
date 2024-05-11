@@ -38,7 +38,6 @@ public class CharacterMove : MonoBehaviourPun
     private void OnEnable()
     {
         blendSpeed = 0.0f;
-        agent.SetDestination(Vector3.right);
         // TODO : 다른 유저의 캐릭터를 건드릴 수 없도록, 
         // 캐릭터가 내 소유일 때는,
         // agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
@@ -49,9 +48,6 @@ public class CharacterMove : MonoBehaviourPun
 
     private void Update()
     {
-        CheckVelocity();
-
-        float applyMoveSpeed = moveSpeed * moveSpeedIncrease;
         if (agent.hasPath)
         {
             blendSpeed = Mathf.Lerp(blendSpeed, 1.0f, 10.0f * Time.deltaTime);
@@ -79,17 +75,6 @@ public class CharacterMove : MonoBehaviourPun
     public void AddCrystal(Vector3Int crystals)
     {
         moveSpeedIncrease += 0.1f * crystals.y;
-    }
-
-    private void CheckVelocity()
-    {
-        velocity = (transform.position - position) / Time.deltaTime;
-        position = transform.position;
-     
-        angularVelocity = Quaternion.Angle(rotation, transform.rotation);
-        rotation = transform.rotation;
-
-        isMoving = velocity != Vector3.zero || angularVelocity != 0.0f;
     }
 
     public void Move(Vector3 direction)

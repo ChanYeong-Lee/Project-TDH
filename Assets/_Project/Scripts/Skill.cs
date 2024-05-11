@@ -25,7 +25,7 @@ public enum TargetType
 
 public class Skill : MonoBehaviour
 {
-    private CapsuleCollider trigger;
+    private SphereCollider trigger;
     private CharacterSkill owner;
 
     [Header("¼³Á¤")]
@@ -79,7 +79,7 @@ public class Skill : MonoBehaviour
 
         if (defaultStat.skillType == SkillType.Always)
         {
-            trigger = gameObject.AddComponent<CapsuleCollider>();
+            trigger = gameObject.AddComponent<SphereCollider>();
             trigger.isTrigger = true;
 
             Rigidbody rigidbody = gameObject.AddComponent<Rigidbody>();

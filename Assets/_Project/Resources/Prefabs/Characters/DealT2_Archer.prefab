@@ -729,8 +729,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4228943243094001552}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5069481, y: 0.049564596, z: -1.524546}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1100,7 +1100,6 @@ MonoBehaviour:
   attackType: 0
   attackClip: {fileID: 0}
   projectilePrefab: {fileID: 0}
-  canAttack: 0
   isAttacking: 0
   damage: 0
   damageIncrease: 0
@@ -1117,6 +1116,7 @@ MonoBehaviour:
   attackAreaIncrease: 1
   mainTarget: {fileID: 0}
   mainTargetPoolCount: 0
+  canAttack: 0
 --- !u!114 &-3889456218704205146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2135,7 +2135,7 @@ PrefabInstance:
     - target: {fileID: 3207628249441522309, guid: 8871881c37de4b441aafd99468d872c2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.00000011920929
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3207628249441522309, guid: 8871881c37de4b441aafd99468d872c2,
         type: 3}
@@ -2180,7 +2180,7 @@ PrefabInstance:
     - target: {fileID: 4980377976919951114, guid: 8871881c37de4b441aafd99468d872c2,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

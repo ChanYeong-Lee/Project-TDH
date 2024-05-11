@@ -23,7 +23,6 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
     public AnimationClip attackClip;
     public Projectile projectilePrefab;
 
-    public bool canAttack;
     public bool isAttacking;
 
     public float applyDamage => damage * damageIncrease;
@@ -58,7 +57,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
     public int mainTargetPoolCount;
     [HideInInspector]
 
-    private bool attackPrepared;
+    public bool canAttack;
     private bool haveTarget;
 
     private void Awake()
@@ -74,30 +73,14 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
             return;
         }
 
-        if (attackPrepared == false)
+        if (attackDelayDelta > 0.0f)
         {
             attackDelayDelta -= Time.deltaTime;
         }
-        attackPrepared = attackDelayDelta <= 0.0f;
-
-        haveTarget = false;
-        foreach (EnemyModel enemy in EnemyManager.Instance.enemies)
-        {
-            float distance = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distance < applyAttackRange)
-            {
-                haveTarget = true;
-                break;
-            }
-            else
-            {
-                haveTarget = false;
-            }
-        }
-
-        canAttack = attackPrepared && haveTarget;
+        canAttack = attackDelayDelta <= 0.0f;
     }
 
+    #region STATS
     public void SetAttackStats(CharacterSO defaultStat)
     {
         this.attackType = defaultStat.attackType;
@@ -129,6 +112,21 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
         attackAreaIncrease += 0.1f * crystals.y;
         targetNumberIncrease += crystals.y;
     }
+#endregion
+
+    // 공격 범위 내에 적이 한명이라도 있는지 확인
+    public bool CheckTarget()
+    {
+        foreach (EnemyModel enemy in EnemyManager.Instance.enemies)
+        {
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distance < applyAttackRange)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void StartSkill()
     {
@@ -136,49 +134,33 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
         attackDelayDelta = applyAttackDelay;
     }
 
+    // 공격을 시작하며 모든 적들을 순회하며 공격 범위 내의 적들 중 가장 가까운 적을 찾는다.
     public void StartAttack()
     {
         isAttacking = true;
-        canAttack = false;
-
-        mainTarget = null;
-
         attackDelayDelta = applyAttackDelay;
 
+        mainTarget = null;
+        float minimumDistance = Mathf.Infinity;
+        foreach (EnemyModel enemy in EnemyManager.Instance.enemies)
+        {
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distance < minimumDistance)
+            {
+                mainTarget = enemy;
+                mainTargetPoolCount = mainTarget.poolCount;
+                minimumDistance = distance;
+            }
+        }
+        
         animator.SetFloat("AttackSpeed", attackClip.length / applyAttackSpeed);
         photonView.RPC("SetTriggerRPC", RpcTarget.All, "Attack");
-
-        List<Target> targetInfo = new List<Target>();
-        for (int i = 0; i < EnemyManager.Instance.enemies.Count; i++)
-        {
-            EnemyModel enemy = EnemyManager.Instance.enemies[i];
-            if (enemy == null || enemy.gameObject.activeSelf == false)
-            {
-                continue;
-            }
-
-            float distance = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distance < applyAttackRange)
-            {
-                Target target = new Target(enemy, distance);
-                targetInfo.Add(target);
-            }
-        }
-
-        if (targetInfo.Count > 0)
-        {
-            targetInfo = targetInfo.OrderBy(a => a.distance).ToList();
-
-            mainTarget = targetInfo[0].model;
-            mainTargetPoolCount = mainTarget.poolCount;
-        }
     }
 
     public void CancelAttack()
     {
-        attackDelayDelta = 0.1f;
         isAttacking = false;
-        canAttack = false;
+        attackDelayDelta = 0.1f;
     }
 
     private void SingleAttack() // 단일 공격
@@ -192,11 +174,11 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
 
         List<Target> targetInfo = new List<Target>();
         List<EnemyModel> targets = new List<EnemyModel>();
-
         for (int i = 0; i < EnemyManager.Instance.enemies.Count; i++)
         {
             EnemyModel enemy = EnemyManager.Instance.enemies[i];
-            if (enemy == null || enemy.gameObject.activeSelf == false)
+            if (enemy == null 
+                || enemy.gameObject.activeSelf == false)
             {
                 continue;
             }
@@ -208,7 +190,6 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
                 targetInfo.Add(target);
             }
         }
-
         if (targetInfo.Count > 0)
         {
             targetInfo = targetInfo.OrderBy(a => a.distance).ToList();
@@ -227,6 +208,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
             if (targets[i] == null 
                 || targets[i].gameObject.activeSelf == false)
             {
+                targetNumber = Mathf.Clamp(targetNumber + 1, 0, targets.Count);
                 continue;
             }
 

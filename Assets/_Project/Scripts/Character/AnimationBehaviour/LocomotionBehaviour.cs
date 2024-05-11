@@ -6,29 +6,30 @@ public class LocomotionBehaviour : CharacterBehaviour
 {
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (animator.GetBool("TryMove") == false)
+        if (animator.GetBool("TryMove") == false
+            && owner.attack.canAttack
+            && owner.attack.CheckTarget())
         {
-            if (owner.skill.CheckNonTargetCooldownSkill(out Skill readyNonTargetSkill))
+            // 현재 NonTargetCooldownSkill이 없으므로 주석 처리
+            //if (owner.skill.CheckNonTargetCooldownSkill(out Skill readyNonTargetSkill))
+            //{
+            //    owner.attack.StartSkill();
+            //    owner.skill.StartSkill(readyNonTargetSkill);
+            //}
+
+            if (owner.skill.CheckTargetCooldownSkill(out Skill readyTargetSkill))
             {
                 owner.attack.StartSkill();
-                owner.skill.StartSkill(readyNonTargetSkill);
+                owner.skill.StartSkill(readyTargetSkill);
             }
-            else if (owner.attack.canAttack)
+            else if (owner.skill.CheckAttackSkill(out Skill activatedAttackSkill))
             {
-                if (owner.skill.CheckTargetCooldownSkill(out Skill readyTargetSkill))
-                {
-                    owner.attack.StartSkill();
-                    owner.skill.StartSkill(readyTargetSkill);
-                }
-                else if (owner.skill.CheckAttackSkill(out Skill activatedAttackSkill))
-                {
-                    owner.attack.StartSkill();
-                    owner.skill.StartSkill(activatedAttackSkill);
-                }
-                else
-                {
-                    owner.attack.StartAttack();
-                }
+                owner.attack.StartSkill();
+                owner.skill.StartSkill(activatedAttackSkill);
+            }
+            else
+            {
+                owner.attack.StartAttack();
             }
         }
     }

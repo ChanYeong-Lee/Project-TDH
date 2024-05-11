@@ -25,7 +25,6 @@ public class CharacterGenerator : MonoBehaviour
         return newModel;
     }
 
-    [VisibleEnum(typeof(CharacterType))]
     public void GenerateNewCharacter(int type)
     {
         CharacterModel prefab = characterPrefabs.Find((model) => model.type == (CharacterType)type);
