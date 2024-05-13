@@ -29,8 +29,9 @@ public class CharacterManager : MonoBehaviour
     public void UpgradeCharacter(CharacterModel currentCharacter, CharacterType targetCharacterType)
     {
         // 기존 캐릭터를 새 캐릭터로 업그레이드
-        Vector3Int generationCrystals = currentCharacter.crystals;
+        List<int> generationCrystals = currentCharacter.crystals;
         CharacterModel targetCharacter = CharacterGenerator.Instance.GenerateCharacter(targetCharacterType);
+        targetCharacter.transform.position = currentCharacter.transform.position;
         targetCharacter.SetGenerationCrystals(generationCrystals);
 
         RemoveCharacter(currentCharacter);
@@ -58,5 +59,6 @@ public class CharacterManager : MonoBehaviour
     private void SortList()
     {
         ownCharacters.Sort((a, b) => a.tier - b.tier);
+        UIManager.Instance.characterSelector.SetList(ownCharacters);
     }
 }

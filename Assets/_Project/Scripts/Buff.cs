@@ -129,11 +129,6 @@ public class Buff
                     break;
             }
         }
-
-        if (buffType == BuffType.Permanant)
-        {
-            caster.onDisable += Deactivate;
-        }
     }
 
     public void Deactivate()

@@ -72,9 +72,12 @@ public class CharacterMove : MonoBehaviourPun
         moveSpeedIncrease = 1.0f;
     }
 
-    public void AddCrystal(Vector3Int crystals)
+    public void AddCrystal(int color)
     {
-        moveSpeedIncrease += 0.1f * crystals.y;
+        if (color == 1)
+        {
+            moveSpeedIncrease += 0.1f;
+        }
     }
 
     public void Move(Vector3 direction)

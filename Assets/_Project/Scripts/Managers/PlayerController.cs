@@ -29,6 +29,12 @@ public class PlayerController : MonoBehaviour
 
     public void AddCharacter(CharacterModel character)
     {
+        if (characters.Contains(character))
+        {
+            RemoveCharacter(character);
+            return;
+        }
+
         // 명령을 내릴 캐릭터를 추가합니다.
         if (mainCharacter != null)
         {
@@ -41,13 +47,35 @@ public class PlayerController : MonoBehaviour
 
         mainCharacter = character;
         character.ui.Select(true, showAttackRange);
+
+        UIManager.Instance.ShowCharacterInfo(mainCharacter);
+    }
+
+    public void RemoveCharacter(CharacterModel character)
+    {
+        character.move.Move(Vector3.zero);
+        character.agent.avoidancePriority = 50;
+        character.agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
+        character.ui.Deselect();
+
+        characters.Remove(character);
+
+        if (characters.Count > 0)
+        {
+            mainCharacter = characters[0];
+        }
+        else
+        {
+            mainCharacter = null;
+            UIManager.Instance.HideCharacterInfo();
+        }
     }
 
     public void ResetCharacter()
     {
         // 캐릭터 리스트를 비웁니다.
 
-        foreach (CharacterModel character in characters)
+        foreach(CharacterModel character in characters)
         {
             character.move.Move(Vector3.zero);
             character.agent.avoidancePriority = 50;
@@ -58,6 +86,8 @@ public class PlayerController : MonoBehaviour
 
         characters.Clear();
         mainCharacter = null;
+
+        UIManager.Instance.HideCharacterInfo();
     }
 
     public void SelectAllCharacter()
@@ -76,5 +106,15 @@ public class PlayerController : MonoBehaviour
         {
             mainCharacter.ui.Select(true, showAttackRange);
         }
+    }
+
+    public void AddCrystal(int color)
+    {
+        if (mainCharacter == null)
+        {
+            return;
+        }
+
+        mainCharacter.AddCrystal(color);
     }
 }

@@ -88,9 +88,34 @@ public class Skill : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        if (defaultStat.skillType == SkillType.Always)
+        {
+            foreach (BuffEffect buff in buffEffects)
+            {
+                if (buff.allyTargets.Count > 0)
+                {
+                    foreach (CharacterModel ally in buff.allyTargets)
+                    {
+                        buff.RemoveBuff(ally);
+                    }
+                }
+                if (buff.enemyTargets.Count > 0)
+                {
+                    foreach (EnemyModel enemy in buff.enemyTargets)
+                    {
+                        buff.RemoveBuff(enemy);
+                    }
+                }
+            }
+        }
+    }
+
     private void Update()
     {
-        if (defaultStat.skillType == SkillType.NonTargetCooldown || defaultStat.skillType == SkillType.TargetCooldown)
+        if (defaultStat.skillType == SkillType.NonTargetCooldown 
+            || defaultStat.skillType == SkillType.TargetCooldown)
         {
             if (coolDownTimeout <= 0.0f)
             {
@@ -214,6 +239,7 @@ public class Skill : MonoBehaviour
                     {
                         buff.ApplyBuff(owner, enemyModel);
                         buff.enemyTargets.Add(enemyModel);
+                        enemyModel.onDisable += buff.ReleaseBuff;
                         print($"{enemyModel}에게 {buff.buffName} 적용");
                     }
 
@@ -234,6 +260,7 @@ public class Skill : MonoBehaviour
                     {
                         buff.ApplyBuff(owner, allyModel);
                         buff.allyTargets.Add(allyModel);
+                        allyModel.onDisable += buff.ReleaseBuff;
                         print($"{allyModel}에게 {buff.buffName} 적용");
                     }
 
@@ -259,6 +286,7 @@ public class Skill : MonoBehaviour
                     {
                         buff.RemoveBuff(enemyModel);
                         buff.enemyTargets.Remove(enemyModel);
+                        enemyModel.onDisable -= buff.ReleaseBuff;
                         print($"{enemyModel}에게 {buff.buffName} 해제");
                     }
                     else
@@ -279,6 +307,7 @@ public class Skill : MonoBehaviour
                     {
                         buff.RemoveBuff(allyModel);
                         buff.allyTargets.Remove(allyModel);
+                        allyModel.onDisable -= buff.ReleaseBuff;
                         print($"{allyModel}에게 {buff.buffName} 해제");
                     }
                     else

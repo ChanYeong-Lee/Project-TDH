@@ -10,6 +10,7 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
     public EnemyMove move;
     public EnemyHealth health;
     public Dictionary<string, Buff> buffDictionary;
+    public Action<EnemyModel> onDisable;
 
     public int poolCount;
 
@@ -41,6 +42,8 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
             buff.Deactivate();
         }
         buffDictionary.Clear();
+
+        onDisable?.Invoke(this);
     }
 
     private void Update()

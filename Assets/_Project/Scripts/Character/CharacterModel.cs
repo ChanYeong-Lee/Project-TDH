@@ -39,12 +39,39 @@ public class CharacterModel : MonoBehaviourPun, IModel
     [HideInInspector] public CharacterSkill skill;
     [HideInInspector] public CharacterUI ui;
 
-    public Action onDisable;
+    public Action<CharacterModel> onDisable;
     public Dictionary<string, Buff> buffDictionary;
 
     [Header("상태")]
-    public Vector3Int crystals;
-    public int crystalAmount => crystals.x + crystals.y + crystals.z;
+    public List<int> crystals;
+    public int crystalAmount => crystals.Count;
+    public Vector3Int crystalVector
+    {
+        get
+        {
+            int red = 0;
+            int green = 0;
+            int blue = 0;
+
+            for (int i = 0; i < crystals.Count; i++)
+            {
+                switch (crystals[i])
+                {
+                    case 0:
+                        red++;
+                        break;
+                    case 1:
+                        blue++;
+                        break;
+                    case 2:
+                        green++;
+                        break;
+                }
+            }
+
+            return new Vector3Int(red, green, blue);
+        }
+    }
 
     [Header("설정")]
     public CharacterType type;
@@ -61,6 +88,8 @@ public class CharacterModel : MonoBehaviourPun, IModel
         skill = GetComponent<CharacterSkill>();
         ui = Instantiate(Resources.Load<CharacterUI>("Prefabs/Characters/CharacterUI"), transform);
         //ui = GetComponentInChildren<CharacterUI>();
+
+        crystals = new List<int>();
 
         buffDictionary = new Dictionary<string, Buff>();
     }
@@ -102,7 +131,7 @@ public class CharacterModel : MonoBehaviourPun, IModel
             CharacterManager.Instance.ownCharacters.Remove(this);
         }
         CharacterManager.Instance.wholeCharacters.Remove(this);
-        onDisable?.Invoke();    
+        onDisable?.Invoke(this);    
     }
 
     public void SetStats()
@@ -112,20 +141,23 @@ public class CharacterModel : MonoBehaviourPun, IModel
         skill.SetSkillStats();
     }
 
-    public void SetGenerationCrystals(Vector3Int crystals)
+    public void SetGenerationCrystals(List<int> crystals)
     {
-        attack.AddCrystal(crystals);
-        move.AddCrystal(crystals);
-        skill.AddCrystal(crystals);
+        for (int i = 0; i < crystals.Count; i++)
+        {
+            attack.AddCrystal(crystals[i]);
+            move.AddCrystal(crystals[i]);
+            skill.AddCrystal(crystals[i]);
+        }
     }
 
-    public void AddCrystals(Vector3Int crystals)
+    public void AddCrystal(int color)
     {
-        this.crystals += crystals;
+        this.crystals.Add(color);
 
-        attack.AddCrystal(crystals);
-        move.AddCrystal(crystals);
-        skill.AddCrystal(crystals);
+        attack.AddCrystal(color);
+        move.AddCrystal(color);
+        skill.AddCrystal(color);
 
         foreach (RevolutionData revolutionDatum in defaultStat.revolutionData)
         {

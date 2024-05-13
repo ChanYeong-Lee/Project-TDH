@@ -104,13 +104,19 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
         targetNumberIncrease = 0;
     }
 
-    public void AddCrystal(Vector3Int crystals)
+    public void AddCrystal(int color)
     {
-        damageIncrease += 0.1f * crystals.x;
-        attackDelayIncrease += 0.1f * crystals.x;
-
-        attackAreaIncrease += 0.1f * crystals.y;
-        targetNumberIncrease += crystals.y;
+        switch (color)
+        {
+            case 0:
+                damageIncrease += 0.1f;
+                attackDelayIncrease += 0.1f;
+                break;
+            case 1:
+                attackAreaIncrease += 0.1f;
+                targetNumberIncrease += 1;
+                break;
+        }
     }
 #endregion
 

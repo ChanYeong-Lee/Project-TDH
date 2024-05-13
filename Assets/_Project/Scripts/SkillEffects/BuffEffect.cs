@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using static UnityEngine.GraphicsBuffer;
 
 [Serializable]
@@ -112,9 +113,9 @@ public class BuffEffect
 
     public void ApplyBuff(CharacterSkill owner, EnemyModel model)
     {
-        model.photonView.RPC("AddBuff", RpcTarget.All, 
+        model.photonView.RPC("AddBuff", RpcTarget.All,
             owner.photonView.ViewID, model.poolCount,
-            buffName, buffType, statType, 
+            buffName, buffType, statType,
             increaseAmount, limitTime);
     }
 
@@ -127,4 +128,21 @@ public class BuffEffect
     {
         model.photonView.RPC("RemoveBuff", RpcTarget.All, buffName);
     }
+
+    public void ReleaseBuff(CharacterModel model)
+    {
+        if (allyTargets.Contains(model))
+        {
+            allyTargets.Remove(model);
+        }
+    }
+
+    public void ReleaseBuff(EnemyModel model)
+    {
+        if (enemyTargets.Contains(model))
+        {
+            enemyTargets.Remove(model);
+        }
+    }
+
 }

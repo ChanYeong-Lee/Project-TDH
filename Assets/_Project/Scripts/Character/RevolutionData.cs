@@ -11,12 +11,26 @@ public class RevolutionData
     public Vector3Int minimumCrystal;
     public CharacterType revolutionTarget;
 
-    public bool CheckRevolutionable(Vector3Int crystal)
+    public bool CheckRevolutionable(List<int> crystals)
     {
-        bool red = crystal.x >= minimumCrystal.x;
-        bool green = crystal.y >= minimumCrystal.y;
-        bool blue = crystal.z >= minimumCrystal.z;
+        bool red = CheckCrystalAmount(crystals, 0) >= minimumCrystal.x;
+        bool green = CheckCrystalAmount(crystals, 1) >= minimumCrystal.y;
+        bool blue = CheckCrystalAmount(crystals, 2) >= minimumCrystal.z;
 
         return red && green && blue;    
+    }
+
+    private int CheckCrystalAmount(List<int> crystals, int color)
+    {
+        int amount = 0;
+        for (int i = 0; i < crystals.Count; i++)
+        {
+            if (crystals[i] == color)
+            {
+                amount++;
+            }
+        }
+
+        return amount;
     }
 }

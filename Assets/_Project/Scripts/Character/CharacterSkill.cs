@@ -44,10 +44,13 @@ public class CharacterSkill : MonoBehaviourPun
         percentageIncrease = 0.0f;
     }
 
-    public void AddCrystal(Vector3Int crystals)
+    public void AddCrystal(int color)
     {
-        cooldownIncrease += 0.1f * crystals.z;
-        percentageIncrease += 0.1f * crystals.z;
+        if (color == 2)
+        {
+            cooldownIncrease += 0.1f;
+            percentageIncrease += 0.1f;
+        }
     }
 
     public bool CheckNonTargetCooldownSkill(out Skill readySkill)
