@@ -25,14 +25,18 @@ public class CharacterGenerator : MonoBehaviour
         return newModel;
     }
 
-    public void GenerateNewCharacter(int type)
+    public void GenerateNewCharacter()
     {
-        CharacterModel prefab = characterPrefabs.Find((model) => model.type == (CharacterType)type);
-        string prefabName = prefab.name;
-
-        CharacterModel newModel = PhotonNetwork.Instantiate(prefabPath + prefabName, Vector3.zero, Quaternion.identity).GetComponent<CharacterModel>();
-
-        //PlayerController.Instance.ResetCharacter();
-        PlayerController.Instance.AddCharacter(newModel);
+        CharacterModel prefab = null;
+        string classType = GameManager.Instance.defensePlayer.classType.ToString();
+        switch (classType)
+        {
+            case "Tank":
+                break;
+            case "Deal":
+                break;
+            case "Heal":
+                break;
+        }
     }
 }
