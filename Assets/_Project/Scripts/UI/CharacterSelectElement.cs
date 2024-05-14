@@ -7,20 +7,20 @@ using UnityEngine.UI;
 public class CharacterSelectElement : MonoBehaviour
 {
     [HideInInspector] public Button button;
-    [HideInInspector] public TMP_Text nameText;
 
+    public Image characterIcon;
     public CharacterModel character;
 
     public void Init()
     {
         button = GetComponent<Button>();
-        nameText = GameObject.Find("NameText").GetComponent<TMP_Text>();
+        button.onClick.AddListener(OnClick);
     }
 
     public void SetCharacter(CharacterModel character)
     {
         this.character = character;
-        nameText.text = character.name;
+        characterIcon.sprite = character.defaultStat.characterIcon;
     }
 
     public void OnClick()

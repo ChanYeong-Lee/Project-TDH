@@ -61,7 +61,7 @@ public class AttackEffect
             targetInfo = targetInfo.OrderBy(a => a.distance).ToList();
             for (int i = 0; i < targetInfo.Count; i++)
             {
-                targets.Add(targetInfo[i].model);
+                targets.Add(targetInfo[i].enemyModel);
             }
         }
 

@@ -90,6 +90,24 @@ public class PlayerController : MonoBehaviour
         UIManager.Instance.HideCharacterInfo();
     }
 
+    public void GenerateNewCharacter()
+    {
+        string classType = GameManager.Instance.defensePlayer.classType.ToString();
+
+        switch (classType)
+        {
+            case "Tank":
+                CharacterGenerator.Instance.GenerateCharacter(CharacterType.TankT1_Peasant);
+                break;
+            case "Deal":
+                CharacterGenerator.Instance.GenerateCharacter(CharacterType.DealT1_Peasant);
+                break;
+            case "Heal":
+                CharacterGenerator.Instance.GenerateCharacter(CharacterType.HealT1_Peasant);
+                break;
+        }
+    }
+
     public void SelectAllCharacter()
     {
         foreach (CharacterModel character in CharacterManager.Instance.ownCharacters)

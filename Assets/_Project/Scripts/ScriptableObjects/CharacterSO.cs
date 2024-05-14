@@ -6,7 +6,8 @@ using UnityEngine;
 public class CharacterSO : ScriptableObject
 {
     public string characterName;
-    
+    public Sprite characterIcon;
+
     public AnimationClip walkingClip;
     public float defaultMoveSpeed;
     

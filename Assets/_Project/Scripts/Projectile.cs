@@ -130,7 +130,8 @@ public class Projectile : MonoBehaviour
 
     private IEnumerator DespawnCoroutine()
     {
-        if (owner.photonView.IsMine
+        if (owner != null 
+            && owner.photonView.IsMine
             && target != null
             && target.gameObject.activeSelf
             && target.poolCount == targetPoolCount)

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: TankT3_King
   m_EditorClassIdentifier: 
   characterName: "\uC655"
+  characterIcon: {fileID: 21300000, guid: e3534f2fcbd66e9419fc4a30af0db270, type: 3}
   walkingClip: {fileID: -203655887218126122, guid: 78e7b38bd790cb44ba2e06728ef98f38,
     type: 3}
   defaultMoveSpeed: 3.5

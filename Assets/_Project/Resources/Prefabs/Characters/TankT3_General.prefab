@@ -931,10 +931,10 @@ MonoBehaviour:
   attack: {fileID: 0}
   skill: {fileID: 0}
   ui: {fileID: 0}
-  crystals: {x: 0, y: 0, z: 0}
   type: 4
   tier: 3
   defaultStat: {fileID: 11400000, guid: 2e1bbd76940db9848b4bf865ecde1190, type: 2}
+  crystals: 000000000000000000000000
 --- !u!114 &-6201766923099705596
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: HealT3_Queen
   m_EditorClassIdentifier: 
   characterName: "\uC5EC\uC655"
+  characterIcon: {fileID: 21300000, guid: 4745530d2d072f34d80821d247726861, type: 3}
   walkingClip: {fileID: -203655887218126122, guid: 78e7b38bd790cb44ba2e06728ef98f38,
     type: 3}
   defaultMoveSpeed: 3.5

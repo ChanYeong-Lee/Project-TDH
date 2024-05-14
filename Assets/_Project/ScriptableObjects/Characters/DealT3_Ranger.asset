@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: DealT3_Ranger
   m_EditorClassIdentifier: 
   characterName: "\uB808\uC778\uC800"
+  characterIcon: {fileID: 21300000, guid: af4221a7ca08aad41a5cdd0ec1707e09, type: 3}
   walkingClip: {fileID: -203655887218126122, guid: 78e7b38bd790cb44ba2e06728ef98f38,
     type: 3}
   defaultMoveSpeed: 3.5

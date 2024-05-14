@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviourPun
 {
+    public float hpAmount => currentHP / Mathf.Clamp(maxHP, 0.1f, maxHP);
     public float currentHP;
     public float maxHP;
 
@@ -17,6 +18,12 @@ public class EnemyHealth : MonoBehaviourPun
     public float hpRecoveryIncrease;
 
     public Image healthBar;
+    private Canvas canvas;
+
+    private void Awake()
+    {
+        canvas = GetComponentInChildren<Canvas>(true);
+    }
 
     protected virtual void OnEnable()
     {
@@ -41,7 +48,8 @@ public class EnemyHealth : MonoBehaviourPun
 
         if (healthBar != null)
         {
-            healthBar.fillAmount = currentHP / Mathf.Clamp(maxHP, 0.1f, maxHP);
+            canvas.enabled = hpAmount < 1.0f;
+            healthBar.fillAmount = hpAmount;
         }
     }
 
@@ -76,5 +84,7 @@ public class EnemyHealth : MonoBehaviourPun
                 PoolManager.Instance.networkPool.Despawn(gameObject);
             }
         }
+        
+        
     }
 }

@@ -25,18 +25,5 @@ public class CharacterGenerator : MonoBehaviour
         return newModel;
     }
 
-    public void GenerateNewCharacter()
-    {
-        CharacterModel prefab = null;
-        string classType = GameManager.Instance.defensePlayer.classType.ToString();
-        switch (classType)
-        {
-            case "Tank":
-                break;
-            case "Deal":
-                break;
-            case "Heal":
-                break;
-        }
-    }
+   
 }

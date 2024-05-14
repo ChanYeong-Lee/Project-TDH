@@ -39,6 +39,11 @@ public class CharacterModel : MonoBehaviourPun, IModel
     [HideInInspector] public CharacterSkill skill;
     [HideInInspector] public CharacterUI ui;
 
+    [Header("설정")]
+    public CharacterType type;
+    public int tier;
+    public CharacterSO defaultStat;
+
     public Action<CharacterModel> onDisable;
     public Dictionary<string, Buff> buffDictionary;
 
@@ -72,11 +77,6 @@ public class CharacterModel : MonoBehaviourPun, IModel
             return new Vector3Int(red, green, blue);
         }
     }
-
-    [Header("설정")]
-    public CharacterType type;
-    public int tier;
-    public CharacterSO defaultStat;
 
     private void Awake()
     {

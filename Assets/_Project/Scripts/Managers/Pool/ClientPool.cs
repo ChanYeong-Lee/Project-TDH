@@ -50,11 +50,11 @@ public class ClientPool
 
         if (parent == null)
         {
-            instance.transform.parent = this.parent;
+            instance.transform.SetParent(this.parent);
         }
         else
         {
-            instance.transform.parent = parent;
+            instance.transform.SetParent(parent);
         }
 
         instance.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);

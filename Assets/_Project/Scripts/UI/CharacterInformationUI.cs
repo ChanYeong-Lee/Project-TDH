@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public class CharacterInformationUI : MonoBehaviour
 {
     [Header("¼³Á¤")]
-    public Transform characterPortraitCameraArm;
+    public Image characterIcon;
+    public CharacterStatUI characterStat;
 
     public List<CrystalIndicator> crystalIndicators;
     public Button cancelButton;
@@ -22,15 +23,6 @@ public class CharacterInformationUI : MonoBehaviour
     public CharacterModel model;
     public int currentIndex;
 
-    private void Update()
-    {
-        if (model != null)
-        {
-            characterPortraitCameraArm.transform.position = model.transform.position;
-            characterPortraitCameraArm.transform.rotation = model.transform.rotation;
-        }
-    }
-
     public void Init()
     {
         currentIndex = -1;
@@ -42,16 +34,19 @@ public class CharacterInformationUI : MonoBehaviour
         blueCrystalButton.onClick.AddListener(() => OnCrystalButtonClick(2));
         crystalButtons.gameObject.SetActive(false);
 
-        for (int i = 0; i < crystalIndicators.Count; i++)
-        {
-            crystalIndicators[i].Init();
-            crystalIndicators[i].button.onClick.AddListener(() => OnCrystalIndicatorButtonClick(i));
-        }
+        crystalIndicators[0].Init();
+        crystalIndicators[1].Init();
+        crystalIndicators[2].Init();
+        crystalIndicators[0].button.onClick.AddListener(()=> OnCrystalIndicatorButtonClick(0));
+        crystalIndicators[1].button.onClick.AddListener(() => OnCrystalIndicatorButtonClick(1));
+        crystalIndicators[2].button.onClick.AddListener(() => OnCrystalIndicatorButtonClick(2));
     }
 
     public void SetCharacter(CharacterModel model)
     {
         this.model = model;
+        characterStat.SetCharacter(model);
+
 
         currentIndex = -1;
         crystalButtons.gameObject.SetActive(false);
@@ -64,6 +59,8 @@ public class CharacterInformationUI : MonoBehaviour
             }
             return;
         }
+
+        characterIcon.sprite = model.defaultStat.characterIcon;
 
         crystalIndicators[0].SetCrystal(-1);
         crystalIndicators[1].SetCrystal(-1);
@@ -128,6 +125,13 @@ public class CharacterInformationUI : MonoBehaviour
                 break;
         }
 
+        if (currentIndex < 0)
+        {
+            return;
+        }
+
         crystalIndicators[currentIndex].SetCrystal(color);
+        crystalButtons.DOScale(Vector3.zero, 0.1f).OnComplete(() => crystalButtons.gameObject.SetActive(false));
+        currentIndex = -1;
     }
 }

@@ -88,7 +88,8 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
         string buffName, BuffType buffType, StatType statType, 
         float increaseAmount, float limitTime, PhotonMessageInfo info)
     {
-        if (gameObject.activeSelf == false)
+        if (gameObject.activeSelf == false
+            || modelPoolCount != poolCount)
         {
             return;
         }

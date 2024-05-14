@@ -51,6 +51,8 @@ public class CharacterManager : MonoBehaviour
             {
                 PlayerController.Instance.characters.Remove(removedCharacter);
             }
+         
+            UIManager.Instance.characterSelector.SetList(ownCharacters);
         }
 
         PhotonNetwork.Destroy(removedCharacter.gameObject);

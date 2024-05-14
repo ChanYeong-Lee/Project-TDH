@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: DealT1_Peasant
   m_EditorClassIdentifier: 
   characterName: "\uB18D\uBD80"
+  characterIcon: {fileID: 21300000, guid: 024841ee577550345ba6aee0c1b72d83, type: 3}
   walkingClip: {fileID: -203655887218126122, guid: 78e7b38bd790cb44ba2e06728ef98f38,
     type: 3}
   defaultMoveSpeed: 2.5

@@ -2,8 +2,10 @@ using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
+using static Cinemachine.CinemachineTargetGroup;
 using static UnityEngine.GraphicsBuffer;
 
 [Serializable]
@@ -25,8 +27,7 @@ public class BuffEffect
     public List<CharacterModel> allyTargets;
     public List<EnemyModel> enemyTargets;
 
-
-    public void Execute(CharacterSkill owner, List<CharacterModel> allyTargets, List<EnemyModel> enemyTargets)
+    public void Execute(CharacterSkill owner, CharacterModel allyTarget, EnemyModel enemyTarget)
     {
         switch (attackType)
         {
@@ -34,30 +35,13 @@ public class BuffEffect
                 switch (targetType)
                 {
                     case TargetType.Enemy:
-                        int applyEnemyTargetNumber = Mathf.Clamp(targetNumber + owner.attack.targetNumberIncrease, 0, enemyTargets.Count);
-                        for (int i = 0; i < applyEnemyTargetNumber; i++)
-                        {
-                            if (enemyTargets[i] != null && enemyTargets[i].gameObject.activeSelf == true)
-                            {
-                                ApplyBuff(owner, enemyTargets[i]);
-                            }
-                        }
+                        SingleEnemyBuff(owner);
                         break;
                     case TargetType.AllAlly:
-                        foreach (CharacterModel model in allyTargets)
-                        {
-                            ApplyBuff(owner, model);
-                        }
+                        SingleAllyBuff(owner);
                         break;
                     case TargetType.StrongestAlly:
-                        int applyAllyTargetNumber = Mathf.Clamp(targetNumber + owner.attack.targetNumberIncrease, 0, allyTargets.Count);
-                        for (int i = 0; i < applyAllyTargetNumber; i++)
-                        {
-                            if (allyTargets[i] != null)
-                            {
-                                ApplyBuff(owner, allyTargets[i]);
-                            }
-                        }
+                        SingleStrongestBuff(owner);
                         break;
                     case TargetType.Self:
                         CharacterModel ownerModel = owner.GetComponent<CharacterModel>();
@@ -69,28 +53,10 @@ public class BuffEffect
                 switch (targetType)
                 {
                     case TargetType.Enemy:
-                        float applyAttackArea = attackArea * owner.attack.attackAreaIncrease;
-
-                        Collider[] contectedColliders = Physics.OverlapSphere(enemyTargets[0].transform.position, applyAttackArea);
-
-                        foreach (Collider collider in contectedColliders)
-                        {
-                            if (collider.tag == "Enemy")
-                            {
-                                EnemyModel enemy = collider.GetComponent<EnemyModel>();
-                                ApplyBuff(owner, enemy);
-                            }
-                        }
+                        AreaEnemyBuff(owner, enemyTarget);
                         break;
                     case TargetType.AllAlly:
-                        float applyBuffArea = attackArea * owner.attack.attackAreaIncrease;
-                        foreach (CharacterModel model in allyTargets)
-                        {
-                            if (Vector3.Distance(owner.transform.position, model.transform.position) < applyBuffArea)
-                            {
-                                ApplyBuff(owner, model);
-                            }
-                        }
+                        AreaAllyBuff(owner, allyTarget);
                         break;
                     case TargetType.StrongestAlly:
                         break;
@@ -98,7 +64,7 @@ public class BuffEffect
                 break;
         }
     }
-
+    
     public void ApplyBuff(CharacterSkill owner, CharacterModel model)
     {
         if (statType == StatType.TargetNumber)
@@ -145,4 +111,112 @@ public class BuffEffect
         }
     }
 
+    #region BuffCase
+    private void SingleEnemyBuff(CharacterSkill owner)
+    {
+        List<Target> targetInfo = new List<Target>();
+        List<EnemyModel> targets = new List<EnemyModel>();
+
+        foreach (EnemyModel enemy in EnemyManager.Instance.enemies)
+        {
+            float distance = Vector3.Distance(owner.attack.transform.position, enemy.transform.position);
+
+            if (distance < owner.attack.applyAttackRange)
+            {
+                Target newTarget = new Target(enemy, distance);
+                targetInfo.Add(newTarget);
+            }
+        }
+
+        if (targetInfo.Count > 0)
+        {
+            targetInfo = targetInfo.OrderBy(a => a.distance).ToList();
+            for (int i = 0; i < targetInfo.Count; i++)
+            {
+                targets.Add(targetInfo[i].enemyModel);
+            }
+        }
+
+        int applyTargetNumber = this.targetNumber + owner.attack.targetNumberIncrease;
+        applyTargetNumber = Mathf.Clamp(applyTargetNumber, 0, targets.Count);
+
+        for (int i = 0; i < applyTargetNumber; i++)
+        {
+            if (targets[i] != null
+                && targets[i].gameObject.activeSelf == true)
+            {
+                ApplyBuff(owner, targets[i]);
+            }
+        }
+    }
+
+    private void SingleAllyBuff(CharacterSkill owner)
+    {
+        foreach (CharacterModel model in CharacterManager.Instance.wholeCharacters)
+        {
+            if (model != null
+                && model.gameObject.activeSelf == true)
+            {
+                ApplyBuff(owner, model);
+            }
+        }
+    }
+
+    private void SingleStrongestBuff(CharacterSkill owner)
+    {
+        List<CharacterModel> targets = CharacterManager.Instance.wholeCharacters.OrderByDescending(model => model.attack.applyDamage).ToList();
+
+        int applyAllyTargetNumber = Mathf.Clamp(targetNumber + owner.attack.targetNumberIncrease, 0, targets.Count);
+        for (int i = 0; i < applyAllyTargetNumber; i++)
+        {
+            if (targets[i] != null)
+            {
+                ApplyBuff(owner, targets[i]);
+            }
+        }
+    }
+
+    private void AreaEnemyBuff(CharacterSkill owner, EnemyModel target)
+    {
+        if (target == null
+            || target.gameObject.activeSelf == false
+            || target.poolCount != owner.targetPoolCount)
+        {
+            return;
+        }
+
+        float applyBuffArea = attackArea * owner.attack.attackAreaIncrease;
+
+        Collider[] contectedColliders = Physics.OverlapSphere(target.transform.position, applyBuffArea, LayerMask.GetMask("Enemy"));
+
+        foreach (Collider collider in contectedColliders)
+        {
+            EnemyModel enemy = collider.GetComponent<EnemyModel>();
+            if (enemy != null
+                && enemy.gameObject.activeSelf)
+            {
+                ApplyBuff(owner, enemy);
+            }
+        }
+    }
+
+    private void AreaAllyBuff(CharacterSkill owner, CharacterModel target)
+    {
+
+        float applyBuffArea = attackArea * owner.attack.attackAreaIncrease;
+
+        Collider[] contectedColliders = Physics.OverlapSphere(target.transform.position, applyBuffArea, LayerMask.GetMask("Character"));
+
+        foreach (Collider collider in contectedColliders)
+        {
+            CharacterModel ally = collider.GetComponent<CharacterModel>();
+            if (ally != null
+                && ally.gameObject.activeSelf)
+            {
+                ApplyBuff(owner, ally);
+            }
+        }
+    }
+
+    #endregion
 }

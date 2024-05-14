@@ -162,7 +162,7 @@ public class Skill : MonoBehaviour
             enemyTargets = new List<EnemyModel>();
             foreach (Target target in targetInfo)
             {
-                enemyTargets.Add(target.model);
+                enemyTargets.Add(target.enemyModel);
             } 
         }
 
@@ -205,7 +205,7 @@ public class Skill : MonoBehaviour
 
         foreach (BuffEffect buffEffect in buffEffects)
         {
-            buffEffect.Execute(owner, allyTargets, enemyTargets);
+            buffEffect.Execute(owner, allyTargets[0], enemyTargets[0]);
         }
         print($"{defaultStat.skillName}! {defaultStat.description}"); 
     }
