@@ -45,6 +45,9 @@ public class CharacterModel : MonoBehaviourPun, IModel
     public CharacterSO defaultStat;
 
     public Action<CharacterModel> onDisable;
+    public Action onSelected;
+    public Action onDeselected;
+
     public Dictionary<string, Buff> buffDictionary;
 
     [Header("ป๓ลย")]

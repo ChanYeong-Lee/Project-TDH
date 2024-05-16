@@ -9,26 +9,38 @@ public class CharacterSelectElement : MonoBehaviour
     [HideInInspector] public Button button;
 
     public Image characterIcon;
+    public Image selectedIndicator;
     public CharacterModel character;
 
     public void Init()
     {
         button = GetComponent<Button>();
-        button.onClick.AddListener(OnClick);
+        button.onClick.RemoveAllListeners();
+        selectedIndicator.gameObject.SetActive(false);
     }
-
+     
     public void SetCharacter(CharacterModel character)
-    {
-        this.character = character;
-        characterIcon.sprite = character.defaultStat.characterIcon;
-    }
-
-    public void OnClick()
     {
         if (character == null)
         {
-            return;
+            character = null;
+            characterIcon.enabled = false;
         }
-        PlayerController.Instance.AddCharacter(character);
+        else
+        {
+            this.character = character;
+            characterIcon.enabled = true;   
+            characterIcon.sprite = character.defaultStat.characterIcon;
+        }
+    }
+
+    public void Select()
+    {
+        selectedIndicator.gameObject.SetActive(true);
+    }
+
+    public void Deselect()
+    {
+        selectedIndicator.gameObject.SetActive(false);
     }
 }

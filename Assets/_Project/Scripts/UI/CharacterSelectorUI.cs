@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,19 +6,25 @@ using UnityEngine.UI;
 
 public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
 {
+    [Header("설정")]
     public float moveDuration = 0.1f;
     
+    public Button deselectAllButton;
+    
     public RectTransform activeElements;
+
     public Button openButton;
     public Button closeButton;
+
+    public Button selectAllButton;
+    public Button leftButton;
+    public Button rightButton;
 
     public RectTransform content;
     public CharacterSelectElement characterElementPrefab;
 
+    [Header("상태")]
     public List<CharacterSelectElement> characterElements;
-
-    public Button leftButton;
-    public Button rightButton;
 
     public int page;
     public int lastPage => (characterElements.Count - 1) / 4;
@@ -37,8 +42,20 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
 
         openButton.onClick.AddListener(Show);
         closeButton.onClick.AddListener(Hide);
+
+        deselectAllButton.onClick.AddListener(OnDeselectAllButtonClick);
+        selectAllButton.onClick.AddListener(OnSelectAllButtonClick);
         leftButton.onClick.AddListener(MovePageLeft);
         rightButton.onClick.AddListener(MovePageRight);
+
+        for (int i = 0; i < 12; i++)
+        {
+            CharacterSelectElement element = PoolManager.Instance.clientPool.Spawn(characterElementPrefab.gameObject, content).GetComponent<CharacterSelectElement>();
+            element.Init();
+            element.button.onClick.AddListener(() => OnCharacterButtonClick(element));
+            characterElements.Add(element);
+            element.button.interactable = false;
+        }
     }
 
     private void OnEnable()
@@ -51,17 +68,73 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void SetList(List<CharacterModel> characterList)
     {
-        foreach (RectTransform child in content)
+        for (int i = 0; i < 12; i++)
         {
-            Destroy(child.gameObject);
+            if (characterList.Count > i)
+            {
+                characterElements[i].SetCharacter(characterList[i]);
+                characterElements[i].button.interactable = true;
+            }
+            else
+            {
+                characterElements[i].SetCharacter(null);
+                characterElements[i].button.interactable = false;
+            }
         }
-        characterElements.Clear();
 
-        foreach (CharacterModel character in characterList)
+        leftButton.interactable = page > 0;
+        rightButton.interactable = page < lastPage;
+    }
+
+    public void SelectCharacter(CharacterModel character)
+    {
+        if (character == null)
         {
-            CharacterSelectElement instance = PoolManager.Instance.clientPool.Spawn(characterElementPrefab.gameObject, content).GetComponent<CharacterSelectElement>();
-            instance.Init();
-            instance.SetCharacter(character);
+            return;
+        }
+
+        CharacterSelectElement element = characterElements.Find((element) => element.character == character);
+
+        if (element != null)
+        {
+            element.Select();
+        }
+    }
+
+    public void DeselectCharacter(CharacterModel character)
+    {
+        if (character == null)
+        {
+            return;
+        }
+
+        CharacterSelectElement element = characterElements.Find((element) => element.character == character);
+
+        if (element != null)
+        {
+            element.Deselect();
+        }
+    }
+
+    public void OnDeselectAllButtonClick()
+    {
+        PlayerController.Instance.ResetCharacters();
+    }
+
+    public void OnSelectAllButtonClick()
+    {
+        PlayerController.Instance.SelectAllCharacters();
+    }
+
+    public void OnCharacterButtonClick(CharacterSelectElement element)
+    {
+        if (PlayerController.Instance.characters.Contains(element.character))
+        {
+            PlayerController.Instance.RemoveCharacter(element.character);
+        }
+        else
+        {
+            PlayerController.Instance.AddCharacter(element.character);
         }
     }
 
@@ -116,8 +189,6 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
                 Hide();
             }
         }
-
-        
     }
 
     public void Show()

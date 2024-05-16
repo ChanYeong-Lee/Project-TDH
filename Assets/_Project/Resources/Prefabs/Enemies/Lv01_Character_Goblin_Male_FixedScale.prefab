@@ -584,6 +584,7 @@ MonoBehaviour:
   brain: {fileID: 0}
   move: {fileID: 0}
   health: {fileID: 0}
+  poolCount: 0
   syncTimeoutDelta: 0
 --- !u!114 &-8335825117052818970
 MonoBehaviour:
@@ -601,8 +602,6 @@ MonoBehaviour:
   moveSpeed: 1.5
   moveSpeedIncrease: 0
   angularSpeed: 3
-  position: {x: 0, y: 0, z: 0}
-  velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &-8664828175158446103
 MonoBehaviour:
   m_ObjectHideFlags: 0

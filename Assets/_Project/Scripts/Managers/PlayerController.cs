@@ -1,5 +1,7 @@
 using Photon.Pun;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,6 +22,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (characters.Count == 0)
+        {
+            return;
+        }
+
         foreach (CharacterModel character in characters)
         {
             Vector3 direction = new Vector3(input.move.x, 0.0f, input.move.y);
@@ -31,11 +38,9 @@ public class PlayerController : MonoBehaviour
     {
         if (characters.Contains(character))
         {
-            RemoveCharacter(character);
             return;
         }
 
-        // 명령을 내릴 캐릭터를 추가합니다.
         if (mainCharacter != null)
         {
             mainCharacter.ui.Select(false);
@@ -43,26 +48,35 @@ public class PlayerController : MonoBehaviour
 
         character.agent.avoidancePriority = 50 + (10 - character.tier);
         character.agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
+        character.ui.Select(true, showAttackRange); 
+
         characters.Add(character);
-
         mainCharacter = character;
-        character.ui.Select(true, showAttackRange);
 
+        UIManager.Instance.characterSelector.SelectCharacter(character);
         UIManager.Instance.ShowCharacterInfo(mainCharacter);
     }
 
     public void RemoveCharacter(CharacterModel character)
     {
+        if (characters.Contains(character) == false)
+        {
+            return;
+        }
+
         character.move.Move(Vector3.zero);
         character.agent.avoidancePriority = 50;
         character.agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
         character.ui.Deselect();
 
+        UIManager.Instance.characterSelector.DeselectCharacter(character);
         characters.Remove(character);
 
-        if (characters.Count > 0)
+        if (characters.Count > 0 
+            && character == mainCharacter)
         {
             mainCharacter = characters[0];
+            mainCharacter.ui.Select(true, showAttackRange);
         }
         else
         {
@@ -71,7 +85,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void ResetCharacter()
+    public void SelectAllCharacters()
+    {
+        ResetCharacters();
+        foreach (CharacterModel character in CharacterManager.Instance.ownCharacters)
+        {
+            AddCharacter(character);
+        }
+
+        if (mainCharacter != null)
+        {
+            mainCharacter.ui.Select(false);
+            mainCharacter = characters[0];
+            mainCharacter.ui.Select(true, showAttackRange);
+            UIManager.Instance.ShowCharacterInfo(mainCharacter);
+        }
+    }
+
+    public void ResetCharacters()
     {
         // 캐릭터 리스트를 비웁니다.
 
@@ -81,6 +112,7 @@ public class PlayerController : MonoBehaviour
             character.agent.avoidancePriority = 50;
             character.agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
             character.ui.Deselect();
+            UIManager.Instance.characterSelector.DeselectCharacter(character);
             print($"{character.name} delete from list");
         }
 
@@ -105,14 +137,6 @@ public class PlayerController : MonoBehaviour
             case "Heal":
                 CharacterGenerator.Instance.GenerateCharacter(CharacterType.HealT1_Peasant);
                 break;
-        }
-    }
-
-    public void SelectAllCharacter()
-    {
-        foreach (CharacterModel character in CharacterManager.Instance.ownCharacters)
-        {
-            AddCharacter(character);
         }
     }
 

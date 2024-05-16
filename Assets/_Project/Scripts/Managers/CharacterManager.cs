@@ -1,6 +1,8 @@
 using Photon.Pun;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,11 +32,13 @@ public class CharacterManager : MonoBehaviour
     {
         // 기존 캐릭터를 새 캐릭터로 업그레이드
         List<int> generationCrystals = currentCharacter.crystals;
+        RemoveCharacter(currentCharacter);
+
+
         CharacterModel targetCharacter = CharacterGenerator.Instance.GenerateCharacter(targetCharacterType);
         targetCharacter.transform.position = currentCharacter.transform.position;
         targetCharacter.SetGenerationCrystals(generationCrystals);
 
-        RemoveCharacter(currentCharacter);
     }
 
     public void RemoveCharacter(CharacterModel removedCharacter)
@@ -51,8 +55,6 @@ public class CharacterManager : MonoBehaviour
             {
                 PlayerController.Instance.characters.Remove(removedCharacter);
             }
-         
-            UIManager.Instance.characterSelector.SetList(ownCharacters);
         }
 
         PhotonNetwork.Destroy(removedCharacter.gameObject);
@@ -60,7 +62,7 @@ public class CharacterManager : MonoBehaviour
 
     private void SortList()
     {
-        ownCharacters.Sort((a, b) => a.tier - b.tier);
+        ownCharacters.OrderByDescending((a) => a.tier);
         UIManager.Instance.characterSelector.SetList(ownCharacters);
     }
 }

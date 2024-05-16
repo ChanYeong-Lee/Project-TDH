@@ -21047,7 +21047,7 @@ GameObject:
   - component: {fileID: 781738887}
   - component: {fileID: 781738886}
   m_Layer: 5
-  m_Name: SelectAll
+  m_Name: SelectAllButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21116,19 +21116,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 781738887}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 673580785}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: SelectAllCharacter
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &781738887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24584,7 +24572,7 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
-  m_ReverseArrangement: 1
+  m_ReverseArrangement: 0
 --- !u!114 &901309486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44339,8 +44327,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 832376593}
   - {fileID: 2067551125}
+  - {fileID: 832376593}
   - {fileID: 199722835}
   - {fileID: 1843495315}
   - {fileID: 1615481438}
@@ -54937,7 +54925,7 @@ GameObject:
   - component: {fileID: 2067551127}
   - component: {fileID: 2067551126}
   m_Layer: 5
-  m_Name: ResetPlayerCharacterButton
+  m_Name: DeselectAllCharactersButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55005,19 +54993,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2067551127}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 673580785}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: ResetCharacter
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2067551127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55598,15 +55574,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDuration: 0.5
+  deselectAllButton: {fileID: 2067551126}
   activeElements: {fileID: 1420380432}
   openButton: {fileID: 1038385821}
   closeButton: {fileID: 1169337460}
+  selectAllButton: {fileID: 781738886}
+  leftButton: {fileID: 1563584383}
+  rightButton: {fileID: 900566602}
   content: {fileID: 901309484}
   characterElementPrefab: {fileID: 8472259484615329180, guid: 86d22f10a1257e148bca7be6a4607a1d,
     type: 3}
   characterElements: []
-  leftButton: {fileID: 1563584383}
-  rightButton: {fileID: 900566602}
   page: 0
 --- !u!1001 &2090260423
 PrefabInstance:

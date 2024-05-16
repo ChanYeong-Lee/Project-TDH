@@ -29,6 +29,10 @@ public class CharacterMove : MonoBehaviourPun
     private float moreSpeed;
     private float blendSpeed;
 
+    private int hashMoveSpeed = Animator.StringToHash("MoveSpeed");
+    private int hashMoreSpeed = Animator.StringToHash("MoreSpeed");
+    private int hashTryMove = Animator.StringToHash("TryMove");
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -59,9 +63,9 @@ public class CharacterMove : MonoBehaviourPun
             moreSpeed = 1.0f;
         }
 
-        animator.SetFloat("MoveSpeed", blendSpeed);
-        animator.SetFloat("MoreSpeed", moreSpeed);
-        animator.SetBool("TryMove", tryMove);
+        animator.SetFloat(hashMoveSpeed, blendSpeed);
+        animator.SetFloat(hashMoreSpeed, moreSpeed);
+        animator.SetBool(hashTryMove, tryMove);
     }
 
     public void SetMoveStats(CharacterSO defaultStat)

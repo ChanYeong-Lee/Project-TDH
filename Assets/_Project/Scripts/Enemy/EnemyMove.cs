@@ -17,9 +17,11 @@ public class EnemyMove : MonoBehaviour
 
     public float angularSpeed;
 
-
     private float moreSpeed;
     private float blendSpeed;
+
+    private int hashMoveSpeed = Animator.StringToHash("MoveSpeed");
+    private int hashMoreSpeed = Animator.StringToHash("MoreSpeed");
 
     private void Awake()
     {
@@ -47,8 +49,8 @@ public class EnemyMove : MonoBehaviour
             moreSpeed = 1.0f;
         }
 
-        animator.SetFloat("MoveSpeed", blendSpeed);
-        animator.SetFloat("MoreSpeed", moreSpeed);
+        animator.SetFloat(hashMoveSpeed, blendSpeed);
+        animator.SetFloat(hashMoreSpeed, moreSpeed);
     }
 
     public void Move(Vector3 direction)
