@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: Peasant_Critical
   m_EditorClassIdentifier: 
   skillName: "\uAE09\uC18C \uACF5\uACA9"
+  skillIcon: {fileID: 21300000, guid: 37a9743b8dd27204d8fdec6965095a57, type: 3}
   description: "\uC801\uC758 \uAE09\uC18C\uB97C \uACF5\uACA9\uD569\uB2C8\uB2E4."
   skillType: 3
   mainTargetType: 0
   priority: 0
   attackEffects:
   - attackType: 0
+    projectilePrefab: {fileID: 0}
+    particlePrefab: {fileID: 0}
     fixedDamage: 0
     relativeDamagePercent: 1.5
     targetNumber: 1

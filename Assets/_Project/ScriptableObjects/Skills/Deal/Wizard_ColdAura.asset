@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Wizard_ColdAura
   m_EditorClassIdentifier: 
   skillName: "\uD55C\uAE30"
+  skillIcon: {fileID: 21300000, guid: 9cab89eed5af2b344b7e6756129b6779, type: 3}
   description: "\uC8FC\uBCC0\uC758 \uC801\uC758 \uC774\uB3D9\uC18D\uB3C4\uAC00 \uAC10\uC18C\uD569\uB2C8\uB2E4."
   skillType: 0
   mainTargetType: 0

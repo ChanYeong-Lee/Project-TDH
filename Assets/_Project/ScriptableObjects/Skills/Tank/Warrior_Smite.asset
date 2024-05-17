@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Warrior_Smite
   m_EditorClassIdentifier: 
   skillName: "\uAC15\uD0C0"
+  skillIcon: {fileID: 21300000, guid: 551e989bef45ccb44a9c368693b1d947, type: 3}
   description: "\uBC94\uC704 \uB0B4\uC758 \uC801\uB4E4\uC744 \uACF5\uACA9\uD569\uB2C8\uB2E4.
     \uBC94\uC704 \uB0B4\uC758 \uC801\uB4E4\uC774 \uAE30\uC808 \uC0C1\uD0DC\uAC00
     \uB429\uB2C8\uB2E4."

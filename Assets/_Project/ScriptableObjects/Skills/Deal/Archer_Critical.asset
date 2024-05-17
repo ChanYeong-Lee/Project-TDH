@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Archer_Critical
   m_EditorClassIdentifier: 
   skillName: "\uAE09\uC18C \uACF5\uACA9"
+  skillIcon: {fileID: 21300000, guid: 37a9743b8dd27204d8fdec6965095a57, type: 3}
   description: "\uC801\uC758 \uAE09\uC18C\uB97C \uACF5\uACA9\uD569\uB2C8\uB2E4. \uACF5\uACA9\uC5D0
     \uC801\uC911\uD55C \uC801\uC740 1\uCD08 \uB3D9\uC548 \uAE30\uC808 \uC0C1\uD0DC\uAC00
     \uB429\uB2C8\uB2E4."

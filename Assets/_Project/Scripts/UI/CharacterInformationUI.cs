@@ -11,6 +11,9 @@ public class CharacterInformationUI : MonoBehaviour
     public Image characterIcon;
     public CharacterStatUI characterStat;
 
+    public List<SkillIndicator> skillIndicators;
+    public SkillInformationUI skillInformation;
+
     public List<CrystalIndicator> crystalIndicators;
     public Button cancelButton;
 
@@ -33,10 +36,12 @@ public class CharacterInformationUI : MonoBehaviour
         greenCrystalButton.onClick.AddListener(() => OnCrystalButtonClick(1));
         blueCrystalButton.onClick.AddListener(() => OnCrystalButtonClick(2));
         crystalButtons.gameObject.SetActive(false);
+        skillInformation.gameObject.SetActive(false);
 
         crystalIndicators[0].Init();
         crystalIndicators[1].Init();
         crystalIndicators[2].Init();
+
         crystalIndicators[0].button.onClick.AddListener(()=> OnCrystalIndicatorButtonClick(0));
         crystalIndicators[1].button.onClick.AddListener(() => OnCrystalIndicatorButtonClick(1));
         crystalIndicators[2].button.onClick.AddListener(() => OnCrystalIndicatorButtonClick(2));
@@ -46,7 +51,6 @@ public class CharacterInformationUI : MonoBehaviour
     {
         this.model = model;
         characterStat.SetCharacter(model);
-
 
         currentIndex = -1;
         crystalButtons.gameObject.SetActive(false);
@@ -78,6 +82,19 @@ public class CharacterInformationUI : MonoBehaviour
         for (int i = 0; i < model.crystals.Count; i++)
         {
             crystalIndicators[i].SetCrystal(model.crystals[i]);
+        }
+
+        for (int i = 0; i < skillIndicators.Count; i++)
+        {
+            print($"Set {model.defaultStat.characterName} Skills {i} has {model.skill.skills.Count} Skills");
+            if (model.skill.skills.Count > i)
+            {
+                skillIndicators[i].SetSkill(model.skill.skills[i]);
+            }
+            else
+            {
+                skillIndicators[i].SetSkill(null);
+            }
         }
     }
 

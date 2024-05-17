@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Viking_Bash
   m_EditorClassIdentifier: 
   skillName: "\uAE09\uC18C \uACF5\uACA9"
+  skillIcon: {fileID: 21300000, guid: e342f4f92b1cb01478b62711d3a9ed5b, type: 3}
   description: "\uC801\uC758 \uAE09\uC18C\uB97C \uACF5\uACA9\uD569\uB2C8\uB2E4. \uACF5\uACA9\uC5D0
     \uC801\uC911\uD55C \uC801\uC774 \uAE30\uC808 \uC0C1\uD0DC\uAC00 \uB429\uB2C8\uB2E4."
   skillType: 3
@@ -39,7 +40,7 @@ MonoBehaviour:
     attackArea: 0
     allyTargets: []
     enemyTargets: []
-  defaultPercent: 0.2
+  defaultPercent: 0.15
   defaultCooldown: 0
   triggerName: Skill1
   skillSpeed: 2

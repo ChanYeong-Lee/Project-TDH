@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEditor.Rendering.FilterWindow;
 
 public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
 {
@@ -28,7 +29,7 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public int page;
     public int lastPage => (characterElements.Count - 1) / 4;
-    public Vector2 pagePosition => new Vector2(-page * 520.0f, 0.0f);
+    public Vector2 pagePosition => new Vector2(-page * 830.0f, 0.0f);
 
     private RectTransform rectTransform;
     private Vector2 originPos;
@@ -51,6 +52,7 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
         for (int i = 0; i < 12; i++)
         {
             CharacterSelectElement element = PoolManager.Instance.clientPool.Spawn(characterElementPrefab.gameObject, content).GetComponent<CharacterSelectElement>();
+            
             element.Init();
             element.button.onClick.AddListener(() => OnCharacterButtonClick(element));
             characterElements.Add(element);
@@ -80,6 +82,8 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
                 characterElements[i].SetCharacter(null);
                 characterElements[i].button.interactable = false;
             }
+         
+            characterElements[i].Deselect();
         }
 
         leftButton.interactable = page > 0;

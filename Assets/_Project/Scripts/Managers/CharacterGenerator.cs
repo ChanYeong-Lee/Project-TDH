@@ -40,9 +40,11 @@ public class CharacterGenerator : MonoBehaviour
 
         CharacterModel newModel = PhotonNetwork.Instantiate(prefabPath + prefabName, spawnPosition, spawnRotation).GetComponent<CharacterModel>();
 
-        PlayerController.Instance.ResetCharacters();
-        PlayerController.Instance.AddCharacter(newModel);
-
         return newModel;
+    }
+
+    public void RemoveCharacter(CharacterModel model)
+    {
+        PhotonNetwork.Destroy(model.gameObject);
     }
 }

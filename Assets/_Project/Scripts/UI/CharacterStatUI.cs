@@ -37,6 +37,7 @@ public class CharacterStatUI : MonoBehaviour
                 attackTypeText.text = "¹üÀ§";
                 break;
         }
+
         damageText.text = $"{character.attack.applyDamage:F0}";
         trueDamagePercentText.text = $"{character.attack.applyTrueDamagePercent:P0}";
         attackDelayText.text = $"{character.attack.applyAttackDelay:F2}";

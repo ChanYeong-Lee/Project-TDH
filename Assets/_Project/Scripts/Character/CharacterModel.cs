@@ -92,6 +92,8 @@ public class CharacterModel : MonoBehaviourPun, IModel
         ui = Instantiate(Resources.Load<CharacterUI>("Prefabs/Characters/CharacterUI"), transform);
         //ui = GetComponentInChildren<CharacterUI>();
 
+        skill.Init();
+
         crystals = new List<int>();
 
         buffDictionary = new Dictionary<string, Buff>();
@@ -99,12 +101,8 @@ public class CharacterModel : MonoBehaviourPun, IModel
 
     private void OnEnable()
     {
-        CharacterManager.Instance.AddCharacter(this);
-
         if (photonView.IsMine)
         {
-            agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
-            agent.avoidancePriority = 50;
             SetStats();
         }
         else
@@ -125,16 +123,14 @@ public class CharacterModel : MonoBehaviourPun, IModel
             skill.enabled = false;
             ui.gameObject.SetActive(false);
         }
+     
+        CharacterManager.Instance.AddCharacter(this);
     }
 
     private void OnDisable()
     {
-        if (photonView.IsMine)
-        {
-            CharacterManager.Instance.ownCharacters.Remove(this);
-        }
-        CharacterManager.Instance.wholeCharacters.Remove(this);
         onDisable?.Invoke(this);    
+        CharacterManager.Instance.RemoveCharacter(this);
     }
 
     public void SetStats()

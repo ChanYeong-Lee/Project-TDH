@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Captain_BusterCall
   m_EditorClassIdentifier: 
   skillName: "\uBC84\uC2A4\uD130\uCF5C"
+  skillIcon: {fileID: 21300000, guid: 258f0b8c858962544b374ca08fab04d3, type: 3}
   description: "\uC8FC\uBCC0 \uC544\uAD70\uB4E4\uC758 \uACF5\uACA9\uB825\uACFC \uACF5\uACA9
     \uC18D\uB3C4\uB97C \uC99D\uAC00\uC2DC\uD0B5\uB2C8\uB2E4."
   skillType: 2

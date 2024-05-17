@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class CharacterManager : MonoBehaviour
 {
     public static CharacterManager Instance { get; private set; }
+
     public List<CharacterModel> wholeCharacters; // 맵에 존재하는 모든 캐릭터들
     public List<CharacterModel> ownCharacters; // 맵에 존재하는 모든 자신의 캐릭터들
 
@@ -25,23 +26,13 @@ public class CharacterManager : MonoBehaviour
         {
             ownCharacters.Add(newCharacter);
             SortList();
+
+            PlayerController.Instance.ResetCharacters();
+            PlayerController.Instance.AddCharacter(newCharacter);
         }
     }
 
-    public void UpgradeCharacter(CharacterModel currentCharacter, CharacterType targetCharacterType)
-    {
-        // 기존 캐릭터를 새 캐릭터로 업그레이드
-        List<int> generationCrystals = currentCharacter.crystals;
-        RemoveCharacter(currentCharacter);
-
-
-        CharacterModel targetCharacter = CharacterGenerator.Instance.GenerateCharacter(targetCharacterType);
-        targetCharacter.transform.position = currentCharacter.transform.position;
-        targetCharacter.SetGenerationCrystals(generationCrystals);
-
-    }
-
-    public void RemoveCharacter(CharacterModel removedCharacter)
+   public void RemoveCharacter(CharacterModel removedCharacter)
     {
         if (wholeCharacters.Contains(removedCharacter))
         {
@@ -53,16 +44,33 @@ public class CharacterManager : MonoBehaviour
             ownCharacters.Remove(removedCharacter);
             if (PlayerController.Instance.characters.Contains(removedCharacter))
             {
-                PlayerController.Instance.characters.Remove(removedCharacter);
+                PlayerController.Instance.RemoveCharacter(removedCharacter);
             }
         }
+    }
 
-        PhotonNetwork.Destroy(removedCharacter.gameObject);
+    public void UpgradeCharacter(CharacterModel currentCharacter, CharacterType targetCharacterType)
+    {
+        List<int> generationCrystals = currentCharacter.crystals;
+        Vector3 spawnPosition = currentCharacter.transform.position;
+
+        ownCharacters.Remove(currentCharacter);
+        if (PlayerController.Instance.characters.Contains(currentCharacter))
+        {
+            PlayerController.Instance.characters.Remove(currentCharacter);
+        }
+
+        CharacterGenerator.Instance.RemoveCharacter(currentCharacter);
+        CharacterModel targetCharacter = CharacterGenerator.Instance.GenerateCharacter(targetCharacterType);
+
+        targetCharacter.transform.position = spawnPosition;
+        targetCharacter.SetGenerationCrystals(generationCrystals);
     }
 
     private void SortList()
     {
-        ownCharacters.OrderByDescending((a) => a.tier);
+        print("Sort List");
+        ownCharacters.Sort((a, b) => b.tier - a.tier);
         UIManager.Instance.characterSelector.SetList(ownCharacters);
     }
 }

@@ -34,9 +34,8 @@ public class Skill : MonoBehaviour
     [Header("ป๓ลย")]
     public bool isReady;
 
-    public float applyCooldown => Mathf.Clamp(coolDown / Mathf.Clamp(coolDownIncrease, 0.1f, coolDownIncrease), 0.1f, coolDown / Mathf.Clamp(coolDownIncrease, 0.1f, coolDownIncrease));
+    public float applyCooldown => Mathf.Clamp(coolDown / Mathf.Clamp(owner.cooldownIncrease, 0.1f, owner.cooldownIncrease), 0.1f, coolDown / Mathf.Clamp(owner.cooldownIncrease, 0.1f, owner.cooldownIncrease));
     public float coolDown;
-    public float coolDownIncrease;
     public float coolDownAmount
     {
         get
@@ -45,9 +44,8 @@ public class Skill : MonoBehaviour
         }
     }
 
-    public float applyPercentage => Mathf.Clamp(percentage + percentageIncrease, 0.0f, 1.0f);
+    public float applyPercentage => Mathf.Clamp(percentage + owner.percentageIncrease, 0.0f, 1.0f);
     public float percentage;
-    public float percentageIncrease;
 
     public List<AttackEffect> attackEffects;
     public List<BuffEffect> buffEffects;    
@@ -70,9 +68,6 @@ public class Skill : MonoBehaviour
 
         coolDown = defaultStat.defaultCooldown;
         percentage = defaultStat.defaultPercent;
-
-        coolDownIncrease = 1.0f;
-        percentageIncrease = 0.0f;
 
         coolDownTimeout = 0.0f;
         currentCooldown = applyCooldown;

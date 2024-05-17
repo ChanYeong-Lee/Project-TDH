@@ -15,6 +15,7 @@ public enum CameraZoomType
 {
     Default     = 0,
     Full        = 1,
+    Zoom        = 2,
 }
 
 public class CameraManager : MonoBehaviour
@@ -24,8 +25,10 @@ public class CameraManager : MonoBehaviour
     [Header("설정")]
     public CinemachineVirtualCamera quaterViewDefaultCam;
     public CinemachineVirtualCamera quaterViewFullCam;
+    public CinemachineVirtualCamera quaterViewZoomCam;
     public CinemachineVirtualCamera topViewDefaultCam;
     public CinemachineVirtualCamera topViewFullCam;
+    public CinemachineVirtualCamera topViewZoomCam;
 
     [Header("상태")]
     public CameraType cameraType;
@@ -42,8 +45,10 @@ public class CameraManager : MonoBehaviour
         {
             {(int)CameraType.QuaterView + (int)CameraZoomType.Default,  quaterViewDefaultCam },
             {(int)CameraType.QuaterView + (int)CameraZoomType.Full,     quaterViewFullCam },
+            {(int)CameraType.QuaterView + (int)CameraZoomType.Zoom,     quaterViewZoomCam },
             {(int)CameraType.TopView    + (int)CameraZoomType.Default,  topViewDefaultCam },
             {(int)CameraType.TopView    + (int)CameraZoomType.Full,     topViewFullCam },
+            {(int)CameraType.TopView    + (int)CameraZoomType.Zoom,     topViewZoomCam },
         };
 
         foreach (CinemachineVirtualCamera vCam in vCamDictionary.Values)
@@ -86,6 +91,9 @@ public class CameraManager : MonoBehaviour
                 zoomType = CameraZoomType.Full;
                 break;
             case CameraZoomType.Full:
+                zoomType = CameraZoomType.Zoom;
+                break;
+            case CameraZoomType.Zoom:
                 zoomType = CameraZoomType.Default;
                 break;
         }

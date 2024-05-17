@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Main Camera Blends
   m_EditorClassIdentifier: 
   m_CustomBlends:
-  - m_From: TopViewCamera
-    m_To: DefaultCamera
+  - m_From: DefaultCamera
+    m_To: TopViewCamera
     m_Blend:
       m_Style: 0
       m_Time: 2
@@ -24,8 +24,8 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: DefaultCamera
-    m_To: TopViewCamera
+  - m_From: TopViewCamera
+    m_To: DefaultCamera
     m_Blend:
       m_Style: 0
       m_Time: 2
@@ -48,6 +48,28 @@ MonoBehaviour:
         m_RotationOrder: 0
   - m_From: FullTopViewCamera
     m_To: FullScreenCamera
+    m_Blend:
+      m_Style: 0
+      m_Time: 2
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: ZoomCamera
+    m_To: ZoomTopViewCamera
+    m_Blend:
+      m_Style: 0
+      m_Time: 2
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: ZoomTopViewCamera
+    m_To: ZoomCamera
     m_Blend:
       m_Style: 0
       m_Time: 2

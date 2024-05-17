@@ -7,8 +7,8 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    public static PlayerController Instance { get; private set; }   
-
+    public static PlayerController Instance { get; private set; }
+    public bool multipleSelect { get; set; }
     public PlayerInput input;
     public List<CharacterModel> characters; // 현재 선택된 캐릭터들
     public CharacterModel mainCharacter;
@@ -41,11 +41,17 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        if (multipleSelect == false)
+        {
+            ResetCharacters();
+        }
+
         if (mainCharacter != null)
         {
             mainCharacter.ui.Select(false);
         }
 
+        print($"Player Controller : Add Character ({character.defaultStat.characterName})");
         character.agent.avoidancePriority = 50 + (10 - character.tier);
         character.agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
         character.ui.Select(true, showAttackRange); 
@@ -64,6 +70,8 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        print($"Player Controller : Remove Character ({character.defaultStat.characterName})");
+
         character.move.Move(Vector3.zero);
         character.agent.avoidancePriority = 50;
         character.agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
@@ -72,11 +80,11 @@ public class PlayerController : MonoBehaviour
         UIManager.Instance.characterSelector.DeselectCharacter(character);
         characters.Remove(character);
 
-        if (characters.Count > 0 
-            && character == mainCharacter)
+        if (characters.Count > 0)
         {
             mainCharacter = characters[0];
             mainCharacter.ui.Select(true, showAttackRange);
+            UIManager.Instance.ShowCharacterInfo(mainCharacter);
         }
         else
         {
@@ -113,7 +121,7 @@ public class PlayerController : MonoBehaviour
             character.agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
             character.ui.Deselect();
             UIManager.Instance.characterSelector.DeselectCharacter(character);
-            print($"{character.name} delete from list");
+            print($"{character.defaultStat.characterName} delete from list");
         }
 
         characters.Clear();

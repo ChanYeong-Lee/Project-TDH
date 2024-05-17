@@ -7,6 +7,7 @@ public class SkillSO : ScriptableObject
 {
     [Header("Á¤º¸")]
     public string skillName;
+    public Sprite skillIcon;
     [TextArea(2,5)]
     public string description;
     public SkillType skillType;

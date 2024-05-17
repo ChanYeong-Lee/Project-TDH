@@ -22,7 +22,7 @@ public class CharacterSkill : MonoBehaviourPun
     public float cooldownIncrease;
     public float percentageIncrease;
 
-    private void Awake()
+    public void Init()
     {
         attack = GetComponent<CharacterAttack>();
         animator = GetComponent<Animator>();
@@ -33,6 +33,7 @@ public class CharacterSkill : MonoBehaviourPun
             Skill newSkill= skillTransform.GetComponent<Skill>();
             if (newSkill != null)
             {
+                print($"get {newSkill.defaultStat.skillName} skill");
                 skills.Add(newSkill);
             }
         }
@@ -49,7 +50,7 @@ public class CharacterSkill : MonoBehaviourPun
         if (color == 2)
         {
             cooldownIncrease += 0.1f;
-            percentageIncrease += 0.1f;
+            percentageIncrease += 0.05f;
         }
     }
 
