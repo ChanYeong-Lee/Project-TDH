@@ -1229,6 +1229,7 @@ MonoBehaviour:
   brain: {fileID: 0}
   move: {fileID: 0}
   health: {fileID: 0}
+  poolCount: 0
   syncTimeoutDelta: 0
 --- !u!114 &4546753389428746310
 MonoBehaviour:
@@ -1290,8 +1291,6 @@ MonoBehaviour:
   moveSpeed: 2.25
   moveSpeedIncrease: 0
   angularSpeed: 5
-  position: {x: 0, y: 0, z: 0}
-  velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &8076928277599674647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1342,7 +1341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHP: 0
-  maxHP: 180
+  maxHP: 250
   defense: 8
   defenseIncrease: 0
   hpRecovery: 5

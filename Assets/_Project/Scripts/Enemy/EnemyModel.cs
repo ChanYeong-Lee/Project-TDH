@@ -26,13 +26,13 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
 
     private void OnEnable()
     {
-        EnemyManager.Instance.enemies.Add(this);
+        EnemyManager.Instance.AddEnemy(this);
         poolCount++;
     }
 
     private void OnDisable()
     {
-        EnemyManager.Instance.enemies.Remove(this);
+        EnemyManager.Instance.RemoveEnemy(this);
         foreach (Buff buff in buffDictionary.Values)
         {
             if (buff.buffCoroutine != null)

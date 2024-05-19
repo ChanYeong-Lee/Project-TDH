@@ -25,7 +25,7 @@ MonoBehaviour:
     projectilePrefab: {fileID: 0}
     particlePrefab: {fileID: 0}
     fixedDamage: 30
-    relativeDamagePercent: 0.5
+    relativeDamagePercent: 0.2
     targetNumber: 0
     attackArea: 3
   buffEffects:
@@ -42,7 +42,7 @@ MonoBehaviour:
     allyTargets: []
     enemyTargets: []
   defaultPercent: 0
-  defaultCooldown: 8
+  defaultCooldown: 10
   triggerName: Skill1
   skillSpeed: 1.5
   skillClip: {fileID: 7400000, guid: 9c979ec9ee908fd4ba5d9e179e3345df, type: 2}

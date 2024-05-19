@@ -109,12 +109,12 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
         switch (color)
         {
             case 0:
-                damageIncrease += 0.1f;
-                attackDelayIncrease += 0.1f;
+                damage += damage * 0.1f;
+                attackDelay += attackDelay * 0.1f;
                 break;
             case 1:
-                attackAreaIncrease += 0.1f;
-                targetNumberIncrease += 1;
+                attackArea += attackArea * 0.1f;
+                targetNumber += 1;
                 break;
         }
     }

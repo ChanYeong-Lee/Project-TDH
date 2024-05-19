@@ -4,20 +4,35 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }
     public bool multipleSelect { get; set; }
+    public bool showAttackRange;
+
     public PlayerInput input;
     public List<CharacterModel> characters; // 현재 선택된 캐릭터들
     public CharacterModel mainCharacter;
-    public bool showAttackRange;
 
+    public GameObject multiSelectButton;
+    public GameObject multiSelectToggle;
     private void Awake()
     {
-        Instance = this; 
+        Instance = this;
         input = GetComponent<PlayerInput>();
+
+        if (Application.isMobilePlatform)
+        {
+            multiSelectButton.gameObject.SetActive(true);
+            multiSelectToggle.gameObject.SetActive(false);
+        }
+        else
+        {
+            multiSelectButton.gameObject.SetActive(false);
+            multiSelectToggle.gameObject.SetActive(true);
+        }
     }
 
     private void Update()
@@ -132,25 +147,33 @@ public class PlayerController : MonoBehaviour
 
     public void GenerateNewCharacter()
     {
-        string classType = GameManager.Instance.defensePlayer.classType.ToString();
-
-        switch (classType)
+        DefensePlayer player = GameManager.Instance.defensePlayer;
+    
+        if (player.singlePlay)
         {
-            case "Tank":
-                CharacterGenerator.Instance.GenerateCharacter(CharacterType.TankT1_Peasant);
-                break;
-            case "Deal":
-                CharacterGenerator.Instance.GenerateCharacter(CharacterType.DealT1_Peasant);
-                break;
-            case "Heal":
-                CharacterGenerator.Instance.GenerateCharacter(CharacterType.HealT1_Peasant);
-                break;
+            int randomInteger = Random.Range(0, 3) * 10;
+            CharacterGenerator.Instance.GenerateCharacter((CharacterType)randomInteger);
         }
+        else
+        {
+            switch (player.classType)
+            {
+                case ClassType.Tank:
+                    CharacterGenerator.Instance.GenerateCharacter(CharacterType.TankT1_Peasant);
+                    break;
+                case ClassType.Deal:
+                    CharacterGenerator.Instance.GenerateCharacter(CharacterType.DealT1_Peasant);
+                    break;
+                case ClassType.Heal:
+                    CharacterGenerator.Instance.GenerateCharacter(CharacterType.HealT1_Peasant);
+                    break;
+            }
+        } 
     }
 
-    public void SetShowAttackRange()
+    public void SetShowAttackRange(bool isOn)
     {
-        showAttackRange = showAttackRange == false;
+        showAttackRange = isOn;
 
         if (mainCharacter != null)
         {

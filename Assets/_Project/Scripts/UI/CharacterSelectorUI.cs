@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static UnityEditor.Rendering.FilterWindow;
 
 public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
 {
@@ -11,9 +10,12 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
     public float moveDuration = 0.1f;
     
     public Button deselectAllButton;
-    
-    public RectTransform activeElements;
 
+    public Toggle generateToggle;
+    public List<Button> generateButtons;
+
+    public RectTransform activeContent;
+    public List<RectTransform> activeElements;
     public Button openButton;
     public Button closeButton;
 
@@ -28,8 +30,8 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
     public List<CharacterSelectElement> characterElements;
 
     public int page;
-    public int lastPage => (characterElements.Count - 1) / 4;
-    public Vector2 pagePosition => new Vector2(-page * 830.0f, 0.0f);
+    public int lastPage => (characterElements.Count - 1) / 3;
+    public Vector2 pagePosition => new Vector2(-page * 780.0f, 0.0f);
 
     private RectTransform rectTransform;
     private Vector2 originPos;
@@ -37,6 +39,11 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void Init()
     {
+        foreach (RectTransform child in content)
+        {
+            Destroy(child.gameObject);
+        }
+
         rectTransform = transform.GetComponent<RectTransform>();
         originPos = rectTransform.anchoredPosition;
         disablePos = new Vector2(0.0f, originPos.y);
@@ -48,6 +55,10 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
         selectAllButton.onClick.AddListener(OnSelectAllButtonClick);
         leftButton.onClick.AddListener(MovePageLeft);
         rightButton.onClick.AddListener(MovePageRight);
+
+        generateButtons[0].onClick.AddListener(() => OnGenerateButtonClick(0));
+        generateButtons[1].onClick.AddListener(() => OnGenerateButtonClick(1));
+        generateButtons[2].onClick.AddListener(() => OnGenerateButtonClick(2));
 
         for (int i = 0; i < 12; i++)
         {
@@ -123,11 +134,16 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
     public void OnDeselectAllButtonClick()
     {
         PlayerController.Instance.ResetCharacters();
+        Hide();
     }
 
     public void OnSelectAllButtonClick()
     {
+        bool multipleSelect = PlayerController.Instance.multipleSelect;
+     
+        PlayerController.Instance.multipleSelect = true;
         PlayerController.Instance.SelectAllCharacters();
+        PlayerController.Instance.multipleSelect = multipleSelect;
     }
 
     public void OnCharacterButtonClick(CharacterSelectElement element)
@@ -139,6 +155,16 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
         else
         {
             PlayerController.Instance.AddCharacter(element.character);
+        }
+    }
+
+    public void OnGenerateButtonClick(int color)
+    {
+        DefensePlayer player = GameManager.Instance.defensePlayer;
+
+        if (player.UseCrystal(color))
+        {
+            PlayerController.Instance.GenerateNewCharacter();
         }
     }
 
@@ -171,7 +197,7 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (activeElements.gameObject.activeSelf)
+        if (activeContent.gameObject.activeSelf)
         {
             if (rectTransform.anchoredPosition.x < originPos.x * 0.7f)
             {
@@ -197,7 +223,11 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void Show()
     {
-        activeElements.gameObject.SetActive(true);
+        activeContent.gameObject.SetActive(true);
+        foreach (RectTransform element in activeElements)
+        {
+            element.gameObject.SetActive(true);
+        }
         openButton.gameObject.SetActive(false);
 
         rectTransform.DOAnchorPos(originPos, 0.15f);
@@ -205,9 +235,15 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void Hide()
     {
+        generateToggle.isOn = false;
+
         rectTransform.DOAnchorPos(disablePos, 0.15f).OnComplete(() =>
         {
-            activeElements.gameObject.SetActive(false);
+            activeContent.gameObject.SetActive(false);
+            foreach (RectTransform element in activeElements)
+            {
+                element.gameObject.SetActive(false);
+            }
             openButton.gameObject.SetActive(true);
         });
     }

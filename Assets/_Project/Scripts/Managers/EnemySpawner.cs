@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,12 +10,18 @@ public class EnemySpawner : MonoBehaviour
     public static EnemySpawner Instance { get; private set; }
     public List<WaveData> waveDatas;
 
+    public Action<int> onWaveChange;
     public WaveData currentWaveData;
     public int currentSpawnCount;
 
     private void Awake()
     {
         Instance = this;
+    }
+
+    public void Init()
+    {
+        //onWaveChange += UIManager.Instance.playerCrystals.UpdateWave;
     }
 
     public void StartSpawn()
@@ -24,14 +31,41 @@ public class EnemySpawner : MonoBehaviour
 
     public IEnumerator GameCoroutine()
     {
-        foreach (WaveData waveData in waveDatas)
+        for(int i = 0; i < waveDatas.Count; i++)
         {
-            currentWaveData = waveData;
+            currentWaveData = waveDatas[i];
+            onWaveChange?.Invoke(i + 1);
 
-            EnemyModel enemy = waveData.enemy;
-            int spawnCount = waveData.spawnCount;
-            WaitForSeconds spawnDelay = new WaitForSeconds(waveData.spawnDelay);
-            WaitForSeconds breakTime = new WaitForSeconds(waveData.breakTime);
+            if (GameManager.Instance.defensePlayer.singlePlay)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    for (int k = 0; k < currentWaveData.randomCrystal; k++)
+                    {
+                        GameManager.Instance.defensePlayer.AddRandomCrystal();
+                    }
+                    for (int k = 0; k < currentWaveData.specialCrystal; k++)
+                    {
+                        GameManager.Instance.defensePlayer.AddSpecialCrystal();
+                    }
+                }
+            }
+            else
+            {
+                for (int j = 0; j < currentWaveData.randomCrystal; j++)
+                {
+                    GameManager.Instance.defensePlayer.AddRandomCrystal();
+                }
+                for (int j = 0; j < currentWaveData.specialCrystal; j++)
+                {
+                    GameManager.Instance.defensePlayer.AddSpecialCrystal();
+                }
+            }
+
+            EnemyModel enemy = currentWaveData.enemy;
+            int spawnCount = currentWaveData.spawnCount;
+            WaitForSeconds spawnDelay = new WaitForSeconds(currentWaveData.spawnDelay);
+            WaitForSeconds breakTime = new WaitForSeconds(currentWaveData.breakTime);
 
             yield return StartCoroutine(WaveCoroutine(enemy, spawnCount, spawnDelay, breakTime));
         }

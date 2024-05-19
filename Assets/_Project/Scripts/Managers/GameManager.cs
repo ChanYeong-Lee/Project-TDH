@@ -27,18 +27,34 @@ public class GameManager : MonoBehaviour
         }
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
 
-        //yield return new WaitUntil(() => PhotonNetwork.CurrentRoom.PlayerCount == 2);
-
-        yield return new WaitUntil(() => PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Class"));
+        //yield return new WaitUntil(() => PhotonNetwork.CurrentRoom.PlayerCount == 3);
+        yield return new WaitForSeconds(10.0f);
         
-        defensePlayer = new DefensePlayer();
+        yield return new WaitUntil(() => PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Class"));
+
+        defensePlayer = new GameObject("Player").AddComponent<DefensePlayer>();
+        defensePlayer.Init();
+        EnemyManager.Instance.Init();
+
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+        {
+            defensePlayer.singlePlay = true;
+        }
+
+        defensePlayer.transform.SetAsFirstSibling();
         defensePlayer.nickName = PhotonNetwork.LocalPlayer.NickName;
         defensePlayer.classType = (ClassType)PhotonNetwork.LocalPlayer.CustomProperties["Class"];
 
-
-        CharacterGenerator.Instance.GenerateCharacter(CharacterType.TankT1_Peasant);
-        CharacterGenerator.Instance.GenerateCharacter(CharacterType.DealT1_Peasant);
-        CharacterGenerator.Instance.GenerateCharacter(CharacterType.HealT1_Peasant);
+        if (defensePlayer.singlePlay)
+        {
+            CharacterGenerator.Instance.GenerateCharacter(CharacterType.TankT1_Peasant);
+            CharacterGenerator.Instance.GenerateCharacter(CharacterType.DealT1_Peasant);
+            CharacterGenerator.Instance.GenerateCharacter(CharacterType.HealT1_Peasant);
+        }
+        else
+        {
+            PlayerController.Instance.GenerateNewCharacter();
+        }
 
         if (PhotonNetwork.IsMasterClient)
         {

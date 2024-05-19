@@ -101,11 +101,7 @@ public class CharacterModel : MonoBehaviourPun, IModel
 
     private void OnEnable()
     {
-        if (photonView.IsMine)
-        {
-            SetStats();
-        }
-        else
+        if (photonView.IsMine == false)
         {
             animator.applyRootMotion = false;
             StateMachineBehaviour[] behaviours = animator.GetBehaviours<StateMachineBehaviour>();

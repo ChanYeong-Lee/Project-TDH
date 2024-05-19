@@ -18,7 +18,20 @@ public class CharacterStatUI : MonoBehaviour
     [Header("ป๓ลย")]
     public CharacterModel character;
 
+    private float updateTimeDelta;
+    private float updateTime = 1.0f;
+
     private void Update()
+    {
+        if (character == null)
+        {
+            return;
+        }
+
+        UpdateInfo();
+    }
+
+    private void UpdateInfo()
     {
         if (character == null)
         {
@@ -38,14 +51,15 @@ public class CharacterStatUI : MonoBehaviour
                 break;
         }
 
-        damageText.text = $"{character.attack.applyDamage:F0}";
-        trueDamagePercentText.text = $"{character.attack.applyTrueDamagePercent:P0}";
-        attackDelayText.text = $"{character.attack.applyAttackDelay:F2}";
-        moveSpeedText.text = $"{character.move.applyMoveSpeed:F2}";
+        damageText.text = $"{character.attack.damage:F0} <color=green>+ {character.attack.applyDamage - character.attack.damage:F0}</color>";
+        trueDamagePercentText.text = $"{character.attack.trueDamagePercent:P0} <color=green>+ {character.attack.applyTrueDamagePercent - character.attack.trueDamagePercent:P0}</color>";
+        attackDelayText.text = $"{character.attack.attackDelay:F2} <color=green>+ {character.attack.applyAttackDelay - character.attack.attackDelay:F2}</color>";
+        moveSpeedText.text = $"{character.move.moveSpeed:F2} <color=green>+ {character.move.applyMoveSpeed - character.move.moveSpeed:F2}</color>";
     }
 
     public void SetCharacter(CharacterModel character)
     {
-        this.character = character;   
+        this.character = character;
+        UpdateInfo();
     }
 }

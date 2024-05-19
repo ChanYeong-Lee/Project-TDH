@@ -39,6 +39,7 @@ public class CharacterGenerator : MonoBehaviour
         }
 
         CharacterModel newModel = PhotonNetwork.Instantiate(prefabPath + prefabName, spawnPosition, spawnRotation).GetComponent<CharacterModel>();
+        newModel.SetStats();
 
         return newModel;
     }

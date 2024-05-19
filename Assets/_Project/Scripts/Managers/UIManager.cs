@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
     public RectTransform bossHealthBar;
     public Image bossHealthBarFillImage;
 
+    public PlayerCrystalsUI playerCrystals;
+
     private void Awake()
     {
         Instance = this;

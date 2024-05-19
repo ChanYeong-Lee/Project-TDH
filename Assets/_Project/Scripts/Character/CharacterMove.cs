@@ -80,7 +80,7 @@ public class CharacterMove : MonoBehaviourPun
     {
         if (color == 1)
         {
-            moveSpeedIncrease += 0.1f;
+            moveSpeed += moveSpeed * 0.1f;
         }
     }
 

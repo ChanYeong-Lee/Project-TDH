@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager Instance { get; private set; }
+
+    public Action<int> onEnemyCountChange;
 
     public List<EnemyModel> enemies; // 맵에 살아있는 모든 적
     public List<Path> enemyPaths; // 적들의 경로
@@ -14,19 +17,25 @@ public class EnemyManager : MonoBehaviour
         Instance = this;
     }
 
-    public void TestFunction1()
+    public void Init()
     {
-        foreach (EnemyModel enemy in enemies)
-        {
-            enemy.move.moveSpeedIncrease = 2.0f;
-        }
+        onEnemyCountChange += UIManager.Instance.playerCrystals.UpdateEnemyCount;
     }
 
-    public void TestFunction2()
+    public void AddEnemy(EnemyModel model)
     {
-        foreach (EnemyModel enemy in enemies)
+        enemies.Add(model);
+        onEnemyCountChange?.Invoke(enemies.Count);
+    }
+
+    public void RemoveEnemy(EnemyModel model)
+    {
+        if (enemies.Contains(model) == false)
         {
-            enemy.move.moveSpeedIncrease = 1.0f;
+            return;
         }
+
+        enemies.Remove(model);
+        onEnemyCountChange?.Invoke(enemies.Count);
     }
 }

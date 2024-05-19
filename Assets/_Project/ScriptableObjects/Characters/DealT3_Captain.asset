@@ -22,10 +22,10 @@ MonoBehaviour:
     type: 3}
   projectilePrefab: {fileID: 9106766711568056775, guid: 457b2365f04f83e4893a97f4313f2a3f,
     type: 3}
-  defaultDamage: 50
+  defaultDamage: 35
   defaultTrueDamagePercent: 0.2
   defaultAttackSpeed: 1
-  defaultAttackDelay: 0.85
+  defaultAttackDelay: 1
   defaultAttackRange: 6.5
   defaultTargetNumber: 3
   defaultAttackArea: 0

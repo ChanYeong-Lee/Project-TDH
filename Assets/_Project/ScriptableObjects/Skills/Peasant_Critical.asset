@@ -27,7 +27,7 @@ MonoBehaviour:
     targetNumber: 1
     attackArea: 0
   buffEffects: []
-  defaultPercent: 0.15
+  defaultPercent: 0.05
   defaultCooldown: 0
   triggerName: Skill1
   skillSpeed: 1.2

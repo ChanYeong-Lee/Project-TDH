@@ -123,31 +123,19 @@ public class CharacterInformationUI : MonoBehaviour
 
     private void OnCrystalButtonClick(int color)
     {
-        if (model == null
-            || currentIndex < 0)
+        if (model == null || currentIndex < 0)
         {
             return;
         }
 
-        switch (color)
+        DefensePlayer player = GameManager.Instance.defensePlayer;
+
+        if (player.UseCrystal(color))
         {
-            case 0:
-                model.AddCrystal(0);
-                break;
-            case 1:
-                model.AddCrystal(1);
-                break;
-            case 2:
-                model.AddCrystal(2);
-                break;
+            crystalIndicators[currentIndex].SetCrystal(color);
+            model.AddCrystal(color);
         }
 
-        if (currentIndex < 0)
-        {
-            return;
-        }
-
-        crystalIndicators[currentIndex].SetCrystal(color);
         crystalButtons.DOScale(Vector3.zero, 0.1f).OnComplete(() => crystalButtons.gameObject.SetActive(false));
         currentIndex = -1;
     }
