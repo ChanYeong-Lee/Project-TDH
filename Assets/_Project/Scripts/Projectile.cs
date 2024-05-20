@@ -96,7 +96,7 @@ public class Projectile : MonoBehaviour
 
        if (distance < 0.25f)
        {
-           transform.position = destination;
+           //transform.position = destination;
 
            if (mesh != null)
            {
@@ -115,14 +115,15 @@ public class Projectile : MonoBehaviour
         Vector3 direction = destination - transform.position;
         direction.Normalize();
 
-        float distanceValue = Mathf.Clamp(2.0f / distance, 0.0f, 1.0f);
+        float distanceValue = Mathf.Clamp(5.0f * speed * Time.deltaTime / distance, 0.0f, 1.0f);
 
         float forwardX = Mathf.Lerp(transform.forward.x, direction.x, distanceValue);
         float forwardY = direction.y;
         float forwardZ = Mathf.Lerp(transform.forward.z, direction.z, distanceValue);
         transform.forward = new Vector3(forwardX, forwardY, forwardZ);
 
-        Vector3 moveVector = speed * transform.forward * Time.deltaTime;
+        float applySpeed = Mathf.Min(speed * Time.deltaTime, distance); 
+        Vector3 moveVector = applySpeed * transform.forward;
         transform.position = transform.position + moveVector;
 
         lifeTimeDelta -= Time.deltaTime;

@@ -16,8 +16,8 @@ MonoBehaviour:
   characterIcon: {fileID: 21300000, guid: 29aabef99364df04ca895faa1173fbfd, type: 3}
   walkingClip: {fileID: -203655887218126122, guid: 78e7b38bd790cb44ba2e06728ef98f38,
     type: 3}
-  defaultMoveSpeed: 3
-  attackType: 1
+  defaultMoveSpeed: 3.5
+  attackType: 0
   attackClip: {fileID: 7400000, guid: ab42d20068f31124c990198ae75c2d9a, type: 3}
   projectilePrefab: {fileID: 0}
   defaultDamage: 10
@@ -26,7 +26,7 @@ MonoBehaviour:
   defaultAttackDelay: 1
   defaultAttackRange: 4
   defaultTargetNumber: 1
-  defaultAttackArea: 1.2
+  defaultAttackArea: 1.5
   revolutionData:
   - needCrystalAmount: 3
     minimumCrystal: {x: 2, y: 0, z: 0}

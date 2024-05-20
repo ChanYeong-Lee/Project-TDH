@@ -22,6 +22,8 @@ MonoBehaviour:
   attackEffects: []
   buffEffects:
   - buffName: General_IncreaseDamage
+    particlePrefab: {fileID: 198587703769245278, guid: dae62829f54f1ef419180e26ed4f354f,
+      type: 3}
     attackType: 1
     targetType: 1
     buffType: 1
@@ -34,6 +36,7 @@ MonoBehaviour:
     allyTargets: []
     enemyTargets: []
   - buffName: General_IncreaseAttackDelay
+    particlePrefab: {fileID: 0}
     attackType: 1
     targetType: 1
     buffType: 1

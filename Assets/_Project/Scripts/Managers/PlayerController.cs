@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
     public void AddCharacter(CharacterModel character)
     {
-        if (characters.Contains(character))
+        if (characters.Contains(character) && multipleSelect)
         {
             return;
         }
@@ -97,9 +97,12 @@ public class PlayerController : MonoBehaviour
 
         if (characters.Count > 0)
         {
-            mainCharacter = characters[0];
-            mainCharacter.ui.Select(true, showAttackRange);
-            UIManager.Instance.ShowCharacterInfo(mainCharacter);
+            if (mainCharacter == character)
+            {
+                mainCharacter = characters[0];
+                mainCharacter.ui.Select(true, showAttackRange);
+                UIManager.Instance.ShowCharacterInfo(mainCharacter);
+            }
         }
         else
         {

@@ -17,7 +17,7 @@ public class DebugStarter : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby();
 
         yield return new WaitUntil(() => PhotonNetwork.InLobby);
-        PhotonNetwork.JoinRandomOrCreateRoom(roomName: "TestRoom", expectedMaxPlayers: 3);
+        PhotonNetwork.JoinRandomOrCreateRoom(roomName: "TestRoom");
 
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
         yield return new WaitUntil(() => PhotonNetwork.LocalPlayer.GetPlayerNumber() >= 0);

@@ -57,6 +57,9 @@ MonoBehaviour:
   - ShotSkillProjectileRPC
   - ShotSkillAttackParticleRPC
   - ShotSkillParticleRPC
+  - GiveCrystal
+  - GiveRandomCrystal
+  - GiveSpecialCrystal
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

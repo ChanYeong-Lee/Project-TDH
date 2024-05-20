@@ -11,6 +11,7 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
     
     public Button deselectAllButton;
 
+    public Toggle buttonsToggle;
     public Toggle generateToggle;
     public List<Button> generateButtons;
 
@@ -135,6 +136,7 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         PlayerController.Instance.ResetCharacters();
         Hide();
+        buttonsToggle.isOn = false;
     }
 
     public void OnSelectAllButtonClick()
@@ -150,7 +152,14 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         if (PlayerController.Instance.characters.Contains(element.character))
         {
-            PlayerController.Instance.RemoveCharacter(element.character);
+            if (PlayerController.Instance.multipleSelect)
+            {
+                PlayerController.Instance.RemoveCharacter(element.character);
+            }
+            else
+            {
+                PlayerController.Instance.AddCharacter(element.character);
+            }
         }
         else
         {
@@ -161,11 +170,18 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
     public void OnGenerateButtonClick(int color)
     {
         DefensePlayer player = GameManager.Instance.defensePlayer;
+        
+        if (player == null)
+        {
+            return;
+        }
 
         if (player.UseCrystal(color))
         {
             PlayerController.Instance.GenerateNewCharacter();
         }
+
+        generateToggle.isOn = false;
     }
 
     public void MovePageRight()

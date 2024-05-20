@@ -1341,7 +1341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHP: 0
-  maxHP: 250
+  maxHP: 450
   defense: 8
   defenseIncrease: 0
   hpRecovery: 5

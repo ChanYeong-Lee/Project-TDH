@@ -5,11 +5,6 @@ using UnityEngine;
 
 public class InstructionUI : MonoBehaviour
 {
-    private void Awake()
-    {
-        gameObject.SetActive(false);
-    }
-
     public void Show()
     {
         gameObject.SetActive(true);

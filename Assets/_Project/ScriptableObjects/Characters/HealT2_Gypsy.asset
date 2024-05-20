@@ -16,7 +16,7 @@ MonoBehaviour:
   characterIcon: {fileID: 21300000, guid: fc67e9b37c09c63469b3a1672096cb3a, type: 3}
   walkingClip: {fileID: -203655887218126122, guid: 78e7b38bd790cb44ba2e06728ef98f38,
     type: 3}
-  defaultMoveSpeed: 3
+  defaultMoveSpeed: 3.5
   attackType: 0
   attackClip: {fileID: 7400000, guid: 84911e8607cb9ef468b009dd9d29db37, type: 2}
   projectilePrefab: {fileID: 0}

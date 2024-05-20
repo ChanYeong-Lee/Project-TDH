@@ -12,6 +12,7 @@ using static UnityEngine.GraphicsBuffer;
 public class BuffEffect
 {
     public string buffName;
+    public ParticleSystem particlePrefab;
 
     public AttackType attackType;
     public TargetType targetType;
@@ -44,8 +45,7 @@ public class BuffEffect
                         SingleStrongestBuff(owner);
                         break;
                     case TargetType.Self:
-                        CharacterModel ownerModel = owner.GetComponent<CharacterModel>();
-                        ApplyBuff(owner, ownerModel);
+                        SelfBuff(owner);
                         break;
                 }
                 break;
@@ -145,6 +145,15 @@ public class BuffEffect
             if (targets[i] != null
                 && targets[i].gameObject.activeSelf == true)
             {
+                if (particlePrefab != null)
+                {
+                    string prefabName = particlePrefab.name;
+                    Vector3 spawnPosition = targets[i].transform.position;
+                    Quaternion spawnRotation = Quaternion.identity;
+
+                    owner.photonView.RPC("ShotSkillParticleRPC", RpcTarget.All, prefabName, spawnPosition, spawnRotation);
+                }
+
                 ApplyBuff(owner, targets[i]);
             }
         }
@@ -157,6 +166,15 @@ public class BuffEffect
             if (model != null
                 && model.gameObject.activeSelf == true)
             {
+                if (particlePrefab != null)
+                {
+                    string prefabName = particlePrefab.name;
+                    Vector3 spawnPosition = model.transform.position;
+                    Quaternion spawnRotation = Quaternion.identity;
+
+                    owner.photonView.RPC("ShotSkillParticleRPC", RpcTarget.All, prefabName, spawnPosition, spawnRotation);
+                }
+
                 ApplyBuff(owner, model);
             }
         }
@@ -171,6 +189,15 @@ public class BuffEffect
         {
             if (targets[i] != null)
             {
+                if (particlePrefab != null)
+                {
+                    string prefabName = particlePrefab.name;
+                    Vector3 spawnPosition = targets[i].transform.position;
+                    Quaternion spawnRotation = Quaternion.identity;
+
+                    owner.photonView.RPC("ShotSkillParticleRPC", RpcTarget.All, prefabName, spawnPosition, spawnRotation);
+                }
+
                 ApplyBuff(owner, targets[i]);
             }
         }
@@ -195,6 +222,15 @@ public class BuffEffect
             if (enemy != null
                 && enemy.gameObject.activeSelf)
             {
+                if (particlePrefab != null)
+                {
+                    string prefabName = particlePrefab.name;
+                    Vector3 spawnPosition = enemy.transform.position;
+                    Quaternion spawnRotation = Quaternion.identity;
+
+                    owner.photonView.RPC("ShotSkillParticleRPC", RpcTarget.All, prefabName, spawnPosition, spawnRotation);
+                }
+
                 ApplyBuff(owner, enemy);
             }
         }
@@ -213,10 +249,34 @@ public class BuffEffect
             if (ally != null
                 && ally.gameObject.activeSelf)
             {
+                if (particlePrefab != null)
+                {
+                    string prefabName = particlePrefab.name;
+                    Vector3 spawnPosition = ally.transform.position;
+                    Quaternion spawnRotation = Quaternion.identity;
+
+                    owner.photonView.RPC("ShotSkillParticleRPC", RpcTarget.All, prefabName, spawnPosition, spawnRotation);
+                }
+
                 ApplyBuff(owner, ally);
             }
         }
     }
 
+    private void SelfBuff(CharacterSkill owner)
+    {
+        CharacterModel ownerModel = owner.GetComponent<CharacterModel>();
+        
+        if (particlePrefab != null)
+        {
+            string prefabName = particlePrefab.name;
+            Vector3 spawnPosition = ownerModel.transform.position;
+            Quaternion spawnRotation = Quaternion.identity;
+
+            owner.photonView.RPC("ShotSkillParticleRPC", RpcTarget.All, prefabName, spawnPosition, spawnRotation);
+        }
+
+        ApplyBuff(owner, ownerModel);
+    }
     #endregion
 }

@@ -18682,6 +18682,12 @@ MonoBehaviour:
   - {fileID: 198897932501958704}
   speed: 40
   lifeTime: 3
-  alternativeTrailTime: 3
+  alternativeTrailTime: 2
   target: {fileID: 0}
+  owner: {fileID: 0}
+  targetPoolCount: 0
+  attackType: 0
+  normalDamage: 0
+  trueDamage: 0
+  attackArea: 0
   destination: {x: 0, y: 0, z: 0}

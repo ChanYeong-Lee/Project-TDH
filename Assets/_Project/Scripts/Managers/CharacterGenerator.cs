@@ -11,6 +11,8 @@ public class CharacterGenerator : MonoBehaviour
     public List<CharacterModel> characterPrefabs;
 
     public Action<CharacterModel> onGenerateCharacter;
+    public LayerMask characterLayer;
+
 
     private void Awake()
     {
@@ -25,8 +27,9 @@ public class CharacterGenerator : MonoBehaviour
         Vector3 spawnPosition = new Vector3(-2.0f, 0.0f, 2.0f);
         Quaternion spawnRotation = Quaternion.identity;
 
-        while (Physics.Raycast(spawnPosition + 100.0f * Vector3.up, Vector3.down, out RaycastHit hit, LayerMask.GetMask("Character")))
+        while (Physics.Raycast(spawnPosition + 100.0f * Vector3.up, Vector3.down, out RaycastHit hit, Mathf.Infinity, characterLayer))
         {
+            print(hit.collider.gameObject.name);
             if (spawnPosition.x >= 2.0f)
             {
                 spawnPosition.x = -2.0f;

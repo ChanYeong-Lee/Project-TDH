@@ -78,10 +78,10 @@ public class CharacterMove : MonoBehaviourPun
 
     public void AddCrystal(int color)
     {
-        if (color == 1)
-        {
-            moveSpeed += moveSpeed * 0.1f;
-        }
+        //if (color == 1)
+        //{
+        //    moveSpeed += moveSpeed * 0.1f;
+        //}
     }
 
     public void Move(Vector3 direction)

@@ -17,11 +17,13 @@ MonoBehaviour:
   description: "\uACF5\uACA9 \uC18D\uB3C4\uC640 \uACE0\uC815 \uB370\uBBF8\uC9C0\uAC00
     \uC99D\uAC00\uD569\uB2C8\uB2E4."
   skillType: 2
-  mainTargetType: 0
+  mainTargetType: 3
   priority: 0
   attackEffects: []
   buffEffects:
   - buffName: Ranger_IncreaseAttackDelay
+    particlePrefab: {fileID: 198587703769245278, guid: 63aa13679bed7f947a1581ffe57da25d,
+      type: 3}
     attackType: 0
     targetType: 3
     buffType: 1
@@ -34,6 +36,7 @@ MonoBehaviour:
     allyTargets: []
     enemyTargets: []
   - buffName: Ranger_IncreaseTrueDamagePercent
+    particlePrefab: {fileID: 0}
     attackType: 0
     targetType: 3
     buffType: 1

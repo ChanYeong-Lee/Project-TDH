@@ -33,7 +33,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
     public float trueDamagePercent;
     public float trueDamagePercentIncrease;
 
-    public float applyAttackSpeed => Mathf.Clamp(attackSpeed, 0.1f, applyAttackDelay + 0.1f); // 한 공격이 끝마치는데 걸리는 시간
+    public float applyAttackSpeed => Mathf.Clamp(applyAttackDelay + 0.1f, 0.1f, applyAttackDelay + 0.1f); // 한 공격이 끝마치는데 걸리는 시간
     public float attackSpeed; // 기본 공격 속도
 
     public float applyAttackDelay => Mathf.Clamp(attackDelay / Mathf.Clamp(attackDelayIncrease, 0.1f, attackDelayIncrease), 0.1f, attackDelay / Mathf.Clamp(attackDelayIncrease, 0.1f, attackDelayIncrease));
@@ -110,11 +110,12 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
         {
             case 0:
                 damage += damage * 0.1f;
-                attackDelay += attackDelay * 0.1f;
+                attackDelay = attackDelay / 1.1f;
                 break;
             case 1:
-                attackArea += attackArea * 0.1f;
-                targetNumber += 1;
+                attackRangeIncrease += 0.1f;
+                attackAreaIncrease += 0.1f;
+                targetNumberIncrease += 1;
                 break;
         }
     }

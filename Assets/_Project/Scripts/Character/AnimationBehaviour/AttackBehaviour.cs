@@ -15,9 +15,22 @@ public class AttackBehaviour : CharacterBehaviour
                 || owner.attack.mainTarget.gameObject.activeSelf == false
                 || owner.attack.mainTarget.poolCount != owner.attack.mainTargetPoolCount)
             {
-                owner.attack.photonView.RPC("SetTriggerRPC", RpcTarget.All, "Cancel");
-                owner.attack.CancelAttack();
-                Debug.Log("공격을 취소합니다");
+                switch (owner.attack.attackType)
+                {
+                    case AttackType.Single:
+                        if (owner.attack.CheckTarget() == false)
+                        {
+                            owner.attack.photonView.RPC("SetTriggerRPC", RpcTarget.All, "Cancel");
+                            owner.attack.CancelAttack();
+                            Debug.Log("공격을 취소합니다");
+                        }
+                        break;
+                    case AttackType.Area:
+                        owner.attack.photonView.RPC("SetTriggerRPC", RpcTarget.All, "Cancel");
+                        owner.attack.CancelAttack();
+                        Debug.Log("공격을 취소합니다");
+                        break;
+                }
             }
         }
         else

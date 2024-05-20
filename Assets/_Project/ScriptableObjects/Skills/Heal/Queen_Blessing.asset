@@ -22,6 +22,8 @@ MonoBehaviour:
   attackEffects: []
   buffEffects:
   - buffName: Queen_IncreaseDamage
+    particlePrefab: {fileID: 198587703769245278, guid: 954ab032aff88394d8e2bd9c2871a441,
+      type: 3}
     attackType: 0
     targetType: 2
     buffType: 1
@@ -34,6 +36,7 @@ MonoBehaviour:
     allyTargets: []
     enemyTargets: []
   - buffName: Queen_IncreaseTrueDamage
+    particlePrefab: {fileID: 0}
     attackType: 0
     targetType: 2
     buffType: 1

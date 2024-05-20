@@ -54,11 +54,11 @@ public class EnemySpawner : MonoBehaviour
             {
                 for (int j = 0; j < currentWaveData.randomCrystal; j++)
                 {
-                    GameManager.Instance.defensePlayer.AddRandomCrystal();
+                    NetworkManager.Instance.photonView.RPC("GiveRandomCrystal", RpcTarget.All);
                 }
                 for (int j = 0; j < currentWaveData.specialCrystal; j++)
-                {
-                    GameManager.Instance.defensePlayer.AddSpecialCrystal();
+                {   
+                    NetworkManager.Instance.photonView.RPC("GiveSpecialCrystal", RpcTarget.All);
                 }
             }
 

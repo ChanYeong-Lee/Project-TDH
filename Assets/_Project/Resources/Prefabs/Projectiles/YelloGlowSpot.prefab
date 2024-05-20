@@ -4848,6 +4848,12 @@ MonoBehaviour:
   lifeTime: 3
   alternativeTrailTime: 0
   target: {fileID: 0}
+  owner: {fileID: 0}
+  targetPoolCount: 0
+  attackType: 0
+  normalDamage: 0
+  trueDamage: 0
+  attackArea: 0
   destination: {x: 0, y: 0, z: 0}
 --- !u!1 &7090667635226452415
 GameObject:
@@ -4923,11 +4929,11 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.5
+  m_Time: 0.2
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.01
+    widthMultiplier: 0.025
     widthCurve:
       serializedVersion: 2
       m_Curve:

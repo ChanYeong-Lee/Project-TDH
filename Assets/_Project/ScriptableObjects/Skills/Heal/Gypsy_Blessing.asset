@@ -22,6 +22,8 @@ MonoBehaviour:
   attackEffects: []
   buffEffects:
   - buffName: Gypsy_IncreaseDamage
+    particlePrefab: {fileID: 198587703769245278, guid: 63aa13679bed7f947a1581ffe57da25d,
+      type: 3}
     attackType: 0
     targetType: 2
     buffType: 1

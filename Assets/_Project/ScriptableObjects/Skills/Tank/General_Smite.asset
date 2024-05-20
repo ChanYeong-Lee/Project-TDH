@@ -25,11 +25,12 @@ MonoBehaviour:
     projectilePrefab: {fileID: 0}
     particlePrefab: {fileID: 0}
     fixedDamage: 30
-    relativeDamagePercent: 0.6
+    relativeDamagePercent: 0.5
     targetNumber: 0
     attackArea: 4
   buffEffects:
   - buffName: General_Stun
+    particlePrefab: {fileID: 0}
     attackType: 1
     targetType: 0
     buffType: 1
