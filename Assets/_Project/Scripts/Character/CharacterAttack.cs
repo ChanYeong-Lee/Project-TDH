@@ -328,9 +328,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
         AttackType attackType, float normalDamage, float trueDamage, float attackArea)
     {
         GameObject projectilePrefab = Resources.Load<GameObject>(projectilePath + prefabName);
-
         Projectile projectileInstance = PoolManager.Instance.clientPool.Spawn(projectilePrefab, spawnPosition, spawnRotation).GetComponent<Projectile>();
-
         EnemyModel target = EnemyManager.Instance.enemies.Find((model) => model.photonView.ViewID == targetViewID);
 
         if (target != null)

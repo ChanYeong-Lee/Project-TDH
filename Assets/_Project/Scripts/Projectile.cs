@@ -113,6 +113,7 @@ public class Projectile : MonoBehaviour
            return;
        }
 
+        distance = Vector3.Distance(destination, transform.position);
 
         Vector3 direction = destination - transform.position;
         direction.Normalize();

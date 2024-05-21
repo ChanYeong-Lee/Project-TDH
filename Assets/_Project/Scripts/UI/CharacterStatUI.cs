@@ -18,9 +18,6 @@ public class CharacterStatUI : MonoBehaviour
     [Header("ป๓ลย")]
     public CharacterModel character;
 
-    private float updateTimeDelta;
-    private float updateTime = 1.0f;
-
     private void Update()
     {
         if (character == null)
