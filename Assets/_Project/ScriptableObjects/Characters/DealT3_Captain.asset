@@ -20,7 +20,7 @@ MonoBehaviour:
   attackType: 0
   attackClip: {fileID: -203655887218126122, guid: 835c10021eef9504d852102d57e26f6b,
     type: 3}
-  projectilePrefab: {fileID: 9106766711568056775, guid: 457b2365f04f83e4893a97f4313f2a3f,
+  projectilePrefab: {fileID: 9106766711568056775, guid: c1e1ab599605ab54885d882d3687f15c,
     type: 3}
   defaultDamage: 30
   defaultTrueDamagePercent: 0.2

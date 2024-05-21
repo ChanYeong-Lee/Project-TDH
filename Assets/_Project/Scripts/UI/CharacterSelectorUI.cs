@@ -152,13 +152,20 @@ public class CharacterSelectorUI : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         if (PlayerController.Instance.characters.Contains(element.character))
         {
-            if (PlayerController.Instance.multipleSelect)
+            if (PlayerController.Instance.characters.Count > 1)
             {
-                PlayerController.Instance.RemoveCharacter(element.character);
+                if (PlayerController.Instance.multipleSelect)
+                {
+                    PlayerController.Instance.RemoveCharacter(element.character);
+                }
+                else
+                {
+                    PlayerController.Instance.AddCharacter(element.character);
+                }
             }
             else
             {
-                PlayerController.Instance.AddCharacter(element.character);
+                    PlayerController.Instance.RemoveCharacter(element.character);
             }
         }
         else

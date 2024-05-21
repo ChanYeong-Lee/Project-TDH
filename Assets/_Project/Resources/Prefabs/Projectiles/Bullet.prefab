@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2333913863613926673}
   - component: {fileID: 9106766711568056775}
   m_Layer: 0
-  m_Name: Bomb
+  m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,9 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshParticles: []
-  impactParticlePrefab: {fileID: 198202731371243394, guid: da1ba80472a68ba4db5052b300df75fe,
-    type: 3}
-  speed: 20
+  impactParticlePrefab: {fileID: 0}
+  speed: 50
   lifeTime: 3
   alternativeTrailTime: 0
   target: {fileID: 0}
@@ -239,7 +238,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.94509804, g: 0.009254379, b: 0, a: 1}
+      key0: {r: 0.9433962, g: 0.37576723, b: 0, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}

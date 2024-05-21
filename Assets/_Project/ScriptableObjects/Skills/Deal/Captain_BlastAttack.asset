@@ -23,14 +23,14 @@ MonoBehaviour:
   - attackType: 1
     projectilePrefab: {fileID: 9106766711568056775, guid: 457b2365f04f83e4893a97f4313f2a3f,
       type: 3}
-    particlePrefab: {fileID: 198202731371243394, guid: da1ba80472a68ba4db5052b300df75fe,
-      type: 3}
+    particlePrefab: {fileID: 0}
     fixedDamage: 100
     relativeDamagePercent: 0.25
     targetNumber: 0
     attackArea: 2
   buffEffects:
   - buffName: Captain_DecreaseDefense
+    particlePrefab: {fileID: 0}
     attackType: 1
     targetType: 0
     buffType: 1

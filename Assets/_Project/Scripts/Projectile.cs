@@ -13,6 +13,8 @@ public class Projectile : MonoBehaviour
     
     [Header("¼³Á¤")]
     public List<ParticleSystem> meshParticles;
+    public ParticleSystem impactParticlePrefab;
+
     public float speed;
     public float lifeTime;
     public float alternativeTrailTime;
@@ -115,7 +117,7 @@ public class Projectile : MonoBehaviour
         Vector3 direction = destination - transform.position;
         direction.Normalize();
 
-        float distanceValue = Mathf.Clamp(5.0f * speed * Time.deltaTime / distance, 0.0f, 1.0f);
+        float distanceValue = Mathf.Clamp(10.0f * speed * Time.deltaTime / distance, 0.0f, 1.0f);
 
         float forwardX = Mathf.Lerp(transform.forward.x, direction.x, distanceValue);
         float forwardY = direction.y;
@@ -132,12 +134,19 @@ public class Projectile : MonoBehaviour
     private IEnumerator DespawnCoroutine()
     {
         if (owner != null 
-            && owner.photonView.IsMine
             && target != null
             && target.gameObject.activeSelf
             && target.poolCount == targetPoolCount)
         {
-            ApplyDamage();
+            if (owner.photonView.IsMine)
+            {
+                ApplyDamage();
+            }
+            
+            if (impactParticlePrefab != null) 
+            {
+                PoolManager.Instance.clientPool.Spawn(impactParticlePrefab.gameObject, transform.position,Quaternion.identity);
+            }
         }
 
         if (trail != null)

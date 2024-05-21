@@ -266,6 +266,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshParticles: []
+  impactParticlePrefab: {fileID: 198759441112702650, guid: 4b0782e9ab915574eaf782dbd8d03f39,
+    type: 3}
   speed: 30
   lifeTime: 5
   alternativeTrailTime: 0

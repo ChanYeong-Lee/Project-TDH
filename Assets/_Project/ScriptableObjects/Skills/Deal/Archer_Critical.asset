@@ -24,14 +24,14 @@ MonoBehaviour:
   - attackType: 0
     projectilePrefab: {fileID: 3040857776797610877, guid: dbca3a8d2a0840b46ae40a382d07ade1,
       type: 3}
-    particlePrefab: {fileID: 198759441112702650, guid: f8ec00d53e7668245961a96ebabd2453,
-      type: 3}
+    particlePrefab: {fileID: 0}
     fixedDamage: 0
     relativeDamagePercent: 1.5
     targetNumber: 2
     attackArea: 0
   buffEffects:
   - buffName: Archer_Stun
+    particlePrefab: {fileID: 0}
     attackType: 0
     targetType: 0
     buffType: 1
