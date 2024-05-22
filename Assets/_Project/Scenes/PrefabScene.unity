@@ -123,6 +123,79 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &90767808
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -9133009104887109842, guid: 585f014b5c4f1dc46af745c2d07ee9ab,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 781331145752423145, guid: 585f014b5c4f1dc46af745c2d07ee9ab,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 781331145752423145, guid: 585f014b5c4f1dc46af745c2d07ee9ab,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 781331145752423145, guid: 585f014b5c4f1dc46af745c2d07ee9ab,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 781331145752423145, guid: 585f014b5c4f1dc46af745c2d07ee9ab,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 781331145752423145, guid: 585f014b5c4f1dc46af745c2d07ee9ab,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 781331145752423145, guid: 585f014b5c4f1dc46af745c2d07ee9ab,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 781331145752423145, guid: 585f014b5c4f1dc46af745c2d07ee9ab,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 781331145752423145, guid: 585f014b5c4f1dc46af745c2d07ee9ab,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 781331145752423145, guid: 585f014b5c4f1dc46af745c2d07ee9ab,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 781331145752423145, guid: 585f014b5c4f1dc46af745c2d07ee9ab,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1692903423082525872, guid: 585f014b5c4f1dc46af745c2d07ee9ab,
+        type: 3}
+      propertyPath: m_Name
+      value: Lv01_Character_Goblin_Male_FixedScale
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 585f014b5c4f1dc46af745c2d07ee9ab, type: 3}
 --- !u!1 &97505221
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,7 +614,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &615327424
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1767,6 +1840,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TankT1_Peasant
       objectReference: {fileID: 0}
+    - target: {fileID: 1106622363271743681, guid: 6e6a8335d532d5a45b46f350392dba23,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1806560626266508740, guid: 6e6a8335d532d5a45b46f350392dba23,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2538,3 +2616,4 @@ SceneRoots:
   - {fileID: 1906974777}
   - {fileID: 1621618633}
   - {fileID: 1898086323}
+  - {fileID: 90767808}

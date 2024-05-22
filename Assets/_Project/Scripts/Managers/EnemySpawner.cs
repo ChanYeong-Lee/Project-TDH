@@ -82,7 +82,6 @@ public class EnemySpawner : MonoBehaviour
         {
             EnemyModel enemyInstance = PoolManager.Instance.networkPool.Spawn(prefabPath + enemy.name, spawnPosition, spawnRotation).GetComponent<EnemyModel>();
             currentSpawnCount = i + 1;
-            // 생성하는 로직.
 
             yield return spawnDelay;
         }

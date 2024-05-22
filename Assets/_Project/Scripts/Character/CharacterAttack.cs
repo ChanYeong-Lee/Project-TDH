@@ -14,7 +14,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
 {
     private const string projectilePath = "Prefabs/Projectiles/";
     private Animator animator;
-    private CharacterSkill skill;
+    [HideInInspector] public CharacterSkill skill;
 
     public Transform shotPoint;
 
@@ -290,11 +290,6 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
     public void OnAttack(AnimationEvent animationEvent)
     {
         if (photonView.IsMine == false)
-        {
-            return;
-        }
-
-        if (animationEvent.animatorClipInfo.weight < 0.8f)
         {
             return;
         }

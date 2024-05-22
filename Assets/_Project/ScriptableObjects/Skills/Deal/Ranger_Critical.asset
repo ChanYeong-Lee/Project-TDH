@@ -29,20 +29,7 @@ MonoBehaviour:
     relativeDamagePercent: 1.5
     targetNumber: 4
     attackArea: 0
-  buffEffects:
-  - buffName: Ranger_Stun
-    particlePrefab: {fileID: 0}
-    attackType: 0
-    targetType: 0
-    buffType: 1
-    statType: 0
-    increaseAmount: -1
-    integerIncreaseAmount: 0
-    limitTime: 1
-    targetNumber: 4
-    attackArea: 0
-    allyTargets: []
-    enemyTargets: []
+  buffEffects: []
   defaultPercent: 0.15
   defaultCooldown: 0
   triggerName: Skill1

@@ -2082,7 +2082,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1001 &75780100
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4701,7 +4701,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1001 &152737800
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7246,7 +7246,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1001 &215204268
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7768,7 +7768,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1 &232015057
 GameObject:
   m_ObjectHideFlags: 0
@@ -8285,7 +8285,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1001 &248193763
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9626,7 +9626,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1001 &289545438
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11360,7 +11360,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1 &360574371
 GameObject:
   m_ObjectHideFlags: 0
@@ -13096,7 +13096,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1001 &437380290
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14513,7 +14513,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1001 &467975566
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14886,7 +14886,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1001 &479175028
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15119,7 +15119,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1 &487056087
 GameObject:
   m_ObjectHideFlags: 0
@@ -16199,7 +16199,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1 &533020360
 GameObject:
   m_ObjectHideFlags: 0
@@ -16954,7 +16954,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1001 &562231392
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17072,7 +17072,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1001 &562315476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17993,7 +17993,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1 &590336652
 GameObject:
   m_ObjectHideFlags: 0
@@ -19098,7 +19098,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1001 &628840941
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20143,7 +20143,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1001 &664464218
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22345,7 +22345,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1001 &736552349
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22879,7 +22879,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1 &744665297
 GameObject:
   m_ObjectHideFlags: 0
@@ -22914,10 +22914,10 @@ Transform:
   - {fileID: 1518835998}
   - {fileID: 686963162}
   - {fileID: 1167455478}
+  - {fileID: 455682575}
   - {fileID: 1173383779}
   - {fileID: 1738703008}
   - {fileID: 1141728861}
-  - {fileID: 455682575}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &744665299
@@ -22949,7 +22949,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.083333336
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 7d9503054b0a9c340bb29b5312b70df2, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 9cbc2d7c85d93a74e925b4275eb2c610, type: 2}
   m_BuildHeightMesh: 0
 --- !u!114 &744665300
 MonoBehaviour:
@@ -22971,7 +22971,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_UseGeometry: 0
-  m_DefaultArea: 0
+  m_DefaultArea: 3
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
@@ -22980,7 +22980,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.33333334
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 9cbc2d7c85d93a74e925b4275eb2c610, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 7d9503054b0a9c340bb29b5312b70df2, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &746590685
 GameObject:
@@ -26349,7 +26349,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1 &852758510
 GameObject:
   m_ObjectHideFlags: 0
@@ -28734,7 +28734,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1 &919363878
 GameObject:
   m_ObjectHideFlags: 0
@@ -30069,7 +30069,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1001 &959701644
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30863,7 +30863,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1001 &1009304818
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32857,7 +32857,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1001 &1078650306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35497,7 +35497,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1 &1167455477
 GameObject:
   m_ObjectHideFlags: 0
@@ -36190,7 +36190,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1 &1193533280
 GameObject:
   m_ObjectHideFlags: 0
@@ -36780,7 +36780,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1 &1206034945
 GameObject:
   m_ObjectHideFlags: 0
@@ -36939,7 +36939,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1001 &1207285730
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38082,7 +38082,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1001 &1248617389
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39460,7 +39460,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1 &1280766174
 GameObject:
   m_ObjectHideFlags: 0
@@ -40696,7 +40696,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1001 &1308833439
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41284,7 +41284,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1 &1328626256
 GameObject:
   m_ObjectHideFlags: 0
@@ -42228,7 +42228,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1001 &1359055127
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42754,7 +42754,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1 &1368615874
 GameObject:
   m_ObjectHideFlags: 0
@@ -43517,7 +43517,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1 &1395943068
 GameObject:
   m_ObjectHideFlags: 0
@@ -44084,7 +44084,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1001 &1414988175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45191,7 +45191,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1 &1471104414
 GameObject:
   m_ObjectHideFlags: 0
@@ -46397,7 +46397,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1001 &1514101440
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49004,7 +49004,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1001 &1576642951
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49117,7 +49117,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1 &1577855235
 GameObject:
   m_ObjectHideFlags: 0
@@ -52588,7 +52588,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1 &1708043845
 GameObject:
   m_ObjectHideFlags: 3
@@ -55593,7 +55593,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: f2652fae
 --- !u!1001 &1784036284
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56928,7 +56928,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1001 &1830146509
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59397,7 +59397,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1 &1926066477
 GameObject:
   m_ObjectHideFlags: 0
@@ -60271,7 +60271,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1 &1966024474
 GameObject:
   m_ObjectHideFlags: 0
@@ -61078,7 +61078,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1001 &1991792845
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63918,7 +63918,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1001 &2078375999
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64652,7 +64652,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1 &2092073503
 GameObject:
   m_ObjectHideFlags: 0
@@ -66428,7 +66428,7 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000
 --- !u!1001 &2134400154
 PrefabInstance:
   m_ObjectHideFlags: 0

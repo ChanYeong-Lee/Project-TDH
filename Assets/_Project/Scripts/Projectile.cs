@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.Rendering;
 
 public class Projectile : MonoBehaviour
@@ -14,6 +15,7 @@ public class Projectile : MonoBehaviour
     [Header("¼³Á¤")]
     public List<ParticleSystem> meshParticles;
     public ParticleSystem impactParticlePrefab;
+    public List<BuffEffect> buffEffects;
 
     public float speed;
     public float lifeTime;
@@ -134,19 +136,32 @@ public class Projectile : MonoBehaviour
 
     private IEnumerator DespawnCoroutine()
     {
-        if (owner != null 
-            && target != null
-            && target.gameObject.activeSelf
-            && target.poolCount == targetPoolCount)
+        if (owner != null)
         {
-            if (owner.photonView.IsMine)
+            if (impactParticlePrefab != null)
             {
-                ApplyDamage();
+                PoolManager.Instance.clientPool.Spawn(impactParticlePrefab.gameObject, transform.position, Quaternion.identity);
             }
             
-            if (impactParticlePrefab != null) 
+            switch (attackType)
             {
-                PoolManager.Instance.clientPool.Spawn(impactParticlePrefab.gameObject, transform.position,Quaternion.identity);
+                case AttackType.Single:
+                    if (target != null
+                        && target.gameObject.activeSelf
+                        && target.poolCount == targetPoolCount)
+                    {
+                        if (owner.photonView.IsMine)
+                        {
+                            ApplyDamage();
+                        }
+                    }
+                    break;
+                case AttackType.Area:
+                    if (owner.photonView.IsMine)
+                    {
+                        ApplyDamage();
+                    }
+                    break;
             }
         }
 
@@ -168,13 +183,28 @@ public class Projectile : MonoBehaviour
         switch (attackType)
         {
             case AttackType.Single:
+                foreach(BuffEffect buffEffect in buffEffects)
+                {
+                    buffEffect.ApplyBuff(owner.skill, target);
+                }
+
                 target.health.photonView.RPC("TakeHitRPC", RpcTarget.All, target.poolCount, normalDamage, trueDamage);
                 break;
             case AttackType.Area:
-                Collider[] contectedColliders = Physics.OverlapSphere(target.transform.position, attackArea, LayerMask.GetMask("Enemy"));
+                Collider[] contectedColliders = Physics.OverlapSphere(destination, attackArea, LayerMask.GetMask("Enemy"));
                 foreach (Collider collider in contectedColliders)
                 {
                     EnemyModel enemy = collider.GetComponent<EnemyModel>();
+                    if (enemy == null)
+                    {
+                        continue;
+                    }
+
+                    foreach (BuffEffect buffEffect in buffEffects)
+                    {
+                        buffEffect.ApplyBuff(owner.skill, enemy);
+                    }
+
                     enemy.health.photonView.RPC("TakeHitRPC", RpcTarget.All, enemy.poolCount, normalDamage, trueDamage);
                 }
                 break;

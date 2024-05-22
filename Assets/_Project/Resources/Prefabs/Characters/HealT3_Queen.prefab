@@ -1822,6 +1822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e1e6e9347287f34b8cb7373e0933a8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skill: {fileID: 0}
   shotPoint: {fileID: 5098141391943090069}
   attackType: 0
   attackClip: {fileID: 0}

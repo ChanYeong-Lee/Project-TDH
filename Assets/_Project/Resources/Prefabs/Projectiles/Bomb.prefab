@@ -49,7 +49,21 @@ MonoBehaviour:
   meshParticles: []
   impactParticlePrefab: {fileID: 198202731371243394, guid: da1ba80472a68ba4db5052b300df75fe,
     type: 3}
-  speed: 20
+  buffEffects:
+  - buffName: Captain_DecreaseDefense
+    particlePrefab: {fileID: 0}
+    attackType: 0
+    targetType: 0
+    buffType: 1
+    statType: 4
+    increaseAmount: -5
+    integerIncreaseAmount: 0
+    limitTime: 3
+    targetNumber: 0
+    attackArea: 0
+    allyTargets: []
+    enemyTargets: []
+  speed: 10
   lifeTime: 3
   alternativeTrailTime: 0
   target: {fileID: 0}

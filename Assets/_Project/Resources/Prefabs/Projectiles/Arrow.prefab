@@ -157,7 +157,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.2
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -267,6 +267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshParticles: []
   impactParticlePrefab: {fileID: 0}
+  buffEffects: []
   speed: 30
   lifeTime: 5
   alternativeTrailTime: 0

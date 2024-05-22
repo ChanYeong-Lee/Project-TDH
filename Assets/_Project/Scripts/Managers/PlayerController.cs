@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject multiSelectButton;
     public GameObject multiSelectToggle;
+
     private void Awake()
     {
         Instance = this;
