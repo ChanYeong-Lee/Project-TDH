@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,9 @@ public class CharacterUI : MonoBehaviour
 
     public RectTransform attackRange;
 
+    public Image skillRangeImage;
+    private Skill currentRangeSkill;
+
     private void Awake()
     {
         model = GetComponentInParent<CharacterModel>();
@@ -30,10 +34,8 @@ public class CharacterUI : MonoBehaviour
             coolDownSkill = model.skill.skills.Find((skill) => skill.defaultStat.skillType == SkillType.TargetCooldown);
         }
 
-        if (coolDownSkill == null)
-        {
-            coolDownFillImage.gameObject.SetActive(false);
-        }
+        coolDownFillImage.gameObject.SetActive(coolDownSkill != null);
+        skillRangeImage.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -50,7 +52,6 @@ public class CharacterUI : MonoBehaviour
 
         if (coolDownSkill != null)
         {
-            //coolDown.gameObject.SetActive(true);
             coolDownFillImage.fillAmount = coolDownSkill.coolDownAmount;
         }
     }
@@ -68,5 +69,78 @@ public class CharacterUI : MonoBehaviour
         mainSelected.gameObject.SetActive(false);
         attackRange.gameObject.SetActive(false);
     }
-}
 
+    public void ShowSkillArea(Skill skill)
+    {
+        if (skill == null)
+        {
+            return;
+        }
+        
+        UpdateSkillArea(skill);
+    }
+
+    public void HideSkillArea()
+    {
+        skillRangeImage.gameObject.SetActive(false);
+    }
+
+    private void UpdateSkillArea(Skill skill)
+    {
+        if (skill == null)
+        {
+            return;
+        }
+
+        bool haveArea = true;
+
+        switch (skill.defaultStat.skillType)
+        {
+            case SkillType.Always:
+                switch (skill.defaultStat.mainTargetType)
+                {
+                    case TargetType.Enemy:
+                        skillRangeImage.color = new Color(1.0f, 0.0f, 0.0f, 0.1f);
+                        break;
+                    case TargetType.AllAlly:
+                        skillRangeImage.color = new Color(0.0f, 1.0f, 0.0f, 0.1f);
+                        break;
+
+                    default:
+                        haveArea = false;
+                        break;
+                }
+                break;
+            case SkillType.NonTargetCooldown:
+            case SkillType.TargetCooldown:
+                switch (skill.defaultStat.mainTargetType)
+                {
+                    case TargetType.AllAlly:
+                    case TargetType.StrongestAlly:
+                        skillRangeImage.color = new Color(0.0f, 1.0f, 0.0f, 0.1f);
+                        break;
+                    default:
+                        haveArea = false;
+                        break;
+                }
+                break;
+            default:
+                haveArea = false;
+                break;
+        }
+
+        if (haveArea)
+        {
+            skillRangeImage.gameObject.SetActive(true);
+
+            foreach (BuffEffect buff in skill.buffEffects)
+            {
+                skillRangeImage.transform.localScale = buff.attackArea * model.attack.attackAreaIncrease * Vector3.one;
+            }
+        }
+        else
+        {
+            skillRangeImage.gameObject.SetActive(false);
+        }
+    }
+}

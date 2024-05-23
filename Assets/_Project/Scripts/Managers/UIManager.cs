@@ -8,6 +8,9 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
 
     public StarterUI starter;
+    
+    public DamageUI damage;
+
     public CharacterInformationUI characterInfo;
     public CharacterSelectorUI characterSelector;
 

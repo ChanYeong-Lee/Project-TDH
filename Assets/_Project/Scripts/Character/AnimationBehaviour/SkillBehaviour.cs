@@ -5,6 +5,7 @@ public class SkillBehaviour : CharacterBehaviour
 {
     private bool continueSkill;
     private bool correctTarget;
+    private bool skillCanceled;
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -23,15 +24,16 @@ public class SkillBehaviour : CharacterBehaviour
                 }
             }
 
-            if (owner.skill.mainTarget == null
-            || owner.skill.mainTarget.gameObject.activeSelf == false
-            || correctTarget == false)
-            {
-                owner.attack.photonView.RPC("SetTriggerRPC", RpcTarget.All, "Cancel");
-                owner.skill.CancelSkill();
-                owner.attack.CancelAttack();
-                Debug.Log("스킬을 취소합니다");
-            }
+            //if (owner.skill.mainTarget == null
+            //|| owner.skill.mainTarget.gameObject.activeSelf == false
+            //|| correctTarget == false)
+            //{
+            //    owner.attack.photonView.RPC("SetTriggerRPC", RpcTarget.All, "Cancel");
+            //    skillCanceled = true;
+            //    //owner.skill.CancelSkill();
+            //    //owner.attack.CancelAttack();
+            //    //Debug.Log("스킬을 취소합니다");
+            //}
         }
         else
         {

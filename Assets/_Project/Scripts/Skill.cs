@@ -26,7 +26,7 @@ public enum TargetType
 public class Skill : MonoBehaviour
 {
     private SphereCollider trigger;
-    private CharacterSkill owner;
+    [HideInInspector] public CharacterSkill owner;
 
     [Header("¼³Á¤")]
     public SkillSO defaultStat;
@@ -207,7 +207,8 @@ public class Skill : MonoBehaviour
 
     public void CancelSkill()
     {
-        if (defaultStat.skillType == SkillType.NonTargetCooldown || defaultStat.skillType == SkillType.TargetCooldown)
+        if (defaultStat.skillType == SkillType.NonTargetCooldown 
+            || defaultStat.skillType == SkillType.TargetCooldown)
         {
             coolDownTimeout = 0.1f;
         }

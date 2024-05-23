@@ -234,13 +234,19 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
             }
             else
             {
-                targets[i].health.photonView.RPC("TakeHitRPC", RpcTarget.All, targets[i].poolCount, normalDamage, trueDamage);
+                targets[i].health.photonView.RPC("TakeHitRPC", RpcTarget.All, photonView.ViewID, targets[i].poolCount, normalDamage, trueDamage);
             }
         }
     }
 
     private void AreaAttack() // 범위 공격
     {
+        // 설정 이슈
+        // 만약 범위 공격을 시작했는데 중간에 Target이 없어지면
+        // 1. 그 위치에 공격을 하도록 할지
+        // 2. 취소를 할지
+        // 3. 애니메이션만 진행하고 아무도 데미지를 받지 않게 할지 << 현재 선택된 방법
+
         if (mainTarget == null 
             || mainTarget.gameObject.activeSelf == false
             || mainTargetPoolCount != mainTarget.poolCount)
@@ -250,7 +256,6 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
 
         float trueDamage = applyDamage * applyTrueDamagePercent;
         float normalDamage = applyDamage - trueDamage;
-
 
         if (projectilePrefab != null)
         {
@@ -281,7 +286,7 @@ public class CharacterAttack : MonoBehaviourPun, IPunObservable
                         continue;
                     }
 
-                    enemy.health.photonView.RPC("TakeHitRPC", RpcTarget.All, enemy.poolCount, normalDamage, trueDamage);
+                    enemy.health.photonView.RPC("TakeHitRPC", RpcTarget.All, photonView.ViewID, enemy.poolCount, normalDamage, trueDamage);
                 }
             }
         }

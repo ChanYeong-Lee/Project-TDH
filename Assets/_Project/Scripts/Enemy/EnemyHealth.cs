@@ -59,7 +59,7 @@ public class EnemyHealth : MonoBehaviourPun
     }
 
     [PunRPC]
-    protected virtual void TakeHitRPC(int poolCount, float normalDamage, float trueDamage, PhotonMessageInfo info)
+    protected virtual void TakeHitRPC(int attackerID, int poolCount, float normalDamage, float trueDamage, PhotonMessageInfo info)
     {
         int modelPoolCount = GetComponent<EnemyModel>().poolCount;
 

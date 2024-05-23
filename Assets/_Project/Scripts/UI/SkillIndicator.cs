@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,6 +57,8 @@ public class SkillIndicator : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         informationUI.SetSkill(skill);
         informationUI.gameObject.SetActive(true);
+
+        skill.owner.GetComponent<CharacterModel>().ui.ShowSkillArea(skill);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -67,5 +70,7 @@ public class SkillIndicator : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         informationUI.SetSkill(null);
         informationUI.gameObject.SetActive(false);
+
+        skill.owner.GetComponent<CharacterModel>().ui.HideSkillArea();
     }
 }

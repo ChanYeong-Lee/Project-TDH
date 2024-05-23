@@ -188,7 +188,7 @@ public class Projectile : MonoBehaviour
                     buffEffect.ApplyBuff(owner.skill, target);
                 }
 
-                target.health.photonView.RPC("TakeHitRPC", RpcTarget.All, target.poolCount, normalDamage, trueDamage);
+                target.health.photonView.RPC("TakeHitRPC", RpcTarget.All, owner.photonView.ViewID, target.poolCount, normalDamage, trueDamage);
                 break;
             case AttackType.Area:
                 Collider[] contectedColliders = Physics.OverlapSphere(destination, attackArea, LayerMask.GetMask("Enemy"));
@@ -205,7 +205,7 @@ public class Projectile : MonoBehaviour
                         buffEffect.ApplyBuff(owner.skill, enemy);
                     }
 
-                    enemy.health.photonView.RPC("TakeHitRPC", RpcTarget.All, enemy.poolCount, normalDamage, trueDamage);
+                    enemy.health.photonView.RPC("TakeHitRPC", RpcTarget.All, owner.photonView.ViewID, enemy.poolCount, normalDamage, trueDamage);
                 }
                 break;
         }

@@ -95,7 +95,7 @@ public class AttackEffect
             }
             else
             {
-                targets[i].health.GetComponent<PhotonView>().RPC("TakeHitRPC", RpcTarget.All, targets[i].poolCount, normalDamage, trueDamage);
+                targets[i].health.GetComponent<PhotonView>().RPC("TakeHitRPC", RpcTarget.All, owner.photonView.ViewID, targets[i].poolCount, normalDamage, trueDamage);
             }
             
             if (particlePrefab != null)
@@ -153,7 +153,7 @@ public class AttackEffect
                         continue;
                     }
 
-                    enemy.health.photonView.RPC("TakeHitRPC", RpcTarget.All, enemy.poolCount, normalDamage, trueDamage);
+                    enemy.health.photonView.RPC("TakeHitRPC", RpcTarget.All, owner.photonView.ViewID, enemy.poolCount, normalDamage, trueDamage);
                 }
             }
         }
