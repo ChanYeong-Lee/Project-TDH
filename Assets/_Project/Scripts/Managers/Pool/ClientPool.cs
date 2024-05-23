@@ -88,6 +88,11 @@ public class ClientPool
 
     public void Despawn(GameObject gameObject)
     {
+        if (gameObject.activeSelf == false)
+        {
+            return;
+        }
+
         string objectName = gameObject.name;
         if (poolDictionary.ContainsKey(objectName))
         {

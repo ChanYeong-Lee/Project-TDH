@@ -53,11 +53,6 @@ public class EnemyHealth : MonoBehaviourPun
         }
     }
 
-    public void TakeHit(float normalDamage, float trueDamage)
-    {
-        photonView.RPC("TakeHitRPC", RpcTarget.All, normalDamage, trueDamage);   
-    }
-
     [PunRPC]
     protected virtual void TakeHitRPC(int attackerID, int poolCount, float normalDamage, float trueDamage, PhotonMessageInfo info)
     {
@@ -84,7 +79,8 @@ public class EnemyHealth : MonoBehaviourPun
                 PoolManager.Instance.networkPool.Despawn(gameObject);
             }
         }
-        
+
+        DamageManager.Instance.AddDamage(attackerID, damage);
         
     }
 }

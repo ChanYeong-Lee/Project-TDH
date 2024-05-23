@@ -8,43 +8,60 @@ public class DamageManager : MonoBehaviour
     public static DamageManager Instance { get; private set; }
     
     public List<DamageInfo> damageList;
+    private WaitForSeconds oneSecond;
 
     private void Awake()
     {
         Instance = this;
+        damageList = new List<DamageInfo>();    
+    }
+
+    private void Start()
+    {
+        oneSecond = new WaitForSeconds(1.0f);
+        StartCoroutine(CalulateDPSCoroutine());
     }
 
     public void AddDamage(int viewID, float damage)
     {
-        if (damageList.Exists(element => element.viewID == viewID) == false)
+        DamageInfo info = damageList.Find(element => element.viewID == viewID);
+        if (info == null)
         {
-            DamageInfo newInfo = new DamageInfo() { viewID = viewID, damage = 0.0f };   
-            damageList.Add(newInfo);    
+            info = new DamageInfo() { viewID = viewID, damage = 0.0f };
+            damageList.Add(info);
         }
 
-        DamageInfo info = damageList.Find(element=>element.viewID == viewID);
         info.damage += damage;
-
-        damageList = damageList.OrderBy(element => element.damage).ToList();
-
-        UIManager.Instance.damage.UpdateDamageUI();
+        info.damageAtSeconds += damage;
     }
 
-    public float GetDamage(int viewID)
+    public DamageInfo GetDamageInfo(int viewID)
     {
-        if (damageList.Exists(element => element.viewID == viewID))
+        return damageList.Find(element => element.viewID == viewID);
+    }
+
+    private IEnumerator CalulateDPSCoroutine()
+    {
+        while (true)
         {
-            return damageList.Find(element => element.viewID == viewID).damage;
-        }
-        else
-        {
-            return 0.0f;
+            foreach (DamageInfo info in damageList)
+            {
+                info.damagePerSeconds = info.damageAtSeconds;
+                info.damageAtSeconds = 0.0f;
+            }
+
+            damageList = damageList.OrderByDescending(element => element.damagePerSeconds).ToList();
+            UIManager.Instance.damage.UpdateDamageUI();
+
+            yield return oneSecond;
         }
     }
 }
 
-public struct DamageInfo
+public class DamageInfo
 {
     public int viewID;
     public float damage;
+    public float damageAtSeconds;
+    public float damagePerSeconds;
 }

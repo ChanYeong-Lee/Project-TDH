@@ -125,6 +125,11 @@ public class CharacterModel : MonoBehaviourPun, IModel
 
     private void OnDisable()
     {
+        if (PhotonNetwork.IsConnected == false)
+        {
+            return;
+        }
+
         onDisable?.Invoke(this);    
         CharacterManager.Instance.RemoveCharacter(this);
     }

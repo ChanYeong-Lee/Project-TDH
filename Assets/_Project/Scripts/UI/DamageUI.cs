@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,14 +25,14 @@ public class DamageUI : MonoBehaviour
         int tempCount = 0;
         for (int i = 0; i < indicators.Count; i++)
         {
-            if (i + tempCount > DamageManager.Instance.damageList.Count - 1)
+            if (i + tempCount < DamageManager.Instance.damageList.Count)
             {
-                indicators[i].gameObject.SetActive(false);
-                continue;
+                indicators[i].gameObject.SetActive(true);
             }
             else
             {
-                indicators[i].gameObject.SetActive(true);
+                indicators[i].gameObject.SetActive(false);
+                continue;
             }
 
             int viewID = DamageManager.Instance.damageList[i + tempCount].viewID;
@@ -43,7 +44,19 @@ public class DamageUI : MonoBehaviour
                 continue;
             }
 
-            indicators[i].UpdateDamageIndicator(model, DamageManager.Instance.GetDamage(viewID));
+            indicators[i].UpdateDamageIndicator(model, DamageManager.Instance.GetDamageInfo(viewID));
+        }
+    }
+
+    public void Zoom(bool isOn)
+    {
+        if (isOn)
+        {
+            transform.DOScale(2.0f * Vector3.one, 0.25f);
+        }
+        else
+        {
+            transform.DOScale(1.0f * Vector3.one, 0.25f);
         }
     }
 }
