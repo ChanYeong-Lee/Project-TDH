@@ -6,15 +6,21 @@ using UnityEngine.Animations;
 
 public class CharacterBehaviour : StateMachineBehaviour
 {
-    protected CharacterModel owner;
+    [SerializeField] protected CharacterModel owner;
 
     public override void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
     {
-        owner = animator.GetComponent<CharacterModel>();
+        if (owner == null)
+        {
+            owner = animator.GetComponent<CharacterModel>();
+        }
     }
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        owner = animator.GetComponent<CharacterModel>();
+        if (owner == null)
+        {
+            owner = animator.GetComponent<CharacterModel>();
+        }
     }
 }
