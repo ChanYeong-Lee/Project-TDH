@@ -39,11 +39,6 @@ public class AttackBehaviour : CharacterBehaviour
                 && owner.attack.canAttack
                 && owner.attack.CheckTarget())
             {
-                //if (owner.skill.CheckNonTargetCooldownSkill(out Skill readyNonTargetSkill))
-                //{
-                //    owner.attack.StartSkill();
-                //    owner.skill.StartSkill(readyNonTargetSkill);
-                //}
                 if (owner.skill.CheckTargetCooldownSkill(out Skill readyTargetSkill))
                 {
                     owner.attack.StartSkill();

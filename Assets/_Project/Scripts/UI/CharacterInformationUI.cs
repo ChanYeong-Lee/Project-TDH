@@ -123,6 +123,8 @@ public class CharacterInformationUI : MonoBehaviour
 
     private void OnCrystalButtonClick(int color)
     {
+        Queue<int> a= new Queue<int>();
+        
         if (model == null || currentIndex < 0)
         {
             return;

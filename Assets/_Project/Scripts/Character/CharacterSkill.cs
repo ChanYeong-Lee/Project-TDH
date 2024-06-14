@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -112,7 +113,7 @@ public class CharacterSkill : MonoBehaviourPun
         {
             if (skill.defaultStat.skillType == SkillType.Random)
             {
-                float randomValue = Random.Range(0.0f, 1.0f);
+                float randomValue = UnityEngine.Random.Range(0.0f, 1.0f);
 
                 if (randomValue < skill.applyPercentage)
                 {

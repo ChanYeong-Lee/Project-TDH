@@ -12,7 +12,7 @@ public class PhotonNetworkPool
 {
     private Dictionary<string, List<GameObject>> poolDictionary;
 
-    public PhotonNetworkPool()
+    public PhotonNetworkPool()  
     {
         poolDictionary = new Dictionary<string, List<GameObject>>();
     }

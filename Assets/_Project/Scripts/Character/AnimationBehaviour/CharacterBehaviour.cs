@@ -6,7 +6,7 @@ using UnityEngine.Animations;
 
 public class CharacterBehaviour : StateMachineBehaviour
 {
-    [SerializeField] protected CharacterModel owner;
+    protected CharacterModel owner;
 
     public override void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
     {

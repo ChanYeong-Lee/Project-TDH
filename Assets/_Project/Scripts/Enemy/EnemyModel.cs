@@ -45,14 +45,14 @@ public class EnemyModel : MonoBehaviourPun, INetworkPool, IModel
 
         onDisable?.Invoke(this);
     }
-
+    //private const string SyncPositionFunction = "SyncPosition";
     private void Update()
     {
         if (PhotonNetwork.IsMasterClient)
         {
             if (syncTimeoutDelta <= 0.0f)
             {
-                photonView.RPC("SyncPosition", RpcTarget.Others, transform.position, move.applyMoveSpeed);
+                photonView.RPC(nameof(SyncPosition), RpcTarget.Others, transform.position, move.applyMoveSpeed);
                 syncTimeoutDelta = 1.0f;
             }
             else

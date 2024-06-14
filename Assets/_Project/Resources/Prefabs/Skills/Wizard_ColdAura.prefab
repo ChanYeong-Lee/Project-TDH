@@ -44,25 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebb92c492d6cea64ea7f88f52e05ec86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
   defaultStat: {fileID: 11400000, guid: 8b80fb667245bf445a429d50e584a985, type: 2}
   isReady: 0
   coolDown: 0
-  coolDownIncrease: 0
   percentage: 0
-  percentageIncrease: 0
   attackEffects: []
-  buffEffects:
-  - buffName: Slow MoveSpeed
-    attackType: 0
-    targetType: 0
-    buffType: 1
-    statType: 0
-    increaseAmount: -1
-    integerIncreaseAmount: 0
-    limitTime: 3
-    targetNumber: 5
-    attackArea: 0
-    allyTargets: []
-    enemyTargets: []
+  buffEffects: []
   enemyTargets: []
   allyTargets: []

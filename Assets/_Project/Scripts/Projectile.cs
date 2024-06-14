@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,6 +36,17 @@ public class Projectile : MonoBehaviour
 
     private Coroutine despawnCoroutine;
     private float distance;
+
+
+    #region BEZIER
+    private float arrivalTime;
+    private float shotTime;
+    private Vector3 p1;
+    private Vector3 p2;
+    private Vector3 p3;
+
+    #endregion
+
     private void Awake()
     {
         mesh = GetComponentInChildren<MeshRenderer>();
@@ -59,6 +71,7 @@ public class Projectile : MonoBehaviour
         }
 
         lifeTimeDelta = lifeTime;
+        shotTime = 0.0f;
     }
 
     private void OnDisable()
@@ -120,15 +133,29 @@ public class Projectile : MonoBehaviour
         Vector3 direction = destination - transform.position;
         direction.Normalize();
 
-        float distanceValue = Mathf.Clamp(10.0f * speed * Time.deltaTime / distance, 0.0f, 1.0f);
+        //float distanceValue = Mathf.Clamp(10.0f * speed * Time.deltaTime / distance, 0.0f, 1.0f);
+        float distanceValue = shotTime;
+        shotTime += Time.deltaTime;
 
         float forwardX = Mathf.Lerp(transform.forward.x, direction.x, distanceValue);
         float forwardY = direction.y;
         float forwardZ = Mathf.Lerp(transform.forward.z, direction.z, distanceValue);
         transform.forward = new Vector3(forwardX, forwardY, forwardZ);
 
-        float applySpeed = Mathf.Min(speed * Time.deltaTime, distance); 
+        //if (t == 0.0f)
+        //{
+        //    p1 = transform.position;
+        //    p2 = p1 + transform.forward * 5.0f;
+        //    arrivalTime = distance / speed;
+        //}
+        //p3 = destination;
+        //t += Time.deltaTime / arrivalTime;  
+        //transform.forward = (2 * t - 2) * p1 + (2 - 4 * t) * p2 + 2 * t * p3;
+        //transform.position = (1 - t) * (1 - t) * p1 + 2 * (1 - t) * t * p2 + t * t * p3;
+
+        float applySpeed = Mathf.Min(speed * Time.deltaTime, distance);
         Vector3 moveVector = applySpeed * transform.forward;
+
         transform.position = transform.position + moveVector;
 
         lifeTimeDelta -= Time.deltaTime;

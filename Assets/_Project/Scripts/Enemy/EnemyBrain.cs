@@ -23,13 +23,12 @@ public class EnemyBrain : MonoBehaviour
         Vector3 direction = currentPath.endPos.position - transform.position;
         model.move.Move(direction);
     }
+        // 흠.. 매 프레임마다 agent.setdestination을 하면 메모리를 많이 쓰는데,, 
+        // 근데 회전각을 내가 컨트롤해서 혹시 setdestination을 한번만 했을 때 영원히 목적지에 도달을 못할 수도 있어서,,
 
     private void Update()
     {
         Vector3 direction = currentPath.endPos.position - transform.position;
-
-        // 흠.. 매 프레임마다 agent.setdestination을 하면 메모리를 많이 쓰는데,, 
-        // 근데 회전각을 내가 컨트롤해서 혹시 setdestination을 한번만 했을 때 영원히 목적지에 도달을 못할 수도 있어서,,
 
         model.move.Rotate(direction);
 
